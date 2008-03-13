@@ -2,7 +2,7 @@
 
 ############################################################################
 #
-# Script for mirroring a certain mmCIF file from the PDB FTP archive using rsync
+# Script for mirroring all MR files from the PDB FTP archive using rsync
 #
 ############################################################################
 
