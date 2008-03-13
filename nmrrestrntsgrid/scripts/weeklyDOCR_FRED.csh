@@ -3,8 +3,6 @@
 # Thu Jun 1 13:51:19 CDT 2006
 # $scripts_dir/weeklyDOCR_FRED.csh
 
-
-
 # If no subl variable defined here, the last weekly batch will be retrieved.
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh   )
 set subl = (  1brv  )
@@ -19,7 +17,7 @@ set doChecksOnly = 0
 
 set max_cpu      = 2
 set max_entries  = 5000    
-set this_prog    = $scripts_dir/weeklyDOCR_FRED_2.csh
+set this_prog    = $scripts_dir/weeklyDOCR_FRED.csh
 set list_file    = $list_dir/list_tmp.csv # note that this is a temporary file not the input.
 
 # Maxium distance violation for reporting.

@@ -1,12 +1,12 @@
 """
 Show a molecule every hour.
 """
+from nmrrestrntsgrid.util.jfdutils import read_entries
 __author__    = "$Author$"
 ___date__     = "$Date$"
 
 import os
-# BMRB specific
-import jfdutils
+
 src_dir                 = '/export/condor/condor/DOCR_big_tmp_/wi/Proton_Check/all'
 #src_dir                 = '/export/condor/condor/DOCR_big_tmp_/wattos/all'
 good_entry_list_file    = '/Users/jd/CloneWars/DOCR1000/lists/list_step_1.csv'
@@ -24,7 +24,7 @@ false = 0
 if __name__ == '__main__':
 
     good_entry_list = {}
-    jfdutils.read_entries( good_entry_list_file, false, good_entry_list)
+    read_entries( good_entry_list_file, false, good_entry_list)
         
     
     os.chdir(src_dir)

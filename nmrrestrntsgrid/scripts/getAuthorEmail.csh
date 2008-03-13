@@ -2,6 +2,8 @@
 # Author: Jurgen F. Doreleijers 
 # Fri Jun  2 14:37:52 CDT 2006
 # Use: set x=2ain; $scripts_dir/getAuthorEmail.csh $x
+
+# Only works at BMRB because data is sensitive.
 set dir_annotated = /dumpzone/rcsb_unpacked/annotated
 ###################################################################
 ## No changes below
