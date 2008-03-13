@@ -1,0 +1,46 @@
+# TODO: enable the nomenclature corrections and addition of extra coordinates again
+# when what if reported bug has been fixed.
+ 
+InitAll
+
+SetProp
+interactiveSession
+false
+SetProp
+verbosity
+9
+SetProp
+writeSessionOnExit
+false
+SetProp
+stopOnError
+true
+
+#Input file
+#Read molecular system and coordinates (true suggested)
+#Read restraints (true suggested)
+#Match restraints to soup by regular STAR tags. (true suggested)
+#Match restraints to soup by author atom and residue names etc. (false suggested; only previous or this can and must be set)
+#Remove unlinked restraints (true suggested)
+#Sync over models; removing inconsistent atoms (true suggested)
+ReadEntryNMRSTAR
+INPUT_STAR_FILE
+y
+y
+y
+n
+y
+y
+
+#ReadEntryNomenclatureWHATIFPDB
+#INPUT_PDB_FILE
+
+#ReadEntryExtraCoordinatesWHATIFPDB
+#INPUT_PDB_FILE
+
+
+WriteEntryNMRSTAR
+OUTPUT_STAR_FILE
+
+Quit
+ 

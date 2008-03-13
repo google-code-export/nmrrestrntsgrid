@@ -1,0 +1,27 @@
+data_test_rules
+
+save_order_of_operations
+   _Saveframe_category   rule_order
+
+   loop_
+      _Rule
+
+       removeAllButSaveframeCategories_1
+
+   stop_
+
+save_
+
+
+save_removeAllButSaveframeCategories_1
+   _Saveframe_category   removeAllButSaveframeCategories
+   loop_
+      _Saveframe_category_name
+
+      torsion_angle_constraints
+      residual_dipolar_couplings              
+
+   stop_
+
+save_
+

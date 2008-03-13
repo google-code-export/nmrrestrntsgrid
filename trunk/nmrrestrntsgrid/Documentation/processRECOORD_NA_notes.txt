@@ -1,0 +1,5 @@
+- cis residues aren't treated properly by rama terms check
+    setup_quarts_torsions_intra_2D3D.tbl
+- recode hb1/2 to hb2/3 in psfGen.py and post them to charles first.
+
+    
