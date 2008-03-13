@@ -1,0 +1,19 @@
+# These data are taken from the Filtered REstraints Database (FRED). The FRED
+# database was created from the restraint data in the DOCR database and
+# incorporates coordinates from the PDB. The FRED data adhere to the NMR-STAR
+# "developmental version 3" dictionary.
+# 
+# Created using the CCPN FormatConverter software developed by Wim Vranken in 
+# the MSD group at the European Bioinformatics Institute (EBI). See 
+# http://www.ccpn.ac.uk for more information on this software and the CCPN 
+# project.
+# 
+# The program Wattos filtered the surplus and analyzed and modified the 
+# stereospecific information of the restraints.
+# 
+# When using this data in a paper, please refer to: JF Doreleijers, A Nederveen,
+# W Vranken, J Lin, AM Bonvin, R Kaptein, JL Markley, and EL Ulrich. 
+# BioMagResBank databases DOCR and FRED containing converted and filtered sets 
+# of experimental NMR restraints and coordinates from over 500 protein PDB 
+# structures. J.Biomol.NMR 32 (1):1-12, 2005.
+

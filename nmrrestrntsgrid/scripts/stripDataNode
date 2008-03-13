@@ -1,0 +1,15 @@
+# Author: Jurgen F. Doreleijers @ Mon Feb 27 13:56:16 CST 2006
+# Input must contain a data node that is stripped in order to print anything.
+
+BEGIN {
+    found=0
+}
+
+{
+    if ( found ) print
+}
+
+/^data_/ {
+    found = 1
+}
+

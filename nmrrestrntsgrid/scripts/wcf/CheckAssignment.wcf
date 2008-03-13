@@ -1,0 +1,46 @@
+InitAll
+
+SetProp
+interactiveSession
+false
+SetProp
+verbosity
+4
+SetProp
+writeSessionOnExit
+false
+SetProp
+stopOnError
+true
+
+
+ListProp
+
+#Input file
+#Read molecular system and coordinates (true suggested)
+#Read restraints (true suggested)
+#Match restraints to soup by regular STAR tags. (true suggested)
+#Match restraints to soup by author atom and residue names etc. (false suggested; only previous or this can and must be set)
+#Remove unlinked restraints (true suggested)
+ReadEntryNMRSTAR
+INPUT_STAR_FILE
+y
+y
+y
+n
+y
+
+CheckAssignment
+0.1
+0.0
+75.0
+1.0
+0.5
+50.0
+assignment.str
+
+WriteEntryNMRSTAR
+OUTPUT_STAR_FILE
+
+Quit
+
