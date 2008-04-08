@@ -183,7 +183,7 @@ SETWIF 143 400
 SETWIF 1012 0
 # default is 25; threshold *100 for JURRES
 # parameter determines how many .01's of Angstrom the atom may have moved away
-# of it's original position. If more than threshold the jurres command\
+# of it's original position. If more than threshold the jurres command
 # will NOT restore the atom.
 SETWIF 1306 9999
 # Read the one model

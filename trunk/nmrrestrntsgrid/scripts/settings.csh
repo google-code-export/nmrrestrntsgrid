@@ -63,7 +63,7 @@ setenv perEntry_dir     $results_dir/perEntry
 ## Dir with PDB files that had to be corrected for a small but significant portion.
 setenv pdbmod_dir       $nrg_dir/data/PDBmod
 #setenv dir_src          /big/jurgen/src
-setenv dir_python       $R/python/recoord2
+setenv dir_python       $R/python
 #setenv dir_xplor        $dir_src/xplor-nih-2.15.0
 #setenv dir_precoord_na  $dir_src/recoord_na/python/recoord_na
 #setenv XPLOR_NA_DIR $dir_xplor/databases/na_resources

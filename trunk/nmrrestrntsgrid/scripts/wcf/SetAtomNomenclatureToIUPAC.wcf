@@ -32,11 +32,11 @@ n
 y
 y
 
-#ReadEntryNomenclatureWHATIFPDB
-#INPUT_PDB_FILE
+ReadEntryNomenclatureWHATIFPDB
+INPUT_PDB_FILE
 
-#ReadEntryExtraCoordinatesWHATIFPDB
-#INPUT_PDB_FILE
+ReadEntryExtraCoordinatesWHATIFPDB
+INPUT_PDB_FILE
 
 
 WriteEntryNMRSTAR

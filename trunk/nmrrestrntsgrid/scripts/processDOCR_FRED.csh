@@ -25,9 +25,9 @@ endif
 set doReadMmCif         = 0
 set doJoin              = 0
 set doMerge             = 0 # Actually linking by FC.
-set doWHATIF            = 1
+set doWHATIF            = 0
 set doNomenclature      = 0
-set doAssign            = 0 
+set doAssign            = 1 
 set doSurplus           = 0 
 set doLinkFRED          = 0 
 set doViolAnal          = 0 
@@ -72,7 +72,7 @@ alias wjava  "java $woptions"
 
 echo "doReadMmCif       Converts PDB mmCIF to NMR-STAR with Wattos        -> XXXX_wattos.str $doReadMmCif"               
 echo "doJoin            Joins the parsed NMR-STAR rest with coor. Wattos    -> XXXX_join.str $doJoin"               
-echo "doMerge           Converts STAR to STAR with linkNmrStarData.py            -> XXXX.str $doMerge"               
+echo "doMerge           Converts STAR to STAR with linkNmrStarData.py      -> XXXX_merge.str $doMerge"               
 echo "doWHATIF          Changes nomenclature and hydrogen with WI                            $doWHATIF"           
 echo "doNomenclature    Updates nomen. and hydrogen in STAR with Wattos    -> XXXX_extra.str $doNomenclature"     
 echo "doAssign          Changes stereo assignments with Wattos            -> XXXX_assign.str $doAssign"           
@@ -187,7 +187,6 @@ foreach x ( $subl )
         set inputStarFile       = $x"_join".str
         set outputStarFile      = $dir_star/$x/$x"_merge".str
 
-      
         if ( $doMergeWithWattos ) then
             set script_file     = $wcf_dir/MergeNmrStar.wcf
             set script_file_new = $x"_merge".wcf
@@ -230,7 +229,7 @@ foreach x ( $subl )
             endif
 
         else        
-            set mergeScriptFile     = $dir_python/msd/linkNmrStarData.py
+            set mergeScriptFile     = $dir_python/recoord2/msd/linkNmrStarData.py
             
             cd $dir_link
             if ( -e $x ) then
@@ -239,19 +238,13 @@ foreach x ( $subl )
             mkdir $x
             cd $x
 
-
             if ( ! -e $dir_star/$x/$inputStarFile  ) then
                 echo "ERROR $x previous step produced no star file."
                 continue
             endif
             set fcInputFile = $ccpn_tmp_dir/data/archives/bmrb/nmrRestrGrid/$x/joinedCoord.str
             \cp -f $dir_star/$x/$inputStarFile $fcInputFile
-            
-            if ( ! -e $dir_star/$x/$inputStarFile  ) then
-                echo "ERROR $x previous step produced no star file."
-                continue
-            endif
-        
+                    
             # Set the right project dir in the script
             # directly.
            
@@ -476,8 +469,8 @@ foreach x ( $subl )
     # Check and correct stereospecific assignment of restraints
     if ( $doAssign ) then
         echo "  assign"
-        set script_file      = $scripts_dir/CheckAssignment.wcf
-        set inputStarFile    = $dir_link/$x/$x"_full".str
+        set script_file      = $wcf_dir/CheckAssignment.wcf
+        set inputStarFile    = $dir_nomen/$x/$x"_extra".str
         set outputStarFile   = $x"_assign".str
         set script_file_new  = $x.wcf  
         set log_file         = $x.log
@@ -495,7 +488,7 @@ foreach x ( $subl )
         endif
         # The flag disables any output; exit status will be zero when any match is found
         set containsLinkedDistances = 0
-        grep --quiet "_Dist_constraint_tree.Constraints_ID" $inputStarFile
+        grep --quiet "_Dist_constraint_tree.Constraint_ID" $inputStarFile
         if ( ! $status ) then
             set containsLinkedDistances = 1
         endif
@@ -549,7 +542,7 @@ foreach x ( $subl )
     # Remove surplus restraints
     if ( $doSurplus ) then
         echo "  surplus"
-        set script_file      = $scripts_dir/GetNonSurplus.wcf
+        set script_file      = $wcf_dir/GetNonSurplus.wcf
         set inputStarFile    = $dir_assign/$x/$x"_assign".str
         set outputStarFile   = $x"_nonsurplus".str
         set script_file_new  = $x.wcf  
@@ -674,7 +667,7 @@ foreach x ( $subl )
     # Get violation analyses
     if ( $doViolAnal ) then
         echo "  viol"
-        set script_file      = $scripts_dir/CalcConstrViolation.wcf
+        set script_file      = $wcf_dir/CalcConstrViolation.wcf
         set inputStarFile    = $dir_surplus/$x/$x"_nonsurplus".str
         set outputStarFile   = $x"_viol".str
         set script_file_new  = $x.wcf  
@@ -725,7 +718,7 @@ foreach x ( $subl )
     # Get completeness
     if ( $doCompleteness ) then
         echo "  compl"
-        set script_file      = $scripts_dir/GetCompleteness.wcf
+        set script_file      = $wcf_dir/GetCompleteness.wcf
         set inputStarFile    = $dir_surplus/$x/$x"_nonsurplus".str
         set outputStarFile   = $x"_compl".str
         set outputBaseFile   = $x"_compl"
@@ -781,7 +774,7 @@ foreach x ( $subl )
     # Get 
     if ( $doCoplanars ) then
         echo "  coplanar"
-        set script_file      = $scripts_dir/GetCoplanarBases.wcf
+        set script_file      = $wcf_dir/GetCoplanarBases.wcf
         set inputStarFile    = $dir_surplus/$x/$x"_nonsurplus".str        
         set script_file_new  = $x.wcf  
         set log_file         = $x.log
