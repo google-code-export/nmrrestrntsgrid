@@ -181,7 +181,8 @@ SETWIF 143 400
 # > 1b9q and many others: broken backbone/ERROR reading DSSP file
 # > 1ehj Zero length in torsion calculation                                               
 SETWIF 1012 0
-
+# default is 25; threshold *100 for JURRES
+SETWIF 1306 9999
 # Read the one model
 getmol
 $pdb_file
@@ -194,7 +195,7 @@ EOD
 # Round the coordinates to 0.001 as in PDB files and correct any atom names again.
 %ROUNDC        
 #Save hydrogens that WI thinks are ok
-#JURSAV
+JURSAV
 # Deleting hydrogens
 #%DELHYD TOT 0
 # Correcting atoms without moving unaffected.
@@ -205,8 +206,11 @@ EOD
 #N
 # Round the coordinates to 0.001 as in PDB files and correct any atom names again.
 %ROUNDC        
-#Restore the saved hydrogens that WI thought were ok. The option will overwrite any existing hydrogens with the exact same IUPAC corrected name.
-#JURRES
+#Restore the saved hydrogens that WI thought were ok. 
+#The option will overwrite any existing hydrogens with the exact same IUPAC corrected name.
+#setwif 1306 25 is standard for 0.25 Angstrom within which JURRES sill overwrite.
+# when set to very large number: 999 it will overwrite all. 
+JURRES
 EOD
    endif
    
