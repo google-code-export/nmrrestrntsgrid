@@ -318,7 +318,7 @@ foreach x ( $subl )
 #   do_write
 #   pdb file name with directory
         # What if needs to be fooled in thinking it has an input stream.
-        $scripts_dir/WI_rename.csh t t t $x.pdb < /dev/null >& $x"_rename".log
+        $scripts_dir/WI_rename.csh f t t $x.pdb < /dev/null >& $x"_rename".log
         if ( $status ) then
             echo "WARNING $x in whatif"
             # continue
