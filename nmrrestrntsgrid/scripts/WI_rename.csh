@@ -147,7 +147,7 @@ foreach pdb_file ( $list )
    # Removing files so WI will not ask for confirmation
    set delete_list = $z"_wi.$ext"
    
-   if ( $do_logs == "t" ) then
+   if ( $do_logs == "f" ) then
      set delete_list = ( $delete_list $z.namchk.log $z.lista.log )
    endif
 
@@ -182,6 +182,9 @@ SETWIF 143 400
 # > 1ehj Zero length in torsion calculation                                               
 SETWIF 1012 0
 # default is 25; threshold *100 for JURRES
+# parameter determines how many .01's of Angstrom the atom may have moved away
+# of it's original position. If more than threshold the jurres command\
+# will NOT restore the atom.
 SETWIF 1306 9999
 # Read the one model
 getmol
