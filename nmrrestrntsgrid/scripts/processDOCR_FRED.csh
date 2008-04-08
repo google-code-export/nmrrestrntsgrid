@@ -25,8 +25,8 @@ endif
 set doReadMmCif         = 0
 set doJoin              = 0
 set doMerge             = 0 # Actually linking by FC.
-set doWHATIF            = 0
-set doNomenclature      = 1
+set doWHATIF            = 1
+set doNomenclature      = 0
 set doAssign            = 0 
 set doSurplus           = 0 
 set doLinkFRED          = 0 
@@ -389,89 +389,89 @@ foreach x ( $subl )
         endif
     endif
 
-    # Link coordinates and restraints
-    if ( $doLink ) then
-        echo "  link"
-#        set script_file      = $dir_python/mergeStarFilesTest.py 
-        set script_file      = $dir_python/mergeStarFiles.py 
-        set done_file        = "DONE_STARMERGE"        
-        set inputStarFile    = $dir_nomen/$x/$x"_extra".str
-        set inputStarRstFile = $dir_restr_unzip/$x"_rst".str
-        set inputPDBFile     = $x.pdb
-        set outputStarFile   = $x"_full".str
-        set log_file         = $x"_link".log
-        set errorLog         = linkErrorLog.txt
-        set guess_file       = guessLink.txt
-        
-        cd $dir_link
-        if ( ! -e $x ) then
-            echo "ERROR dir does not exist yet: $dir_link/$x"
-            continue
-        endif        
-        cd $x
-        if ( -e $pdbmod_dir/pdb$x.ent ) then
-            echo "DEBUG: $x using the PDB coordinates from the mod directory"
-            ln -sf $pdbmod_dir/pdb$x.ent $inputPDBFile
-        else 
-            zcat $PDBZ2/$ch23/pdb$x.ent.gz > $x.pdb            
-        endif                         
+        #    # Link coordinates and restraints
+#    if ( $doLink ) then
+#        echo "  link"
+##        set script_file      = $dir_python/mergeStarFilesTest.py 
+#        set script_file      = $dir_python/mergeStarFiles.py 
+#        set done_file        = "DONE_STARMERGE"        
+#        set inputStarFile    = $dir_nomen/$x/$x"_extra".str
+#        set inputStarRstFile = $dir_restr_unzip/$x"_rst".str
+#        set inputPDBFile     = $x.pdb
+#        set outputStarFile   = $x"_full".str
+#        set log_file         = $x"_link".log
+#        set errorLog         = linkErrorLog.txt
+#        set guess_file       = guessLink.txt
+#        
+#        cd $dir_link
+#        if ( ! -e $x ) then
+#            echo "ERROR dir does not exist yet: $dir_link/$x"
+#            continue
+#        endif        
+#        cd $x
+#        if ( -e $pdbmod_dir/pdb$x.ent ) then
+#            echo "DEBUG: $x using the PDB coordinates from the mod directory"
+#            ln -sf $pdbmod_dir/pdb$x.ent $inputPDBFile
+#        else 
+#            zcat $PDBZ2/$ch23/pdb$x.ent.gz > $x.pdb            
+#        endif                         
+#
+#        if ( ! -e $inputStarFile ) then
+#            echo "ERROR: $x No Wattos input star file: $inputStarFile"
+#            continue
+#        endif
+#        if ( ! -e $inputStarRstFile ) then
+#            echo "ERROR: $x No Grid input star file: $inputStarRstFile"
+#            continue
+#        endif
+#        if ( ! -e $inputPDBFile ) then
+#            echo "ERROR: $x no input PDB file for entry: $inputPDBFile"
+#            continue
+#        endif
+#        
+#        ln -sf $inputStarFile    $x"_extra".str
+#        ln -sf $inputStarRstFile restraints.star
+#                   
+#        # Can be handy for guessing later.
+#        $scripts_dir/guessOffSet.csh $x |& tee $guess_file  
+#
+#        if ( -e $done_file ) then
+#            \rm -f $done_file
+#        endif
+#        python $script_file $x $extraFCOptions >& $log_file
+#        if ( $status ) then
+#            echo "ERROR $x in running script $script_file"
+#            continue
+#        endif
+#        grep -i ERROR mergeStarFiles.log > $errorLog
+#        set status = (`wc $errorLog| gawk '{if ($1>1000) {print 1}else{print 0} exit}'`)       
+#        if ( $status ) then
+#            echo "WARNING $x found more than 1000 ERRORs in log file"
+#        endif
+#        if ( ! -e $outputStarFile ) then
+#            echo "ERROR $x found no star file $outputStarFile"
+#            continue
+#        endif
+#        ## Check validity
+#        wjava Wattos.Star.STARFilter $outputStarFile $x"_tmp".str . >& STARFilter.log
+#        if ( $status ) then 
+#            echo "ERROR $x merge link step produced no valid star file according to Wattos."
+#            continue
+#        endif
+#        # The flag disables any output; exit status will be zero when any match is found
+#        grep --quiet "ERR" STARFilter.log
+#        if ( ! $status ) then
+#            echo "ERROR $x Wattos reported an error in parsing/unparsing merge link step STAR file."
+#            continue
+#        endif
+#        if ( ! -e $x"_tmp".str ) then
+#            echo "ERROR $x Wattos after merge link produced no star file."
+#            continue
+#        endif      
+#        \mv $x"_tmp".str $outputStarFile
+#
+#        endif        # Link coordinates and restraints
 
-        if ( ! -e $inputStarFile ) then
-            echo "ERROR: $x No Wattos input star file: $inputStarFile"
-            continue
-        endif
-        if ( ! -e $inputStarRstFile ) then
-            echo "ERROR: $x No Grid input star file: $inputStarRstFile"
-            continue
-        endif
-        if ( ! -e $inputPDBFile ) then
-            echo "ERROR: $x no input PDB file for entry: $inputPDBFile"
-            continue
-        endif
-        
-        ln -sf $inputStarFile    $x"_extra".str
-        ln -sf $inputStarRstFile restraints.star
-                   
-        # Can be handy for guessing later.
-        $scripts_dir/guessOffSet.csh $x |& tee $guess_file  
-
-        if ( -e $done_file ) then
-            \rm -f $done_file
-        endif
-        python $script_file $x $extraFCOptions >& $log_file
-        if ( $status ) then
-            echo "ERROR $x in running script $script_file"
-            continue
-        endif
-        grep -i ERROR mergeStarFiles.log > $errorLog
-        set status = (`wc $errorLog| gawk '{if ($1>1000) {print 1}else{print 0} exit}'`)       
-        if ( $status ) then
-            echo "WARNING $x found more than 1000 ERRORs in log file"
-        endif
-        if ( ! -e $outputStarFile ) then
-            echo "ERROR $x found no star file $outputStarFile"
-            continue
-        endif
-        ## Check validity
-        wjava Wattos.Star.STARFilter $outputStarFile $x"_tmp".str . >& STARFilter.log
-        if ( $status ) then 
-            echo "ERROR $x merge link step produced no valid star file according to Wattos."
-            continue
-        endif
-        # The flag disables any output; exit status will be zero when any match is found
-        grep --quiet "ERR" STARFilter.log
-        if ( ! $status ) then
-            echo "ERROR $x Wattos reported an error in parsing/unparsing merge link step STAR file."
-            continue
-        endif
-        if ( ! -e $x"_tmp".str ) then
-            echo "ERROR $x Wattos after merge link produced no star file."
-            continue
-        endif      
-        \mv $x"_tmp".str $outputStarFile
-
-        endif    
-    
     
     # Check and correct stereospecific assignment of restraints
     if ( $doAssign ) then
