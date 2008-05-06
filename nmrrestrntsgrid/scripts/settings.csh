@@ -17,7 +17,7 @@ endif
 if ( $wattoshost == "tang" ) then
     echo "DEBUG in settings.csh; Now on $HOST which will be the production setup."
     setenv UJ           /home/docr
-    setenv big_dir      $UJ/NRG
+    setenv big_dir      /big/docr/NRG
 endif
 
 if ( $wattoshost == "swoft" ) then
