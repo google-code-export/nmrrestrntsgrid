@@ -35,20 +35,19 @@ unset dir_restraint
 unset dir_restr_unzip  
 unset dir_recoord_na   
 
-set wattoshost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
-
+set measahost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
 
 # Host name based locals SECTION I (there is a section II below).
-if ( $wattoshost == "stella" ) then
+if ( $measahost == "stella" ) then
     echo "DEBUG in settings.csh; Now on $HOST which is the development default."
 endif
 
-if ( $wattoshost == "tang" ) then
+if ( $measahost == "tang" ) then
     echo "DEBUG in settings.csh; Now on $HOST which will be the production setup."
     setenv UJ           /big/docr
 endif
 
-if ( $wattoshost == "swoft" ) then
+if ( $measahost == "swoft" ) then
     echo "DEBUG in settings.csh; Now on swoft"
     setenv tmp_dir         ~jurgen/tmp
     setenv big_dir         ~jurgen/tmp/DOCR_big_tmp_
@@ -72,10 +71,11 @@ setenv C                  $WS/cing
 setenv R                  $WS/recoordD
 
 # Host name based locals SECTION II (see section I). These are modifications.
-if ( $wattoshost == "tang" ) then
+if ( $measahost == "tang" ) then
     setenv CCPNMR_TOP_DIR     /big/wim/workspace/ccpn 
     setenv R                  /big/wim/workspace/recoord 
     setenv big_dir            $UJ/NRG
+    setenv pdbbase_dir        /dumpzone/pdb/pdb
 endif
                        
 ## Directory with this file
