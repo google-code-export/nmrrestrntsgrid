@@ -1,6 +1,6 @@
 #!/bin/csh -f
 # Author: Jurgen F. Doreleijers 
-# Fri Apr  1 15:01:48 CST 2005
+# Fri Apr  1 15:01:48 CST 2005 Initiated
 # Thu Mar 13 09:21:34 CET 2008 Modified to work under sf.net project
 
 # when testing new locations will be used 1 for true only 0 for false
@@ -16,9 +16,8 @@ endif
 
 if ( $wattoshost == "tang" ) then
     echo "DEBUG in settings.csh; Now on $HOST which will be the production setup."
-    # TODO: fill these in.
     setenv UJ           /home/docr
-    setenv big_dir      $UJ/DOCR_big_tmp
+    setenv big_dir      $UJ/NRG
 endif
 
 if ( $wattoshost == "swoft" ) then
@@ -51,6 +50,8 @@ if ( $wattoshost == "tang" ) then
 endif
 
 ## Directory with this file
+unset scripts_dir # TODO: remove this line when debugging is done.
+
 setenv scripts_dir      $nrg_dir/scripts
 setenv wcf_dir          $scripts_dir/wcf # Wattos Command File directory.
 setenv list_dir         $base_dir/lists
@@ -126,7 +127,8 @@ setenv servletUrl  'http://localhost:8080/WebModule/MRGridServlet'
 ## No changes below this line
 ##############################################################################
 # Wattos.
-setenv PYTHONPATH   ${PYTHONPATH}:$W/python
+#setenv PYTHONPATH   ${PYTHONPATH}:$W/python
+setenv PYTHONPATH   $W/python
 # recoord (needs to preceed ccpn because both have a msd package.)
 setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
 # ccpn/recoord with api 
@@ -134,7 +136,10 @@ setenv PYTHONPATH   ${PYTHONPATH}:$CCPNMR_TOP_DIR/python
 
 
 # CING
-source $C/cing.csh
+if ( -e $C/cing.csh ) then
+    source $C/cing.csh
+endif
+
 # Wattos
 alias wsetup        'setenv WATTOSROOT $W; source $W/scripts/wsetup'
 # FormatConverter
