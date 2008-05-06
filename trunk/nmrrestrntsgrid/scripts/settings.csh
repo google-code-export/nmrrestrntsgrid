@@ -6,12 +6,14 @@
 # when testing new locations will be used 1 for true only 0 for false
 setenv testing  1
 
+set wattoshost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
+
 # Host name based locals.
-if ( $HOST == "Stella" ) then
+if ( $wattoshost == "stella" ) then
     echo "DEBUG in settings.csh; Now on $HOST which is the development default."
 endif
 
-if ( $HOST == "tang" ) then
+if ( $wattoshost == "tang" ) then
     echo "DEBUG in settings.csh; Now on $HOST which is the production setup."
     # TODO: fill these in.
     setenv UJ           /home/docr
@@ -20,7 +22,7 @@ if ( $HOST == "tang" ) then
     setenv big_dir      $UJ/DOCR_big_tmp
 endif
 
-if ( $HOST == "swoft" ) then
+if ( $wattoshost == "swoft" ) then
     echo "DEBUG in settings.csh; Now on swoft"
     setenv tmp_dir         ~jurgen/tmp
     setenv big_dir         ~jurgen/tmp/DOCR_big_tmp_
