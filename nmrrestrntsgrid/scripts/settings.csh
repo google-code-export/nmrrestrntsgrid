@@ -17,7 +17,6 @@ endif
 if ( $wattoshost == "tang" ) then
     echo "DEBUG in settings.csh; Now on $HOST which will be the production setup."
     setenv UJ           /home/docr
-    setenv big_dir      /big/docr/NRG
 endif
 
 if ( $wattoshost == "swoft" ) then
@@ -47,6 +46,7 @@ setenv R                  $WS/recoordD
 if ( $wattoshost == "tang" ) then
     setenv CCPNMR_TOP_DIR     /big/wim/workspace/ccpn 
     setenv R                  /big/wim/workspace/recoord 
+    setenv big_dir            /big/docr/NRG
 endif
 
 ## Directory with this file
