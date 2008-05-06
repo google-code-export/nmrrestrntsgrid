@@ -5,7 +5,7 @@
 # TASK: Do all processing needed in order to go from parsed restraints
 #       to files for the FRED database. 
 # USE:  processDOCR_FRED.csh [1brv]
-#OR: set x = 1brv  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
+#OR: set x = 1ai0  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
    
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh )
 #set subl = ( 108d 149d 170d 171d 17ra )
@@ -22,19 +22,20 @@ if ( $1 != "" ) then
     set subl = (  $1  )
 endif
 
-set doReadMmCif         = 0
+set doReadMmCif         = 1
 set doJoin              = 0
 set doMerge             = 0 # Actually linking by FC.
+set doAddMissingAtoms   = 0
 set doWHATIF            = 0
 set doNomenclature      = 0
-set doAssign            = 1 
-set doSurplus           = 0 
-set doLinkFRED          = 0 
-set doViolAnal          = 0 
-set doCompleteness      = 0 
-set doCoplanars         = 0  
-set doOrganizeForGrid   = 0 
-set doDumpInGrid        = 0 
+set doAssign            = 0
+set doSurplus           = 0
+set doViolAnal          = 0
+set doCompleteness      = 0
+set doCoplanars         = 0
+set doExportsForGrid    = 0 
+set doOrganizeForGrid   = 0
+set doDumpInGrid        = 0
 set doCleanFiles        = 0 
                           
 set extraWattosOptions  =
@@ -72,15 +73,16 @@ alias wjava  "java $woptions"
 
 echo "doReadMmCif       Converts PDB mmCIF to NMR-STAR with Wattos        -> XXXX_wattos.str $doReadMmCif"               
 echo "doJoin            Joins the parsed NMR-STAR rest with coor. Wattos    -> XXXX_join.str $doJoin"               
-echo "doMerge           Converts STAR to STAR with linkNmrStarData.py      -> XXXX_merge.str $doMerge"               
+echo "doMerge           Converts STAR to STAR with linkNmrStarData.py      -> XXXX_merge.str $doMerge"
+echo "doAddMissingAtoms Calculates any missing atoms                       -> XXXX_extra.str $doAddMissingAtoms"               
 echo "doWHATIF          Changes nomenclature and hydrogen with WI                            $doWHATIF"           
-echo "doNomenclature    Updates nomen. and hydrogen in STAR with Wattos    -> XXXX_extra.str $doNomenclature"     
+echo "doNomenclature    Updates nomen. and hydrogen in STAR with Wattos    -> XXXX_nomen.str $doNomenclature"     
 echo "doAssign          Changes stereo assignments with Wattos            -> XXXX_assign.str $doAssign"           
 echo "doSurplus         Changes distance restraints with Wattos     ->   XXXX_nonsurplus.str $doSurplus"          
-echo "doLinkFRED        Creates FRED getNonRedunAndExport.py->nonredun.str                   $doLinkFRED"         
 echo "doViolAnal        Analyzes violation with Wattos                                       $doViolAnal"         
 echo "doCompleteness    Determines NOE completeness with Wattos                              $doCompleteness"
 echo "doCoplanars       Calculates coplanar base sets for nucleic acid structures            $doCoplanars"  
+echo "doExportsForGrid  Converts DOCR/FRED to CYANA and XPLOR for Grid                       $doExportsForGrid"  
 echo "doOrganizeForGrid Puts the results in a directory structure for Grid                   $doOrganizeForGrid"  
 echo "doDumpInGrid      Puts the files into Grid                                             $doDumpInGrid"       
 echo "doCleanFiles      Removes redundant files from fs                                      $doCleanFiles"       
@@ -286,9 +288,58 @@ foreach x ( $subl )
         endif
     endif
 
+
+    if ( $doAddMissingAtoms ) then
+        echo "  addMissingAtoms"
+        set script_file     = $wcf_dir/AddMissingAtoms.wcf
+        set inputStarFile   = $dir_star/$x/$x"_merge".str
+        set outputStarFile  = $x"_extra".str
+        set outputPDBFile   = $x"_extra".pdb
+        set script_file_new = $x.wcf  
+        set log_file        = $x"_addMissingAtoms".log
+                           
+        cd $dir_extra
+        if ( -e $x ) then
+            \rm -rf $x
+        endif
+        mkdir $x
+        cd $x
+        
+        if ( ! -e $inputStarFile ) then
+            echo "ERROR: $x No FormatConverter input star file: $inputStarFile"
+            continue
+        endif
+        
+        # writes star file with PDB file writing; automatically.
+        sed -e 's|OUTPUT_PDB_FILE|'$outputPDBFile'|'     $script_file |\
+        sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       > $script_file_new
+                        
+        wattos < $script_file_new >& $log_file
+        if ( $status ) then
+            echo "ERROR $x Wattos addMissingAtoms script: $script_file_new failed"
+            continue
+        endif
+
+                if ( ! -e $outputStarFile ) then
+            echo "ERROR $x found no star file $outputStarFile"
+            continue
+        endif
+        if ( ! -e $outputStarFile ) then
+            echo "ERROR $x found no star file $outputStarFile"
+            continue
+        endif
+        if ( ! -e $outputPDBFile ) then
+            echo "ERROR $x found no PDB file $outputPDBFile"
+            continue
+        endif
+        \rm $script_file_new            
+    endif
+
+
     ## Don't care when whatif crashes.
     if ( $doWHATIF ) then
         echo "  wi"
+        set inputPDBFile   = $dir_extra/$x/$x"_extra".pdb
         cd $dir_wi_all
         if ( -e $x ) then
             \rm -rf $x
@@ -299,19 +350,22 @@ foreach x ( $subl )
         #\rm $x"_rename".log >& /dev/null
         #\rm $x"_wi".pdb     >& /dev/null
         #\rm -f $x.pdb       >& /dev/null
-        if ( -e $pdbmod_dir/pdb$x.ent ) then
-            echo "DEBUG: $x using the PDB coordinates from the mod directory"
-            ln -s $pdbmod_dir/pdb$x.ent $x.pdb
-        else 
-            zcat $PDBZ2/$ch23/pdb$x.ent.gz > $x.pdb
-        endif
+        #if ( -e $pdbmod_dir/pdb$x.ent ) then
+        #    echo "DEBUG: $x using the PDB coordinates from the mod directory"
+        #    ln -s $pdbmod_dir/pdb$x.ent $x.pdb
+        #else 
+        #    zcat $PDBZ2/$ch23/pdb$x.ent.gz > $x.pdb
+        #endif
 # ARGUMENTS:
 #   do_logs
 #   add_coordinates
 #   do_write
 #   pdb file name with directory
+
+        # Get the file locally because WI doesn't deal well with long path names.
+        ln -s $inputPDBFile $x.pdb
         # What if needs to be fooled in thinking it has an input stream.
-        $scripts_dir/WI_rename.csh f t t $x.pdb < /dev/null >& $x"_rename".log
+        $scripts_dir/WI_rename.csh f f t $x.pdb < /dev/null >& $x"_rename".log
         if ( $status ) then
             echo "WARNING $x in whatif"
             # continue
@@ -337,9 +391,9 @@ foreach x ( $subl )
     if ( $doNomenclature ) then
         echo "  nomen"
         set script_file     = $wcf_dir/SetAtomNomenclatureToIUPAC.wcf
-        set inputStarFile   = $dir_star/$x/$x"_merge".str
+        set inputStarFile   = $dir_extra/$x/$x"_extra".str
         set inputPDBFile    = $dir_wi_all/$x/$x"_wi".pdb
-        set outputStarFile  = $x"_extra".str
+        set outputStarFile  = $x"_nomen".str
         set script_file_new = $x.wcf  
         set log_file        = $x.log
                            
@@ -382,95 +436,13 @@ foreach x ( $subl )
         endif
     endif
 
-        #    # Link coordinates and restraints
-#    if ( $doLink ) then
-#        echo "  link"
-##        set script_file      = $dir_python/mergeStarFilesTest.py 
-#        set script_file      = $dir_python/mergeStarFiles.py 
-#        set done_file        = "DONE_STARMERGE"        
-#        set inputStarFile    = $dir_nomen/$x/$x"_extra".str
-#        set inputStarRstFile = $dir_restr_unzip/$x"_rst".str
-#        set inputPDBFile     = $x.pdb
-#        set outputStarFile   = $x"_full".str
-#        set log_file         = $x"_link".log
-#        set errorLog         = linkErrorLog.txt
-#        set guess_file       = guessLink.txt
-#        
-#        cd $dir_link
-#        if ( ! -e $x ) then
-#            echo "ERROR dir does not exist yet: $dir_link/$x"
-#            continue
-#        endif        
-#        cd $x
-#        if ( -e $pdbmod_dir/pdb$x.ent ) then
-#            echo "DEBUG: $x using the PDB coordinates from the mod directory"
-#            ln -sf $pdbmod_dir/pdb$x.ent $inputPDBFile
-#        else 
-#            zcat $PDBZ2/$ch23/pdb$x.ent.gz > $x.pdb            
-#        endif                         
-#
-#        if ( ! -e $inputStarFile ) then
-#            echo "ERROR: $x No Wattos input star file: $inputStarFile"
-#            continue
-#        endif
-#        if ( ! -e $inputStarRstFile ) then
-#            echo "ERROR: $x No Grid input star file: $inputStarRstFile"
-#            continue
-#        endif
-#        if ( ! -e $inputPDBFile ) then
-#            echo "ERROR: $x no input PDB file for entry: $inputPDBFile"
-#            continue
-#        endif
-#        
-#        ln -sf $inputStarFile    $x"_extra".str
-#        ln -sf $inputStarRstFile restraints.star
-#                   
-#        # Can be handy for guessing later.
-#        $scripts_dir/guessOffSet.csh $x |& tee $guess_file  
-#
-#        if ( -e $done_file ) then
-#            \rm -f $done_file
-#        endif
-#        python $script_file $x $extraFCOptions >& $log_file
-#        if ( $status ) then
-#            echo "ERROR $x in running script $script_file"
-#            continue
-#        endif
-#        grep -i ERROR mergeStarFiles.log > $errorLog
-#        set status = (`wc $errorLog| gawk '{if ($1>1000) {print 1}else{print 0} exit}'`)       
-#        if ( $status ) then
-#            echo "WARNING $x found more than 1000 ERRORs in log file"
-#        endif
-#        if ( ! -e $outputStarFile ) then
-#            echo "ERROR $x found no star file $outputStarFile"
-#            continue
-#        endif
-#        ## Check validity
-#        wjava Wattos.Star.STARFilter $outputStarFile $x"_tmp".str . >& STARFilter.log
-#        if ( $status ) then 
-#            echo "ERROR $x merge link step produced no valid star file according to Wattos."
-#            continue
-#        endif
-#        # The flag disables any output; exit status will be zero when any match is found
-#        grep --quiet "ERR" STARFilter.log
-#        if ( ! $status ) then
-#            echo "ERROR $x Wattos reported an error in parsing/unparsing merge link step STAR file."
-#            continue
-#        endif
-#        if ( ! -e $x"_tmp".str ) then
-#            echo "ERROR $x Wattos after merge link produced no star file."
-#            continue
-#        endif      
-#        \mv $x"_tmp".str $outputStarFile
-#
-#        endif        # Link coordinates and restraints
 
     
     # Check and correct stereospecific assignment of restraints
     if ( $doAssign ) then
         echo "  assign"
         set script_file      = $wcf_dir/CheckAssignment.wcf
-        set inputStarFile    = $dir_nomen/$x/$x"_extra".str
+        set inputStarFile    = $dir_nomen/$x/$x"_nomen".str
         set outputStarFile   = $x"_assign".str
         set script_file_new  = $x.wcf  
         set log_file         = $x.log
@@ -562,7 +534,7 @@ foreach x ( $subl )
             
         # The flag disables any output; exit status will be zero when any match is found
         set containsAssignedDistances = 0
-        grep --quiet "_Dist_constraint_tree.Constraints_ID" $inputStarFile
+        grep --quiet "_Dist_constraint_tree.Constraint_ID" $inputStarFile
         if ( ! $status ) then
             set containsAssignedDistances = 1
         endif
@@ -589,18 +561,19 @@ foreach x ( $subl )
             \rm $script_file_new
         else
             echo "DEBUG: ignoring surplus analysis because no distance constraints were found."
-            echo "DEBUG: Removing any dihedrals and RDCs from original."
-            set filterStarFile   = $scripts_dir/filter_rules_remove_dih_rdc.str        
-            wjava Wattos.Star.STARFilter $inputStarFile $outputStarFile $filterStarFile >& STARFilter.log
-            if ( $status ) then
-                echo "ERROR $x failed to remove nondist saveframes."
-                continue
-            endif
-            grep --quiet "ERR" STARFilter.log
-            if ( ! $status ) then
-                echo "ERROR $x Wattos reported an error in parsing/unparsing surplus step STAR file."
-                continue
-            endif            
+            #echo "DEBUG: Removing any dihedrals and RDCs from original."
+            #set filterStarFile   = $scripts_dir/filter_rules_remove_dih_rdc.str        
+            #wjava Wattos.Star.STARFilter $inputStarFile $outputStarFile $filterStarFile >& STARFilter.log
+            #if ( $status ) then
+            #    echo "ERROR $x failed to remove nondist saveframes."
+            #    continue
+            #endif
+            #grep --quiet "ERR" STARFilter.log
+            #if ( ! $status ) then
+            #    echo "ERROR $x Wattos reported an error in parsing/unparsing surplus step STAR file."
+            #    continue
+            #endif
+            cp $inputStarFile $outputStarFile            
         endif            
         if ( ! -e $outputStarFile ) then
             echo "ERROR $x found no star file $outputStarFile"
@@ -608,60 +581,6 @@ foreach x ( $subl )
         endif
     endif
   
-   if ( $doLinkFRED ) then
-        echo "  linkFred"
-        set done_file        = "DONE_NONREDUN"
-        set log_file         = $x"_linkFred".log
-        set python_script    = $dir_python/getNonRedunAndExport.py
-        cd $dir_link/$x
-        # ln -sf $dir_surplus/$x/$x"_nonsurplus".str nonredun.str
-        # if ( $status ) then
-            # echo "ERROR $x failed to copy non redundant file."
-            # continue
-        # endif
-        
-        ## Get the DOCR dihedral and RDC restraints
-        set inputStarFile    = $x"_full".str
-        set outputStarFile   = $x"_nondist".str
-        set filterStarFile   = $scripts_dir/filter_rules_keep_nondist.str        
-        wjava Wattos.Star.STARFilter $inputStarFile $outputStarFile $filterStarFile >& STARFilter.log
-        if ( $status ) then
-            echo "ERROR $x failed to extract nondist saveframes."
-            continue
-        endif
-        grep --quiet "ERR" STARFilter.log
-        if ( ! $status ) then
-            echo "ERROR $x Wattos reported an error in parsing/unparsing linkFred step STAR file."
-            continue
-        endif            
-                
-        
-        ## Merge them with other FRED data
-        set inputStarFile_1  = $dir_surplus/$x/$x"_nonsurplus".str
-        set inputStarFile_2  = $x"_nondist".str
-        set outputStarFile   = nonredun.str
-        wjava Wattos.Star.STARJoin $inputStarFile_1 $inputStarFile_2 $outputStarFile
-        if ( $status ) then
-            echo "ERROR $x failed to extract nondist saveframes."
-            continue
-        endif
-        
-        
-        # Set the right project dir in the script directly.        
-        if ( -e $done_file ) then
-            \rm -f $done_file
-        endif
-        python $python_script $x $extraFCOptions >& $log_file
-        if ( $status ) then
-            echo "ERROR $x in python script for link FRED; see log file: $log_file"
-            continue
-        endif
-        grep --quiet ERROR $log_file
-        if ( ! $status ) then
-            echo "ERROR $x found in link FRED log file"
-            continue
-        endif        
-    endif
 
     
     # Get violation analyses
@@ -686,7 +605,7 @@ foreach x ( $subl )
         endif
         # The flag disables any output; exit status will be zero when any match is found
         set containsNonSurplusDistances = 0
-        grep --quiet "_Dist_constraint_tree.Constraints_ID" $inputStarFile
+        grep --quiet "_Dist_constraint_tree.Constraint_ID" $inputStarFile
         if ( ! $status ) then
             set containsNonSurplusDistances = 1
         endif
@@ -740,7 +659,7 @@ foreach x ( $subl )
             
         # The --quiet flag disables any output; exit status will be zero when any match is found
         set containsNonSurplusDistances = 0
-        grep --quiet "_Dist_constraint_tree.Constraints_ID" $inputStarFile
+        grep --quiet "_Dist_constraint_tree.Constraint_ID" $inputStarFile
         if ( ! $status ) then
             set containsNonSurplusDistances = 1
         endif
@@ -765,13 +684,13 @@ foreach x ( $subl )
             endif
             \rm $script_file_new
         else
-#            echo "DEBUG: ignoring completeness analysis because no distance constraints were found."
+            echo "DEBUG: ignoring completeness analysis because no distance constraints were found."
         endif        
     endif
 
     
     
-    # Get 
+    # Get base pairing and tripling etc.
     if ( $doCoplanars ) then
         echo "  coplanar"
         set script_file      = $wcf_dir/GetCoplanarBases.wcf
@@ -816,6 +735,54 @@ foreach x ( $subl )
         endif        
     endif    
     
+    
+    # Converts to XPLOR (and later others) formatted restraints and coordinates.
+    if ( $doExportsForGrid ) then
+        echo "  exportsForGrid"
+        set script_file      = $wcf_dir/ExportForNRG.wcf
+        set overallStatus = 0
+        cd $dir_export
+        if ( -e $x ) then
+            \rm -rf $x
+        endif
+        mkdir $x
+        cd $x
+        foreach d ( DOCR FRED ) 
+            set outputFileBase = $x"_"$d
+            set inputFile     = $dir_nomen/$x/$x"_nomen".str
+            if ( $d == "FRED" ) then
+                set inputFile   = $dir_surplus/$x/$x"_nonsurplus".str
+            endif
+	        set script_file_new  = $outputFileBase.wcf  
+	        set log_file         = $outputFileBase.log
+            sed -e 's|OUTPUT_XPLOR_FILE_BASE|'$outputFileBase'|' $script_file |\
+            sed -e 's|INPUT_STAR_FILE|'$inputFile'|'       > $script_file_new       
+        
+	        if ( ! -e $inputFile ) then
+	            echo "ERROR: $x No input star file: $inputFile"
+	            continue
+	        endif
+	            
+            wattos < $script_file_new >& $log_file
+            if ( $status ) then
+                echo "ERROR $x in Wattos script file: $script_file"
+                set overallStatus = 1
+                continue
+            endif
+            grep --quiet ERROR $log_file
+            if ( ! $status ) then
+                echo "ERROR $x found in export log file"
+                set overallStatus = 1
+                continue
+            endif
+            \rm $script_file_new
+        end            
+            
+        if ( $overallStatus ) then
+            echo "ERROR $x found in doExportsForGrid"
+            continue
+        endif
+    endif
 
     # Organize the files for insertion into NMR Restraints Grid.
     # Add BMRB specific notes for DOCR/FRED NMR-STAR files.
@@ -824,12 +791,12 @@ foreach x ( $subl )
         set overallStatus = 0
         foreach d ( DOCR FRED ) 
             set dataFile      = "data_"$d"_restraints_with_modified_coordinates_PDB_code_"
-            set fileHeader    = $scripts_dir/change_comment_star_$d.txt
+            set fileHeader    = $nrg_dir/data/change_comment_star_$d.txt
             set DBdir         = $dir_db/$d/$x
             set outputFile    = $x"_project".str
-            set inputFile     = $dir_link/$x/$x"_full".str
+            set inputFile     = $dir_nomen/$x/$x"_nomen".str
             if ( $d == "FRED" ) then
-                set inputFile   = $dir_link/$x/nonredun.str
+                set inputFile   = $dir_surplus/$x/$x"_nonsurplus".str
             endif
             set assignFile    =  $dir_assign/$x/assignment.str
             set surplusFile   = $dir_surplus/$x/surplus_summary.str
@@ -847,7 +814,7 @@ foreach x ( $subl )
             gawk -f $scripts_dir/stripDataNode   $inputFile   >> $outputFile
 
             ## Check validity
-            wjava Wattos.Star.STARFilter $outputFile $x"_notugly".str . >& STARFilter.log
+            wjava Wattos.Star.STARFilter $outputFile $x"_testRead".str . >& STARFilter.log
             if ( $status ) then 
                 echo "ERROR $x gridOrganize for database $d produced no valid star file according to Wattos."
                 set overallStatus = 1
@@ -858,12 +825,12 @@ foreach x ( $subl )
                 echo "ERROR $x Wattos reported an error in parsing/unparsing gridOrganize step STAR file."
                 continue
             endif                        
-            if ( ! -e $x"_notugly".str ) then
+            if ( ! -e $x"_testRead".str ) then
                 echo "ERROR $x Wattos produced no star file at gridOrganize."
                 set overallStatus = 1
                 continue
             endif     
-            \rm -f $x"_notugly".str          
+            \rm -f $x"_testRead".str          
             
             # If the files aren't there don't complain
             if ( $d == "FRED" ) then
@@ -871,55 +838,51 @@ foreach x ( $subl )
                 cp -v $surplusFile $x"_surplus".str    >& /dev/null
                 cp -v $violFile    $x"_viol".str       >& /dev/null
                 cp -v $complFile   $x"_compl".str      >& /dev/null
+            else
+                cp $dir_export/$x/$x"_DOCR_"*.py .
             endif
 
-            set subDir = "DOCR"
-            if ( $d == "FRED" ) then
-                set subDir = "final"
-            endif
-
-            set dataTypeList = ( distances dihedrals rdcs )
+            set dataTypeList = (  dc                             di               rdc )
             set dataTypeList2 = ( _distance_general_distance_na_ _dihedral_na_na_ _dipolar_coupling_na_na_)
             @ dataTypeNumber = 0
             foreach dataType ( $dataTypeList )
                 #echo "DEBUG: working on dataType: " $dataType
                 @ dataTypeNumber ++ 
-                set list = ( `find $dir_link/$x/$subDir -name "$dataType*"` )
+                set list = ( `find $dir_export/$x -name "$x\_$d\_$dataType*"` )
                 foreach file ( $list )
                     #echo "DEBUG: working on file: " $file
-                    set number = ( `gawk -v f=$file:t:r 'BEGIN{gsub(/[a-z]/,"",f);print f}' /dev/null`)
+                    set number = ( `gawk -v f=$file:t:r 'BEGIN{f=substr(f,5);gsub(/[a-z_A-Z]/,"",f);printf("%d\n", f)}' /dev/null`)
+                    #echo "DEBUG: deduced number: " $number
                     set extension = $file:e
                     set fileNew = $x$dataTypeList2[$dataTypeNumber]$number.$extension
                     cp $file $fileNew
                     if ( $status ) then
-                        echo "ERROR $x failed to copy file $file."
+                        echo "ERROR $x failed to copy file $file to $fileNew."
                         set overallStatus = 1
                         continue
                     endif                             
                 end
             end
-            if ( $d == "FRED" ) then
-                cp $dir_link/$x/final/dyana.seq $x"_sequence".seq
-            endif
-            # Only create the tgz project once.
-            if ( $d == "DOCR" ) then
-                cd $dir_link/$x/ccpn
-    #            tar czf $DBdir/$x"_project".xml.tgz * > /dev/null
-                # Create a tgz copy that will not be deleted whereas the ccpn dir will.
-                tar czf $dir_link/$x/$x"_project".xml.tgz * > /dev/null
-                if ( $status ) then
-                    echo "ERROR $x failed to tar xml files to $DBdir/$x"_project".xml.tgz"
-                    set overallStatus = 1
-                    continue
-                endif                
-            endif
-            cd $DBdir
-            ln -s $dir_link/$x/$x"_project".xml.tgz .
+
+            ## Only create the tgz project once.
+            # if ( $d == "DOCR" ) then
+                # cd $dir_link/$x/ccpn
+    # #            tar czf $DBdir/$x"_project".xml.tgz * > /dev/null
+                # # Create a tgz copy that will not be deleted whereas the ccpn dir will.
+                # tar czf $dir_link/$x/$x"_project".xml.tgz * > /dev/null
+                # if ( $status ) then
+                    # echo "ERROR $x failed to tar xml files to $DBdir/$x"_project".xml.tgz"
+                    # set overallStatus = 1
+                    # continue
+                # endif                
+            # endif
+            # cd $DBdir
+            # ln -s $dir_link/$x/$x"_project".xml.tgz .
         end
         if ( $overallStatus ) then
             echo "ERROR $x found in doOrganizeForGrid"
             continue
-        endif        
+        endif
     endif
     
     # Insert the files into NMR Restraints Grid.
@@ -944,7 +907,7 @@ EOD
         endif        
     endif
 
-    # Insert the files into NMR Restraints Grid.
+    # Insert the files into the NMR Restraints Grid.
     if ( $doCleanFiles ) then
         # Remove redundant data if all went fine
         \rm -rf $dir_db/DOCR/$x 
@@ -956,4 +919,3 @@ EOD
 end
 
 echo "Finished"
-
