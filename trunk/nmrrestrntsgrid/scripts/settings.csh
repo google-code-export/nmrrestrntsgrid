@@ -6,6 +6,27 @@
 # when testing new locations will be used 1 for true only 0 for false
 setenv testing  1
 
+# Host name based locals.
+if ( $HOST == "Stella" ) then
+    echo "DEBUG in settings.csh; Now on $HOST which is the development default."
+endif
+
+if ( $HOST == "tang" ) then
+    echo "DEBUG in settings.csh; Now on $HOST which is the production setup."
+    # TODO: fill these in.
+    setenv UJ           /home/docr
+    setenv WS           $UJ/workspace
+    setenv W            $WS/Wattos
+    setenv big_dir      $UJ/DOCR_big_tmp
+endif
+
+if ( $HOST == "swoft" ) then
+    echo "DEBUG in settings.csh; Now on swoft"
+    setenv tmp_dir         ~jurgen/tmp
+    setenv big_dir         ~jurgen/tmp/DOCR_big_tmp_
+    setenv pdbbase_dir     ~/PDB_rem/ftp.ebi.ac.uk/pub/databases/rcsb/pdb-remediated
+endif
+
 # Development settings; other locals need to be setenv below
 setenv nrg_project        nmrrestrntsgrid
 setenv base_dir           $UJ/CloneWars/DOCR1000            # Common to all NRG data small in size.
@@ -23,25 +44,6 @@ setenv C                  $WS/cing
 setenv R                  $WS/recoordD
 
 
-# Host name based locals.
-if ( $HOST == "Stella" ) then
-    echo "DEBUG in settings.csh; Now on $HOST which is the development default."
-endif
-
-if ( $HOST == "tang" ) then
-    echo "DEBUG in settings.csh; Now on $HOST which is the production setup."
-    # TODO: fill these in.
-    setenv tmp_dir      $UJ/tmp
-    setenv big_dir      $UJ/DOCR_big_tmp
-    setenv W            /share/wattos/Wattos
-endif
-
-if ( $HOST == "swoft" ) then
-    echo "DEBUG in settings.csh; Now on swoft"
-    setenv tmp_dir         ~jurgen/tmp
-    setenv big_dir         ~jurgen/tmp/DOCR_big_tmp_
-    setenv pdbbase_dir     ~/PDB_rem/ftp.ebi.ac.uk/pub/databases/rcsb/pdb-remediated
-endif
 
 # ADD YOUR LOCATION SPECIFICS HERE:
 ################################################################################
@@ -89,12 +91,15 @@ setenv dir_surplus      $big_dir/surplus
 setenv dir_assign       $big_dir/assign
 setenv dir_wi_all       $big_dir/wi/all
 setenv dir_nomen        $big_dir/nomen
+setenv dir_extra        $big_dir/extra
+setenv dir_export       $big_dir/export
 setenv dir_db           $big_dir/db
 setenv dir_restraint    $big_dir/restraint
 setenv dir_restr_unzip  $big_dir/restraint/unzipped
 setenv dir_recoord_na   $big_dir/recoord_na
 
-mkdir -p $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all $dir_nomen $dir_db $dir_restraint $dir_restr_unzip
+# perhaps do the below once.
+#mkdir -p $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all $dir_nomen $dir_db $dir_restraint $dir_restr_unzip $dir_extra
 
 setenv dir_pdb_status   $pdbbase_dir/data/status
 
