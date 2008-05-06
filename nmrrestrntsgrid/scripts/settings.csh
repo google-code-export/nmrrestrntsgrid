@@ -8,17 +8,16 @@ setenv testing  1
 
 set wattoshost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
 
-# Host name based locals.
+
+# Host name based locals SECTION I (there is a section II below).
 if ( $wattoshost == "stella" ) then
     echo "DEBUG in settings.csh; Now on $HOST which is the development default."
 endif
 
 if ( $wattoshost == "tang" ) then
-    echo "DEBUG in settings.csh; Now on $HOST which is the production setup."
+    echo "DEBUG in settings.csh; Now on $HOST which will be the production setup."
     # TODO: fill these in.
     setenv UJ           /home/docr
-    setenv WS           $UJ/workspace
-    setenv W            $WS/Wattos
     setenv big_dir      $UJ/DOCR_big_tmp
 endif
 
@@ -29,15 +28,15 @@ if ( $wattoshost == "swoft" ) then
     setenv pdbbase_dir     ~/PDB_rem/ftp.ebi.ac.uk/pub/databases/rcsb/pdb-remediated
 endif
 
-# Development settings; other locals need to be setenv below
+# Development settings; other locals need to be setenv below. Can be overiden by next section
 setenv nrg_project        nmrrestrntsgrid
 setenv base_dir           $UJ/CloneWars/DOCR1000            # Common to all NRG data small in size.
 setenv pdbbase_dir        $UJ/wattosTestingPlatform/pdb     # For PDB and mmCIF formatted entries data.
 setenv tmp_dir            $UJ/tmp                           #
 setenv big_dir            $UJ/DOCR_big_tmp                  # NRG data large in size.
 setenv WS                 $UJ/workspace                     # Common to all projects currently.
-setenv nrg_dir            $WS/$nrg_project                  # For NRG project code.
 setenv W                  $WS/Wattos                        # Wattos install
+setenv nrg_dir            $WS/$nrg_project                  # For NRG project code.
 setenv CCPNMR_TOP_DIR     $WS/ccpn                          # 
 setenv ccpn_tmp_dir       $UJ/ccpn_tmp                      # Temporary location for FC data.
 
@@ -45,17 +44,11 @@ setenv ccpn_tmp_dir       $UJ/ccpn_tmp                      # Temporary location
 setenv C                  $WS/cing
 setenv R                  $WS/recoordD
 
-
-
-# ADD YOUR LOCATION SPECIFICS HERE:
-################################################################################
-# if ( $HOST == "myhost" ) then
-    # echo "DEBUG in settings.csh; Now on $HOST"
-    # setenv tmp_dir         ~jurgen/tmp
-    # setenv big_dir         ~jurgen/tmp/DOCR_big_tmp_
-    # setenv pdbbase_dir     ~/PDB_rem/ftp.ebi.ac.uk/pub/databases/rcsb/pdb-remediated
-# endif
-
+# Host name based locals SECTION II (see section I). These are modifications.
+if ( $wattoshost == "tang" ) then
+    setenv CCPNMR_TOP_DIR     /big/wim/workspace/ccpn 
+    setenv R                  /big/wim/workspace/recoord 
+endif
 
 ## Directory with this file
 setenv scripts_dir      $nrg_dir/scripts
