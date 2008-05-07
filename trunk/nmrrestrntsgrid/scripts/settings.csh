@@ -1,10 +1,11 @@
-#!/bin/csh -f
+#!/bin/csh
 # Author: Jurgen F. Doreleijers 
 # Fri Apr  1 15:01:48 CST 2005 Initiated
 # Thu Mar 13 09:21:34 CET 2008 Modified to work under sf.net project
 
 # when testing new locations will be used 1 for true only 0 for false
 setenv testing  1
+
 # TODO: remove these lines when debugging is done.
 # some get inhereted by the production setup still the default.
 unset nrg_project    
@@ -72,7 +73,7 @@ setenv R                  $WS/recoordD
 
 # Host name based locals SECTION II (see section I). These are modifications.
 if ( $measahost == "tang" ) then
-    setenv CCPNMR_TOP_DIR     /big/wim/workspace/ccpn 
+    setenv CCPNMR_TOP_DIR     /big/wim/workspace/all 
     setenv R                  /big/wim/workspace/recoord 
     setenv big_dir            $UJ/NRG
     setenv pdbbase_dir        /dumpzone/pdb/pdb
@@ -102,7 +103,6 @@ setenv CIFZ2        $pdbbase_dir/data/structures/divided/mmCIF
 #setenv mrf_backup_dir   /share/wattos/mr_anno_backup
 #setenv dir_star_files   /bmrb/ftp/pub/data/nmr-star
 
-# NO CHANGES NEEDED BELOW THIS LINE
 ################################################################################
 # More or less temp files.
 setenv dir_star         $big_dir/star
@@ -151,16 +151,17 @@ setenv pdbmr_entriesGridFile  $list_dir/pdbmr_entriesGrid.csv
 #setenv servletUrl  'http://tang.bmrb.wisc.edu:8080/WebModule/MRGridServlet' 
 setenv servletUrl  'http://localhost:8080/WebModule/MRGridServlet'
               
-## No changes below this line
+## No changes below this line. Except special case of Wim's 'all'.
 ##############################################################################
 # Wattos.
 #setenv PYTHONPATH   ${PYTHONPATH}:$W/python
 setenv PYTHONPATH   $W/python
-# recoord (needs to preceed ccpn because both have a msd package.)
-setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
+if ( $measahost != "tang" ) then
+	# recoord (needs to preceed ccpn because both have a msd package.)
+	setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
+endif
 # ccpn/recoord with api 
 setenv PYTHONPATH   ${PYTHONPATH}:$CCPNMR_TOP_DIR/python
-
 
 # CING
 if ( -e $C/cing.csh ) then
