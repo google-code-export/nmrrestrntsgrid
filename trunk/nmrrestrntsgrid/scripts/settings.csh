@@ -62,7 +62,7 @@ setenv pdbbase_dir        $UJ/wattosTestingPlatform/pdb     # For PDB and mmCIF 
 setenv tmp_dir            $UJ/tmp                           #
 setenv big_dir            $UJ/DOCR_big_tmp                  # NRG data large in size.
 setenv WS                 $UJ/workspace                     # Common to all projects currently.
-setenv W                  $WS/Wattos                        # Wattos install
+setenv W                  $WS/wattos                        # Wattos install
 setenv nrg_dir            $WS/$nrg_project                  # For NRG project code.
 setenv CCPNMR_TOP_DIR     $WS/ccpn                          # 
 setenv ccpn_tmp_dir       $UJ/ccpn_tmp                      # Temporary location for FC data.
