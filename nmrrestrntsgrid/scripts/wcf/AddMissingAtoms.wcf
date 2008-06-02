@@ -5,10 +5,11 @@ interactiveSession
 false
 SetProp
 verbosity
-3
+4
 SetProp
 writeSessionOnExit
 false
+ListProp
 SetProp
 stopOnError
 true
@@ -19,7 +20,6 @@ true
 #Match restraints to soup by regular STAR tags. (true suggested)
 #Match restraints to soup by author atom and residue names etc. (false suggested; only previous or this can and must be set)
 #Remove unlinked restraints (true suggested)
-#Sync over models; removing inconsistent atoms (true suggested)
 ReadEntryNMRSTAR
 INPUT_STAR_FILE
 y
@@ -27,20 +27,14 @@ y
 y
 n
 y
+
+AddMissingAtoms
+
+CheckAtomNomenclature
 y
 
-CalcBond
-0.1
+WriteEntryNMRSTAR
+OUTPUT_STAR_FILE
 
-CalcHydrogenBond
-2.7
-3.35
-90.0
-
-CalcCoPlanarBasesSet
-45.0
-n
-coPlanarBasesSet.csv
 
 Quit
-

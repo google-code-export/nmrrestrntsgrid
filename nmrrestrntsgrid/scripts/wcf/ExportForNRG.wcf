@@ -5,13 +5,16 @@ interactiveSession
 false
 SetProp
 verbosity
-3
+4
 SetProp
 writeSessionOnExit
 false
 SetProp
 stopOnError
 true
+
+
+ListProp
 
 #Input file
 #Read molecular system and coordinates (true suggested)
@@ -29,18 +32,13 @@ n
 y
 y
 
-CalcBond
-0.1
-
-CalcHydrogenBond
-2.7
-3.35
-90.0
-
-CalcCoPlanarBasesSet
-45.0
+# Output file name base
+# Atom nomenclature
+# Sort restraints before writing
+WriteEntryXplor
+OUTPUT_XPLOR_FILE_BASE
+XPLOR_IUPAC
 n
-coPlanarBasesSet.csv
 
 Quit
 

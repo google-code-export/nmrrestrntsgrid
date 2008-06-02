@@ -4,10 +4,10 @@
 # Thu Mar 13 09:21:34 CET 2008 Modified to work under sf.net project
 
 # when testing new locations will be used 1 for true only 0 for false
-setenv testing  1
+#setenv testing  1
 
 # TODO: remove these lines when debugging is done.
-# some get inhereted by the production setup still the default.
+# some get inhereted by the production setup that is still the default.
 unset nrg_project    
 unset base_dir       
 unset pdbbase_dir    
@@ -36,6 +36,7 @@ unset dir_restraint
 unset dir_restr_unzip  
 unset dir_recoord_na   
 
+# next line requires gawk to be installed.
 set measahost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
 
 # Host name based locals SECTION I (there is a section II below).
@@ -81,27 +82,14 @@ endif
                        
 ## Directory with this file
 setenv scripts_dir      $nrg_dir/scripts
-setenv wcf_dir          $scripts_dir/wcf # Wattos Command File directory.
+setenv wcf_dir          $scripts_dir/wcf 
 setenv list_dir         $base_dir/lists
-#setenv wi_dir           $base_dir/wi
 setenv results_dir      $base_dir/Results
 setenv perEntry_dir     $results_dir/perEntry
-## Dir with PDB files that had to be corrected for a small but significant portion.
-setenv pdbmod_dir       $nrg_dir/data/PDBmod
-#setenv dir_src          /big/jurgen/src
 setenv dir_python       $R/python
-#setenv dir_xplor        $dir_src/xplor-nih-2.15.0
-#setenv dir_precoord_na  $dir_src/recoord_na/python/recoord_na
-#setenv XPLOR_NA_DIR $dir_xplor/databases/na_resources
-setenv DIR_WHATIF   /home/vriend/whatif
+#setenv DIR_WHATIF   /home/vriend/whatif
 setenv PDBZ2        $pdbbase_dir/data/structures/divided/pdb
 setenv CIFZ2        $pdbbase_dir/data/structures/divided/mmCIF
-
-## Dir with the mysql dump.                                       
-#setenv mr_backup_dir    /var/www/servlet_data/viavia/mr_mysql_backup
-## Dir with the annotated MR files.
-#setenv mrf_backup_dir   /share/wattos/mr_anno_backup
-#setenv dir_star_files   /bmrb/ftp/pub/data/nmr-star
 
 ################################################################################
 # More or less temp files.
@@ -124,31 +112,8 @@ setenv dir_recoord_na   $big_dir/recoord_na
 # perhaps do the below once.
 #mkdir -p $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all $dir_nomen $dir_db $dir_restraint $dir_restr_unzip $dir_extra
 
-setenv dir_pdb_status   $pdbbase_dir/data/status
+setenv dir_pdb_status   $pdbbase_dir/data/status 
 
-## id that gets used for the selection of models in the PDB entry
-##  first means only first model will be used.
-##  all   means all will be used
-setenv id all
-
-## Files with lists of entries to do
-## See script: update_todo_list.csh for meaning.
-setenv list_step_1_file  $list_dir/list_step_1.csv
-setenv list_step_2_file  $list_dir/list_step_2.csv
-setenv list_step_3_file  $list_dir/list_step_3.csv
-setenv list_step_4_file  $list_dir/list_step_4.csv
-setenv list_step_5_file  $list_dir/list_step_5.csv
-setenv list_step_6_file  $list_dir/list_step_6.csv
-
-# Entries with only hetatm; these will not be done in WHAT IF
-setenv noted_hetatm_only_file       list_noted_hetatm_only.txt
- 
-
-## File with the PDB entry codes for NMR entries with MR files
-setenv pdbmr_entriesGridFile  $list_dir/pdbmr_entriesGrid.csv
-#setenv gridUrl  "http://www.bmrb.wisc.edu/servlet_data/viavia/mr_mysql_backup/entry.txt"
-
-#setenv servletUrl  'http://tang.bmrb.wisc.edu:8080/WebModule/MRGridServlet' 
 setenv servletUrl  'http://localhost:8080/WebModule/MRGridServlet'
               
 ## No changes below this line. Except special case of Wim's 'all'.
@@ -156,10 +121,13 @@ setenv servletUrl  'http://localhost:8080/WebModule/MRGridServlet'
 # Wattos.
 #setenv PYTHONPATH   ${PYTHONPATH}:$W/python
 setenv PYTHONPATH   $W/python
-if ( $measahost != "tang" ) then
-	# recoord (needs to preceed ccpn because both have a msd package.)
-	setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
+if ( $measahost == "tang" ) then
+    setenv servletUrl  'http://tang.bmrb.wisc.edu:8080/WebModule/MRGridServlet' 
+else
+    # recoord (needs to preceed ccpn because both have a msd package.)
+    setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
 endif
+
 # ccpn/recoord with api 
 setenv PYTHONPATH   ${PYTHONPATH}:$CCPNMR_TOP_DIR/python
 

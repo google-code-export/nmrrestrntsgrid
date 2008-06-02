@@ -5,16 +5,16 @@
 # TASK: Do all processing needed in order to go from parsed restraints
 #       to files for the FRED database. 
 # USE:  processDOCR_FRED.csh [1brv]
-#OR: set x = 1ai0  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
+#OR: set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
    
-#set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh )
+set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh )
 #set subl = ( 108d 149d 170d 171d 17ra )
 
 
 
-#set subl = ( 1brv )
+#set subl = ( 1a4d )
 #set subl = ( `cat  $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
-set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
+#set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
 
 
 # Get argument pdb code if it exists.
@@ -23,19 +23,15 @@ if ( $1 != "" ) then
 endif
 
 set doReadMmCif         = 1
-set doJoin              = 0
-set doMerge             = 0 # Actually linking by FC.
-set doAddMissingAtoms   = 0
-set doWHATIF            = 0
-set doNomenclature      = 0
-set doAssign            = 0
-set doSurplus           = 0
-set doViolAnal          = 0
-set doCompleteness      = 0
-set doCoplanars         = 0
-set doExportsForGrid    = 0 
-set doOrganizeForGrid   = 0
-set doDumpInGrid        = 0
+set doJoin              = 1
+set doMerge             = 1 # Actually linking by FC.
+set doAssign            = 1
+set doSurplus           = 1
+set doViolAnal          = 1
+set doCompleteness      = 1
+set doExportsForGrid    = 1 
+set doOrganizeForGrid   = 1
+set doDumpInGrid        = 1
 set doCleanFiles        = 0 
                           
 set extraWattosOptions  =
@@ -51,6 +47,11 @@ set doMergeWithWattos   = 0
 set hasHead = 0
 # No need to change things below this line
 ###############################################################################
+
+set doAddMissingAtoms   = 1
+set doWHATIF            = 1
+set doNomenclature      = 1
+set doCoplanars         = 1
 
 if ( $hasHead ) then
     # Check head.
@@ -74,14 +75,14 @@ alias wjava  "java $woptions"
 echo "doReadMmCif       Converts PDB mmCIF to NMR-STAR with Wattos        -> XXXX_wattos.str $doReadMmCif"               
 echo "doJoin            Joins the parsed NMR-STAR rest with coor. Wattos    -> XXXX_join.str $doJoin"               
 echo "doMerge           Converts STAR to STAR with linkNmrStarData.py      -> XXXX_merge.str $doMerge"
-echo "doAddMissingAtoms Calculates any missing atoms                       -> XXXX_extra.str $doAddMissingAtoms"               
-echo "doWHATIF          Changes nomenclature and hydrogen with WI                            $doWHATIF"           
-echo "doNomenclature    Updates nomen. and hydrogen in STAR with Wattos    -> XXXX_nomen.str $doNomenclature"     
+#echo "doAddMissingAtoms Calculates any missing atoms                       -> XXXX_extra.str $doAddMissingAtoms"               
+#echo "doWHATIF          Changes nomenclature and hydrogen with WI                            $doWHATIF"           
+#echo "doNomenclature    Updates nomen. and hydrogen in STAR with Wattos    -> XXXX_nomen.str $doNomenclature"     
 echo "doAssign          Changes stereo assignments with Wattos            -> XXXX_assign.str $doAssign"           
 echo "doSurplus         Changes distance restraints with Wattos     ->   XXXX_nonsurplus.str $doSurplus"          
 echo "doViolAnal        Analyzes violation with Wattos                                       $doViolAnal"         
 echo "doCompleteness    Determines NOE completeness with Wattos                              $doCompleteness"
-echo "doCoplanars       Calculates coplanar base sets for nucleic acid structures            $doCoplanars"  
+#echo "doCoplanars       Calculates coplanar base sets for nucleic acid structures            $doCoplanars"  
 echo "doExportsForGrid  Converts DOCR/FRED to CYANA and XPLOR for Grid                       $doExportsForGrid"  
 echo "doOrganizeForGrid Puts the results in a directory structure for Grid                   $doOrganizeForGrid"  
 echo "doDumpInGrid      Puts the files into Grid                                             $doDumpInGrid"       
@@ -244,9 +245,16 @@ foreach x ( $subl )
                 echo "ERROR $x previous step produced no star file."
                 continue
             endif
-            set fcInputFile = $ccpn_tmp_dir/data/archives/bmrb/nmrRestrGrid/$x/joinedCoord.str
+            set fcInputDir = $ccpn_tmp_dir/data/archives/bmrb/nmrRestrGrid/$x
+            if ( ! -e $fcInputDir ) then
+            	mkdir -p $fcInputDir
+            endif
+            set fcInputFile = $fcInputDir/joinedCoord.str
             \cp -f $dir_star/$x/$inputStarFile $fcInputFile
-                    
+            if ( ! -e $fcInputFile ) then
+                echo "ERROR $x failed to copy input for FC to: $fcInputDir"
+                continue
+            endif            	
             # Set the right project dir in the script
             # directly.
            
@@ -290,7 +298,7 @@ foreach x ( $subl )
 
 
     if ( $doAddMissingAtoms ) then
-        echo "  addMissingAtoms"
+#        echo "  skipping addMissingAtoms"
         set script_file     = $wcf_dir/AddMissingAtoms.wcf
         set inputStarFile   = $dir_star/$x/$x"_merge".str
         set outputStarFile  = $x"_extra".str
@@ -306,130 +314,137 @@ foreach x ( $subl )
         cd $x
         
         if ( ! -e $inputStarFile ) then
-            echo "ERROR: $x No FormatConverter input star file: $inputStarFile"
+            echo "ERROR: $x No addMissingAtoms input star file: $inputStarFile"
             continue
-        endif
-        
-        # writes star file with PDB file writing; automatically.
-        sed -e 's|OUTPUT_PDB_FILE|'$outputPDBFile'|'     $script_file |\
-        sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       > $script_file_new
-                        
-        wattos < $script_file_new >& $log_file
-        if ( $status ) then
-            echo "ERROR $x Wattos addMissingAtoms script: $script_file_new failed"
-            continue
-        endif
-
-                if ( ! -e $outputStarFile ) then
-            echo "ERROR $x found no star file $outputStarFile"
-            continue
-        endif
-        if ( ! -e $outputStarFile ) then
-            echo "ERROR $x found no star file $outputStarFile"
-            continue
-        endif
-        if ( ! -e $outputPDBFile ) then
-            echo "ERROR $x found no PDB file $outputPDBFile"
-            continue
-        endif
-        \rm $script_file_new            
+        endif           
+        if ( 1 ) then
+	        cp $inputStarFile $outputStarFile	        
+        else	        
+	        # writes star file with PDB file writing; automatically.
+	        sed -e 's|OUTPUT_PDB_FILE|'$outputPDBFile'|'     $script_file |\
+	        sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       > $script_file_new
+	                        
+	        wattos < $script_file_new >& $log_file
+	        if ( $status ) then
+	            echo "ERROR $x Wattos addMissingAtoms script: $script_file_new failed"
+	            continue
+	        endif
+	
+	        if ( ! -e $outputPDBFile ) then
+	            echo "ERROR $x found no PDB file $outputPDBFile"
+	            continue
+	        endif
+	        \rm $script_file_new
+	   endif            
+       if ( ! -e $outputStarFile ) then
+		    echo "ERROR $x found no star file $outputStarFile"
+		    continue
+       endif
     endif
 
 
     ## Don't care when whatif crashes.
     if ( $doWHATIF ) then
-        echo "  wi"
-        set inputPDBFile   = $dir_extra/$x/$x"_extra".pdb
-        cd $dir_wi_all
-        if ( -e $x ) then
-            \rm -rf $x
-        endif
-        mkdir $x
-        cd $x
-
-        #\rm $x"_rename".log >& /dev/null
-        #\rm $x"_wi".pdb     >& /dev/null
-        #\rm -f $x.pdb       >& /dev/null
-        #if ( -e $pdbmod_dir/pdb$x.ent ) then
-        #    echo "DEBUG: $x using the PDB coordinates from the mod directory"
-        #    ln -s $pdbmod_dir/pdb$x.ent $x.pdb
-        #else 
-        #    zcat $PDBZ2/$ch23/pdb$x.ent.gz > $x.pdb
-        #endif
-# ARGUMENTS:
-#   do_logs
-#   add_coordinates
-#   do_write
-#   pdb file name with directory
-
-        # Get the file locally because WI doesn't deal well with long path names.
-        ln -s $inputPDBFile $x.pdb
-        # What if needs to be fooled in thinking it has an input stream.
-        $scripts_dir/WI_rename.csh f f t $x.pdb < /dev/null >& $x"_rename".log
-        if ( $status ) then
-            echo "WARNING $x in whatif"
-            # continue
-        endif
-        grep --quiet ERROR $x"_rename".log
-        if ( ! $status ) then
-            echo "WARNING $x found in whatif log file"
-            # continue
-        endif
-        grep --quiet "No match" $x"_rename".log
-        if ( ! $status ) then
-            echo "WARNING $x found 'No match' in log file"
-            # continue
-        endif
-        if ( ! -e $x"_wi".pdb ) then
-            echo "WARNING $x found no WI pdb file"
-            # continue
+#        echo "  skipping wi"
+        if ( 0 ) then
+	        set inputPDBFile   = $dir_extra/$x/$x"_extra".pdb
+	        cd $dir_wi_all
+	        if ( -e $x ) then
+	            \rm -rf $x
+	        endif
+	        mkdir $x
+	        cd $x
+	
+	        #\rm $x"_rename".log >& /dev/null
+	        #\rm $x"_wi".pdb     >& /dev/null
+	        #\rm -f $x.pdb       >& /dev/null
+	        #if ( -e $pdbmod_dir/pdb$x.ent ) then
+	        #    echo "DEBUG: $x using the PDB coordinates from the mod directory"
+	        #    ln -s $pdbmod_dir/pdb$x.ent $x.pdb
+	        #else 
+	        #    zcat $PDBZ2/$ch23/pdb$x.ent.gz > $x.pdb
+	        #endif
+	# ARGUMENTS:
+	#   do_logs
+	#   add_coordinates
+	#   do_write
+	#   pdb file name with directory
+	
+	        # Get the file locally because WI doesn't deal well with long path names.
+	        ln -s $inputPDBFile $x.pdb
+	        # What if needs to be fooled in thinking it has an input stream.
+	        $scripts_dir/WI_rename.csh f f t $x.pdb < /dev/null >& $x"_rename".log
+	        if ( $status ) then
+	            echo "WARNING $x in whatif"
+	            # continue
+	        endif
+	        grep --quiet ERROR $x"_rename".log
+	        if ( ! $status ) then
+	            echo "WARNING $x found in whatif log file"
+	            # continue
+	        endif
+	        grep --quiet "No match" $x"_rename".log
+	        if ( ! $status ) then
+	            echo "WARNING $x found 'No match' in log file"
+	            # continue
+	        endif
+	        if ( ! -e $x"_wi".pdb ) then
+	            echo "WARNING $x found no WI pdb file"
+	            # continue
+	        endif 
+	        # \rm $x.pdb
         endif 
-        # \rm $x.pdb
     endif    
     
     
     if ( $doNomenclature ) then
-        echo "  nomen"
-        set script_file     = $wcf_dir/SetAtomNomenclatureToIUPAC.wcf
-        set inputStarFile   = $dir_extra/$x/$x"_extra".str
-        set inputPDBFile    = $dir_wi_all/$x/$x"_wi".pdb
-        set outputStarFile  = $x"_nomen".str
-        set script_file_new = $x.wcf  
-        set log_file        = $x.log
-                           
-        cd $dir_nomen
-        if ( -e $x ) then
-            \rm -rf $x
-        endif
-        mkdir $x
-        cd $x
-        
-        if ( ! -e $inputStarFile ) then
-            echo "ERROR: $x No FormatConverter input star file: $inputStarFile"
-            continue
-        endif
-
-        if ( ! -e $inputPDBFile ) then
-            echo "WARNING: $x no input WI PDB file for entry: $inputPDBFile"
-            \cp -f $inputStarFile $outputStarFile
-        else            
-            sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'   $script_file |\
-            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'                  |\
-            sed -e 's|INPUT_PDB_FILE|'$inputPDBFile'|'       > $script_file_new
-                            
-            wattos < $script_file_new >& $log_file
-            if ( $status ) then
-                echo "WARNING $x Wattos rename script failed; not using rename"
-                \cp -f $inputStarFile $outputStarFile
-            else
-                grep --quiet ERROR $log_file
-                if ( ! $status ) then
-                    echo "WARNING $x found erros in log file; not using rename"
-                    \cp -f $inputStarFile $outputStarFile
-                endif
-            endif
-            \rm $script_file_new            
-        endif
+#        echo "  skipping nomen"
+        # Nevertheless make sure that the expected output from this exists
+        # for further down the pipe line.
+        if ( 1 ) then
+	        set script_file     = $wcf_dir/SetAtomNomenclatureToIUPAC.wcf
+	        set inputStarFile   = $dir_extra/$x/$x"_extra".str
+	        set inputPDBFile    = $dir_wi_all/$x/$x"_wi".pdb
+	        set outputStarFile  = $x"_nomen".str
+	        set script_file_new = $x.wcf  
+	        set log_file        = $x.log
+	                          
+	        cd $dir_nomen
+	        if ( -e $x ) then
+	            \rm -rf $x
+	        endif
+	        mkdir $x
+	        cd $x
+	        
+	        if ( ! -e $inputStarFile ) then
+	            echo "ERROR: $x No nomen input star file: $inputStarFile"
+	            continue
+	        endif
+	        
+	        cp $inputStarFile $outputStarFile
+        else
+	        if ( ! -e $inputPDBFile ) then
+	            echo "WARNING: $x no input WI PDB file for entry: $inputPDBFile"
+	            \cp -f $inputStarFile $outputStarFile
+	        else            
+	            sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'   $script_file |\
+	            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'                  |\
+	            sed -e 's|INPUT_PDB_FILE|'$inputPDBFile'|'       > $script_file_new
+	                            
+	            wattos < $script_file_new >& $log_file
+	            if ( $status ) then
+	                echo "WARNING $x Wattos rename script failed; not using rename"
+	                \cp -f $inputStarFile $outputStarFile
+	            else
+	                grep --quiet ERROR $log_file
+	                if ( ! $status ) then
+	                    echo "WARNING $x found erros in log file; not using rename"
+	                    \cp -f $inputStarFile $outputStarFile
+	                endif
+	            endif
+	            \rm $script_file_new            
+	        endif
+        endif	 
         if ( ! -e $outputStarFile ) then
             echo "ERROR $x found no star file $outputStarFile"
             continue
@@ -442,7 +457,8 @@ foreach x ( $subl )
     if ( $doAssign ) then
         echo "  assign"
         set script_file      = $wcf_dir/CheckAssignment.wcf
-        set inputStarFile    = $dir_nomen/$x/$x"_nomen".str
+        #set inputStarFile    = $dir_nomen/$x/$x"_nomen".str
+        set inputStarFile    = $dir_star/$x/$x"_merge".str
         set outputStarFile   = $x"_assign".str
         set script_file_new  = $x.wcf  
         set log_file         = $x.log
@@ -692,46 +708,48 @@ foreach x ( $subl )
     
     # Get base pairing and tripling etc.
     if ( $doCoplanars ) then
-        echo "  coplanar"
-        set script_file      = $wcf_dir/GetCoplanarBases.wcf
-        set inputStarFile    = $dir_surplus/$x/$x"_nonsurplus".str        
-        set script_file_new  = $x.wcf  
-        set log_file         = $x.log
-         
-        cd $dir_coplanar
-        if ( -e $x ) then
-            \rm -rf $x
-        endif
-        mkdir $x
-        cd $x
-        
-        if ( ! -e $inputStarFile ) then
-            echo "ERROR: $x No FormatConverter input star file: $inputStarFile"
-            continue
-        endif
-            
-        # The flag disables any output; exit status will be zero when any match is found
-        set containsNA = 0
-        egrep --quiet "_Entity.Pol_type +poly(deoxy)?ribonucleotide" $inputStarFile
-        if ( ! $status ) then
-            set containsNA = 1
-        endif
-        if ( $containsNA ) then                        
-            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       $script_file \
-                > $script_file_new                            
-            wattos < $script_file_new >& $log_file
-            if ( $status ) then
-                echo "ERROR $x in Wattos script file: $script_file"
-                continue
-            endif
-            grep --quiet ERROR $log_file
-            if ( ! $status ) then
-                echo "ERROR $x found in planar log file"
-                continue
-            endif
-            \rm $script_file_new
-        else
-#            echo "DEBUG: ignoring coplanars analysis because no NA were found."
+#        echo "  skipping coplanar"
+        if ( 0 ) then
+	        set script_file      = $wcf_dir/GetCoplanarBases.wcf
+	        set inputStarFile    = $dir_surplus/$x/$x"_nonsurplus".str        
+	        set script_file_new  = $x.wcf  
+	        set log_file         = $x.log
+	         
+	        cd $dir_coplanar
+	        if ( -e $x ) then
+	            \rm -rf $x
+	        endif
+	        mkdir $x
+	        cd $x
+	        
+	        if ( ! -e $inputStarFile ) then
+	            echo "ERROR: $x No FormatConverter input star file: $inputStarFile"
+	            continue
+	        endif
+	            
+	        # The flag disables any output; exit status will be zero when any match is found
+	        set containsNA = 0
+	        egrep --quiet "_Entity.Polymer_type +poly(deoxy)?ribonucleotide" $inputStarFile
+	        if ( ! $status ) then
+	            set containsNA = 1
+	        endif
+	        if ( $containsNA ) then                        
+	            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       $script_file \
+	                > $script_file_new                            
+	            wattos < $script_file_new >& $log_file
+	            if ( $status ) then
+	                echo "ERROR $x in Wattos script file: $script_file"
+	                continue
+	            endif
+	            grep --quiet ERROR $log_file
+	            if ( ! $status ) then
+	                echo "ERROR $x found in planar log file"
+	                continue
+	            endif
+	            \rm $script_file_new
+	        else
+	#            echo "DEBUG: ignoring coplanars analysis because no NA were found."
+            endif        
         endif        
     endif    
     
@@ -809,7 +827,7 @@ foreach x ( $subl )
             cd $DBdir
             echo $dataFile$x                                  >  $outputFile
             echo                                              >> $outputFile
-            cat $fileHeader                                   >> $outputFile          
+            sed -e 's|PDBCODE HERE|'$x'|' $fileHeader         >> $outputFile          
             echo                                              >> $outputFile
             gawk -f $scripts_dir/stripDataNode   $inputFile   >> $outputFile
 
@@ -832,7 +850,7 @@ foreach x ( $subl )
             endif     
             \rm -f $x"_testRead".str          
             
-            # If the files aren't there don't complain
+            # Allow absent files without complain
             if ( $d == "FRED" ) then
                 cp -v $assignFile  $x"_assign".str     >& /dev/null
                 cp -v $surplusFile $x"_surplus".str    >& /dev/null
