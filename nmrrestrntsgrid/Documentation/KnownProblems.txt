@@ -1,5 +1,3 @@
 # Room for improvements:
-# 1b4y first dc list; viol_max 1.5 is because entry was center averaged leading to only 0.6 max violation.
-#   The rms viol also drops by half.
-# 2a0a if many atoms aren't reported in the pdb file they aren't expected so they
-        might lead to a higher completeness.
+        
+See google code issues now.
