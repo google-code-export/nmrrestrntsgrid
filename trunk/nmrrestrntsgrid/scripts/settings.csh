@@ -41,11 +41,11 @@ set measahost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
 
 # Host name based locals SECTION I (there is a section II below).
 if ( $measahost == "stella" ) then
-    echo "DEBUG in settings.csh; Now on $HOST which is the development default."
+    echo "DEBUG in NRG settings.csh; Now on $HOST which is the development default."
 endif
 
 if ( $measahost == "tang" ) then
-    echo "DEBUG in settings.csh; Now on $HOST which will be the production setup."
+    echo "DEBUG in NRG settings.csh; Now on $HOST which will be the production setup."
     setenv UJ           /big/docr
 endif
 
@@ -114,7 +114,7 @@ setenv dir_recoord_na   $big_dir/recoord_na
 
 setenv dir_pdb_status   $pdbbase_dir/data/status 
 
-setenv servletUrl  'http://localhost:8080/WebModule/MRGridServlet'
+setenv servletUrl  'http://localhost:8080/NRG/MRGridServlet'
               
 ## No changes below this line. Except special case of Wim's 'all'.
 ##############################################################################
@@ -122,7 +122,7 @@ setenv servletUrl  'http://localhost:8080/WebModule/MRGridServlet'
 #setenv PYTHONPATH   ${PYTHONPATH}:$W/python
 setenv PYTHONPATH   $W/python
 if ( $measahost == "tang" ) then
-    setenv servletUrl  'http://tang.bmrb.wisc.edu:8080/WebModule/MRGridServlet' 
+    setenv servletUrl  'http://tang.bmrb.wisc.edu:8080/NRG/MRGridServlet' 
 else
     # recoord (needs to preceed ccpn because both have a msd package.)
     setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
