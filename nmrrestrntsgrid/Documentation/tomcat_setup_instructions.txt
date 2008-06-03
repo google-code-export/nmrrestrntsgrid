@@ -2,6 +2,9 @@
 - Disable local webservers from Mac before trying to fire up another one with Eclipse.
 - Use fink installed apache tomcat5 for work with Eclipse (in /sw/??/tomcat5)
 
+* New installation of NRG31 on tang:
+    * only changed 'WebModule' to 'NRG' from the below. Keeping all ports the same.
+    * put web.xml in: /usr/share/tomcat5/webapps/NRG/WEB-INF (no changes from old one needed)
 
 * servlet engine Apache Tomcat/5.5.20 installed on tang
     * port 8080
@@ -15,10 +18,10 @@
             ---
             > JAVA_OPTS="$JAVA_OPTS -Dcatalina.ext.dirs=$CATALINA_HOME/shared/lib:$CATALINA_HOME/common/lib"
     
-    * -/webapps/WebModule/WEB-INF/lib Place for jars.
+    * /usr/share/tomcat5/webapps/WebModule/WEB-INF/lib Place for jars.
     * /etc/init.d/tomcat5 restart
     * For now use old setup in: 
--rwxr--r-- 1 jurgen users 1570717 Jan 19 10:25 /share/wattos/Wattos/lib/Wattos.jar*
+-       rwxr--r-- 1 jurgen users 1570717 Jan 19 10:25 /share/wattos/Wattos/lib/Wattos.jar*
     * Access logs configured in:/conf/server.xml. Note that the filename format
         seems to be unconfigurable to do by week but is ok.
             <Valve className="org.apache.catalina.valves.AccessLogValve"

@@ -1,9 +1,11 @@
 -- STEP BY STEP PROCEDURE FOR SETTING UP NEW DB
 
+-- ALSO SEE: wattos/scripts/sql/db_create.sql which actually sets up the tables.
+
 -- set root password
 --mysql --user=root --password='\!Ecj'ETC   # no escapes for any char but the first.
---wattos1 password is: 4I4KMS. so do: mysql --user=wattos2 --password='4I4KMU' wattos2
---wattos2 password is: 4I4KMU. so do: mysql --user=wattos1 --password='4I4KMS' wattos1
+--mysql --user=wattos1 --password='4I4KMS' wattos1
+--mysql --user=wattos2 --password='4I4KMU' wattos2
 -- Notes:
     -- no backslash escape '\' needed when using double quotes in windows.
 
@@ -62,15 +64,6 @@ and then copy the mrgrid data itself too
 cd /big/jurgen/DB/mrgrid/bfiles
 cp -rvfup wattos1/* wattos1
 /* just a comment to end the previous command interpreted by jedit as a comment **/
-
--- More config
-set global query_cache_size=16000000;
-SHOW STATUS LIKE 'Qcache%';
-SHOW VARIABLES LIKE 'have_query_cache';
-SHOW VARIABLES LIKE 'query_cache%';
-
-
-
 
 -- JUNK BELOW
 
