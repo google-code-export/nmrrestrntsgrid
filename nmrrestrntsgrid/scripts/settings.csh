@@ -114,7 +114,7 @@ setenv dir_recoord_na   $big_dir/recoord_na
 
 setenv dir_pdb_status   $pdbbase_dir/data/status 
 
-setenv servletUrl  'http://localhost:8080/NRG/MRGridServlet'
+setenv servletUrl  'http://localhost/NRG/MRGridServlet'
               
 ## No changes below this line. Except special case of Wim's 'all'.
 ##############################################################################
@@ -122,7 +122,7 @@ setenv servletUrl  'http://localhost:8080/NRG/MRGridServlet'
 #setenv PYTHONPATH   ${PYTHONPATH}:$W/python
 setenv PYTHONPATH   $W/python
 if ( $measahost == "tang" ) then
-    setenv servletUrl  'http://tang.bmrb.wisc.edu:8080/NRG/MRGridServlet' 
+    setenv servletUrl  'http://tang.bmrb.wisc.edu/NRG/MRGridServlet' 
 else
     # recoord (needs to preceed ccpn because both have a msd package.)
     setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
