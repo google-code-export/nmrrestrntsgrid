@@ -10,7 +10,7 @@ DESCRIBE bmrb_main;
 SHOW WARNINGS;
 
 mysql -uroot mysql < /path/to/fill_help_tables.sql
-mysql -h localhost -u wattos2 -p4I4KMU wattos2
+mysql -h localhost -u wattos1 -p4I4KMS wattos1
 -- or within
 source /path/to/fill_help_tables.sql
 
