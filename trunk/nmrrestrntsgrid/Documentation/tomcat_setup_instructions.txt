@@ -1,13 +1,27 @@
+* On mini (nmr.cmbi.ru.nl)
+    Default Mac web server.
+    - /Library/jakarta-tomcat-5.0.28/webapps
+    - setenv CATALINA_HOME /Library/jakarta-tomcat-5.0.28
+
 * On Stella (mac):
 - Disable local webservers from Mac before trying to fire up another one with Eclipse.
 - Use fink installed apache tomcat5 for work with Eclipse (in /sw/??/tomcat5)
-
+- For the eclipse embedded tomcat server add a proxy port:
+    <Connector
+      className="org.apache.catalina.connector.http.HttpConnector"
+      port="8080"
+      proxyPort="80"
+    > 
+- Then configure Apache such that it will forward the requests on 80 to 8080:
+    http://tomcat.apache.org/tomcat-5.5-doc/proxy-howto.html and the apache
+    setup instructions in this local dir.
+    
 * New installation of NRG31 on tang:
     * only changed 'WebModule' to 'NRG' from the below. Keeping all ports the same.
     * put web.xml in: /usr/share/tomcat5/webapps/NRG/WEB-INF (no changes from old one needed)
 
 * servlet engine Apache Tomcat/5.5.20 installed on tang
-    * port 8080
+    * port 8080 but redirection from standard port 80 should occur as per above for Stella.
     * tomcat:x:151:101:Tomacat web user:/share/tomcat:/sbin/nologin
         not allowed to be a login-able user. 
     * CATALINA_HOME /usr/share/tomcat5

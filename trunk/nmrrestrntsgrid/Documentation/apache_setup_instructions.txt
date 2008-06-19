@@ -1,0 +1,67 @@
+* apache on mac
+    There's one in eclipse but heck why not shrew up the one in mac os integrated.
+    On leopard which has apache 2 instead of 1, look for the settings file httpd.conf in: 
+    /private/etc/apache2/users
+    
+    In last conf file:
+    /Library/WebServer/CGI-Executables/
+    Just do:
+    httpd -V
+    for a lot of info on settings.
+
+    Restart by:
+    [Sjors:progs/aquad/src] jd# /usr/sbin/httpd -k restart
+
+    Install /Library/WebServer/Documents/favicon.ico
+    
+    In the System Preference of the Mac
+        Sharing
+            Turn on "Web Sharing" and check server in browser.
+    For working together with tomcat on 8080 add:
+        ProxyPass         /NRG http://localhost:8080/WebModule
+        ProxyPassReverse  /NRG http://localhost:8080/WebModule
+    
+    
+* apache on tang (solarix): 
+    *   [root@tang html]# ln -s ../wattos .
+        [root@tang html]# pwd
+        /var/www/html
+    * /etc/init.d/httpd restart
+    * /etc/httpd/conf/httpd.conf                    configuration file (cc-ed to system settings)
+    * /var/www/servlet_data                         data
+        lrwxrwxrwx    1 root     root           19 Nov 22 12:01 molgrap -> /pdbmirror2/molgrap/
+        lrwxrwxrwx    1 root     root           41 Nov 22 12:01 pdb -> /pdbmirror2/nozip/data/structures/all/pdb/
+        lrwxrwxrwx    1 root     root           52 Nov 22 11:54 pdbmr -> /pdbmirror2/nozip/data/structures/all/nmr_restraints/    
+    * /etc/init.d/httpd restart
+        The startup is automated (and tested) to start under run level 3,4, and 5
+        and killed on levels 0,1,2 and 6 (restart)
+        through invocation in /etc/rc.d:
+        Apache starts before tomcat and stops after tomcat stops although that's not essential.
+    * httpd is the program that is the daemon
+    * The location and format of the access logfile (Common Logfile Format).
+        CustomLog "| /usr/sbin/rotatelogs /bmrb/admin/logs/tang/apache/access_log.%Y.%W 604800" combined
+    * a notpub on port 8675 is used for temporary data exchange.
+        but logs will show it.
+    * Aqua web server and home page of jurgen are served by this apache.
+    * cd /var/www/html;cp /bmrb/htdocs/favicon.ico .;touch robots.txt
+        see: http://en.wikipedia.org/wiki/Favicon and
+    * Redirect main apache server by adding main index.html:
+        <html> <head> <meta HTTP-EQUIV="REFRESH" content="0; url=http://www.bmrb.wisc.edu/~jurgen"> </head> </html>
+
+* The webmodule URLs "www.bmrb." gets redirected to "tang.bmrb.wisc.edu"
+    This is done in the settings file for the apache webserver on manatee:    
+    /bmrb/etc/httpd.conf
+    kill apache's first by issueing stop or restart
+    but then last time I did, 1/18/05 it didn't die completely
+    kill -9 did stop it though.
+    /etc/init.d/apache.bmrb start            
+* Log analysis
+
+    %%%%% Who looked at the images?
+grep "gif" access_log > $SJ/gif.log    
+awk '{print $1}' $SJ/gif.log | sort -u > $SJ/gif_hosts.log | xargs -n1 nslookup | grep Name | grep -v bmrb | sort -u
+
+
+* Settings:
+  * To enable server side includes add to the directory section:
+      XBitHack full
