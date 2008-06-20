@@ -3,7 +3,7 @@
 # Wed Dec 14 13:49:06 CST 2005
 #
 # TASK: Gets the files needed for 3rd stage out of NRG. 
-# USE:  $scripts_dir/getFilesFromGrid.csh 1a4d
+# USE:  $scripts_dir/getFilesFromGrid.csh 1a4d,1brv
 
 set run_id          = all
 set par1            = "block_text_type=2-parsed&file_detail=2-parsed&format=n%2Fa"
