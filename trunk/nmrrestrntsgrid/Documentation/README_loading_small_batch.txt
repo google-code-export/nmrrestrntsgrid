@@ -35,7 +35,7 @@ as much as a week!
 delete from entry;
 
 ********************************************************************************
-PHASE I parsed
+PHASE 1 Original
 ********************************************************************************
 One can copy the annotated .mr files from tang in /share/wattos/mr_anno_backup
 to the in progress dir and do them one by one.
@@ -55,7 +55,7 @@ $WS/wattos/scripts/load_db_raw.csh
 
 
 ********************************************************************************
-PHASE II Converted
+PHASE 2 Parsed
 ********************************************************************************
 
 Assuming the above has been set.
@@ -64,6 +64,41 @@ Look up the script:
 $WS/wattos/scripts/load_db_conversions.csh
 
 Run the java command inside once to see if it works for one small entry (may
-I suggest 1a24?). If it works for one it should work for all.
+I suggest 1a24?). If it works for one it should work for all. 
+Note that even though the script is called something with 'conversions' it
+results in the data being at the PHASE 2: Parsed.
 
+********************************************************************************
+PHASE 3 and 4 - Converted and Filtered.
+********************************************************************************
+
+NB: STOP HERE NOT TESTED WELL YET BELOW.
+
+Assuming the above has been set.
+Look up the modified well-known script:
+$WS/nmrrestrntsgrid/scripts/processDOCR_FRED.csh
+
+First check again if you have the development settings for the nmrrestrntsgrid
+project. The scripts_dir variable now needs to point to $WS/nmrrestrntsgrid/scripts.
+WS stands for the workspace directory on /big/docr.
+
+Do:
+echo $scripts_dir
+and ensure it points to  point to $WS/nmrrestrntsgrid/scripts.
+
+The way you run it hasn't changed:
+set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log
+
+
+Check he NRG results: http://tang.bmrb.wisc.edu/NRG/MRGridServlet
+
+Check in the usual way with the script weeklyDOCR_FRED.csh.
+
+
+NB - The CCPN xml .tgz is not in the database because of reported issue: 42.
+   - There is a new header that still needs to be ok-ed by all. 
+   - I will switch the redirection at www.bmrb.wisc.edu to this version when
+    we're all ready.
+    
+ 
 

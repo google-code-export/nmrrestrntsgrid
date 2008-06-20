@@ -31,8 +31,7 @@ set SERVER=rsync.wwpdb.org::ftp/                                # remote server 
 set PORT=33444                                                  # port remote server is using
 
 
-set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
-
+#set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh )
 
 # Get argument pdb code if it exists.
