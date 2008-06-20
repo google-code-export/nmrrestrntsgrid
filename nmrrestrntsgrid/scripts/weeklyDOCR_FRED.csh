@@ -1,6 +1,7 @@
 #!/bin/csh 
 # Author: Jurgen F. Doreleijers 
 # Thu Jun 1 13:51:19 CDT 2006
+echo "Last update: Fri Jun 20 13:54:53 CEST 2008"
 # $scripts_dir/weeklyDOCR_FRED.csh
 
 # If no subl variable defined here, the last weekly batch will be retrieved.
