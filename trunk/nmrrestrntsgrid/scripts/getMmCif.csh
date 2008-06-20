@@ -22,7 +22,7 @@
 #/Users/jd/wattosTestingPlatform/pdb/data/structures/divided/nmr_restraints
 set MIRRORDIR=$pdbbase_dir                         # your top level rsync directory
 set LOGFILE=$MIRRORDIR/logs                        # file for storing logs
-set RSYNC=/sw/bin/rsync                            # location of local rsync
+set RSYNC=rsync                            # location of local rsync
 
 # You should NOT CHANGE THE NEXT TWO LINES
 
