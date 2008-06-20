@@ -1,6 +1,6 @@
 Doc for how to load a small batch of entries (e.g. oceans12)
 
-1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e
+1a24 1a4d 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e
 
 ********************************************************************************
 PHASE - Prep
@@ -105,6 +105,7 @@ NB - Recall that the script will fail with "No input STAR parsed restraints file
    - Entries found to be failing:
         2k0e (issue 66)
         1ai0 (issue 75)
+        1cjg 1iv6 2hgh (issue 76)
     
 Now it is time to multiple ones.
 We need to ensure we exclude entries that are going to kill the server
