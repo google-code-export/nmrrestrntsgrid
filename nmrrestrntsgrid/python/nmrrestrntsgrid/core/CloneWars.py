@@ -3,33 +3,11 @@ This script will start many clones for generating DOCR/FRED entries
 in the NMR restraint grid.
 """
 from nmrrestrntsgrid.core.PDBEntryLists import getEntryListFromCsvFile
-from nmrrestrntsgrid.settings import localConstants
+from nmrrestrntsgrid.settings.localConstants import results_dir
+from nmrrestrntsgrid.settings.localConstants import scripts_dir
 from nmrrestrntsgrid.util import forkoff
+from nmrrestrntsgrid.util.jfdutils import Lister
 import sys, os, string
-
-# Standard modules
-#, re, shutil, time, shelve, urllib, csv
-#import posix?
- 
-# BMRB specific modules
-
-class Lister:
-    """Example from 'Learning Python from O'Reilly publisher'"""
-    def __repr__(self):
-        return ("<Instance of %s, address %s:\n%s>" %
-           (self.__class__.__name__, id(self), self.attrnames()))
-
-    def attrnames(self):
-        result=''
-        keys = self.__dict__.keys()
-        keys.sort()
-        for attr in keys:
-            if attr[:2] == "__":
-                result = result + "\tname %s=<built-in>\n" % attr
-            else:
-                result = result + "\tname %s=%s\n" % (attr, self.__dict__[attr])
-        return result
-
 
 class CloneWars( Lister ):
 
@@ -44,7 +22,7 @@ class CloneWars( Lister ):
         self.verbose                        = verbose
         self.max_time_to_wait               = max_time_to_wait
         self.script_name                    = 'processDOCR_FRED.csh'
-        self.output_dir                     = os.path.join(localConstants.results_dir, 'perEntry')
+        self.output_dir                     = os.path.join(results_dir, 'perEntry')
         self.entry_list                     = []
         self.max_entries_todo               = max_entries_todo
 ##No changes required below this line
@@ -90,7 +68,7 @@ class CloneWars( Lister ):
                 break
             ##  Try command and check for non-zero exit status
             cmd = "%s/%s %s >& %s/%s.log" % (
-                  localConstants.csh_script_dir,
+                  scripts_dir,
                   self.script_name,
                   entry_code,
                   self.output_dir,

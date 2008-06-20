@@ -35,6 +35,7 @@ unset dir_db
 unset dir_restraint    
 unset dir_restr_unzip  
 unset dir_recoord_na   
+unset dir_python   
 
 # next line requires gawk to be installed.
 set measahost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
@@ -58,14 +59,13 @@ endif
 
 # Development settings; other locals need to be setenv below. Can be overiden by next section
 setenv nrg_project        nmrrestrntsgrid
-setenv base_dir           $UJ/CloneWars/DOCR1000            # Common to all NRG data small in size.
 setenv pdbbase_dir        $UJ/wattosTestingPlatform/pdb     # For PDB and mmCIF formatted entries data.
 setenv tmp_dir            $UJ/tmp                           #
-setenv big_dir            $UJ/DOCR_big_tmp                  # NRG data large in size.
+setenv big_dir            $UJ/NRG                           # NRG data large in size.
 setenv WS                 $UJ/workspace                     # Common to all projects currently.
 setenv W                  $WS/wattos                        # Wattos install
 setenv nrg_dir            $WS/$nrg_project                  # For NRG project code.
-setenv CCPNMR_TOP_DIR     $WS/ccpn                          # 
+setenv CCPNMR_TOP_DIR     $WS/ccpnStable                    # Stable version 
 setenv ccpn_tmp_dir       $UJ/ccpn_tmp                      # Temporary location for FC data.
 
 # CING, and RECOORD
@@ -76,17 +76,16 @@ setenv R                  $WS/recoordD
 if ( $measahost == "tang" ) then
     setenv CCPNMR_TOP_DIR     /big/wim/workspace/all 
     setenv R                  /big/wim/workspace/recoord 
-    setenv big_dir            $UJ/NRG
     setenv pdbbase_dir        /dumpzone/pdb/pdb
 endif
                        
 ## Directory with this file
 setenv scripts_dir      $nrg_dir/scripts
 setenv wcf_dir          $scripts_dir/wcf 
-setenv list_dir         $base_dir/lists
-setenv results_dir      $base_dir/Results
+setenv list_dir         $big_dir/lists
+setenv results_dir      $big_dir/Results
 setenv perEntry_dir     $results_dir/perEntry
-setenv dir_python       $R/python
+setenv dir_nrg_python   $nrg_dir/python
 #setenv DIR_WHATIF   /home/vriend/whatif
 setenv PDBZ2        $pdbbase_dir/data/structures/divided/pdb
 setenv CIFZ2        $pdbbase_dir/data/structures/divided/mmCIF
@@ -128,13 +127,18 @@ else
     setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
 endif
 
+# restrntsgrid
+setenv PYTHONPATH   ${PYTHONPATH}:${dir_nrg_python}
+
 # ccpn/recoord with api 
 setenv PYTHONPATH   ${PYTHONPATH}:$CCPNMR_TOP_DIR/python
 
+#echo "Before CING: $PYTHONPATH"
 # CING
 if ( -e $C/cing.csh ) then
     source $C/cing.csh
 endif
+#echo "After CING: $PYTHONPATH"
 
 # Wattos
 alias wsetup        'setenv WATTOSROOT $W; source $W/scripts/wsetup'

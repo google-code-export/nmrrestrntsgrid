@@ -5,15 +5,16 @@
 
 # If no subl variable defined here, the last weekly batch will be retrieved.
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh   )
-set subl = (  2k0e  )
+set subl = (  1brv  )
 #set subl = ( `cat $list_dir/setDocrFredBaddies786.csv` )
 
-set doGet        = 1
-set doProcessing = 0
-set doLogShow    = 0
-set doChecks     = 0
-# Overwrites the above 3 settings. Checks will always be done.
+# Overwrites the below 3 settings. Checks will always be done.
 set doChecksOnly = 0
+
+set doGet        = 1
+set doProcessing = 1
+set doLogShow    = 1
+set doChecks     = 0
 
 set max_cpu      = 2
 set max_entries  = 5000    
@@ -88,7 +89,7 @@ if ( $doProcessing ) then
     set prog_string = $this_prog:t
     set log_file    = $tmp_dir/$prog_string"_$date_string".log
     
-    python $dir_python/CloneWars.py $list_file $max_cpu $max_entries |& tee $log_file 
+    python $dir_nrg_python/nmrrestrntsgrid/core/CloneWars.py $list_file $max_cpu $max_entries |& tee $log_file 
     egrep --quiet "^ERROR" $log_file
     if ( ! $status ) then
         echo "ERROR $x found in processDOCR_FRED.csh log file"
@@ -120,7 +121,6 @@ if ( $doChecks ) then
         if ( -e $dir_viol/$x/$x"_viol".str ) then
             set violations = (`grep "_Distance_constraint_stats_list.Viol_max" $dir_viol/$x/$x"_viol".str |\
                 gawk -v c=$distanceCutOffMaxViol '{if ($2 >c) print $2}'`)
-            #echo "[$violations]"
             if ( "$violations" != "" ) then
                 echo $x Violations $violations
             endif
