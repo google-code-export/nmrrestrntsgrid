@@ -1,4 +1,4 @@
-#!/bin/csh 
+#!/bin/csh -f 
 # Author: Jurgen F. Doreleijers @ Wed Feb 23 15:59:44 CST 2000
 #
 # TASK: enabling multiple models/files

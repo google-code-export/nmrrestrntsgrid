@@ -1,4 +1,4 @@
-#!/bin/csh 
+#!/bin/csh -f 
 # Author: Jurgen F. Doreleijers 
 # Thu Aug 23 11:47:22 CDT 2007
 # Script for updating the ccpn and recoord code base.

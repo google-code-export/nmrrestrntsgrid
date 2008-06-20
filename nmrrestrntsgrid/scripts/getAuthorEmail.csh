@@ -1,4 +1,4 @@
-#!/bin/csh 
+#!/bin/csh -f 
 # Author: Jurgen F. Doreleijers 
 # Fri Jun  2 14:37:52 CDT 2006
 # Use: set x=2ain; $scripts_dir/getAuthorEmail.csh $x
