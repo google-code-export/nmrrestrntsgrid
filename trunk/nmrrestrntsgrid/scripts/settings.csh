@@ -36,6 +36,7 @@ unset dir_restraint
 unset dir_restr_unzip  
 unset dir_recoord_na   
 unset dir_python   
+unset perEntry_dir
 
 # next line requires gawk to be installed.
 set measahost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)

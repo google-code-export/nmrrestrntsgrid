@@ -69,7 +69,7 @@ Note that even though the script is called something with 'conversions' it
 results in the data being at the PHASE 2: Parsed.
 
 ********************************************************************************
-PHASE 3 and 4 - Converted and Filtered.
+PHASE 3 and 4 - Converted and Filtered. 
 ********************************************************************************
 
 NB: STOP HERE NOT TESTED WELL YET BELOW.
@@ -93,12 +93,19 @@ set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log
 Check he NRG results: http://tang.bmrb.wisc.edu/NRG/MRGridServlet
 
 Check in the usual way with the script weeklyDOCR_FRED.csh.
-
+Don't do the 'whole/weekly' set yet.
 
 NB - The CCPN xml .tgz is not in the database because of reported issue: 42.
    - There is a new header that still needs to be ok-ed by all. 
    - I will switch the redirection at www.bmrb.wisc.edu to this version when
     we're all ready.
     
+    
+Now it is time to multiple ones.
+We need to ensure we exclude entries that are going to kill the server
+such as 2k0e (issue 66).
+
+
+.....
  
 
