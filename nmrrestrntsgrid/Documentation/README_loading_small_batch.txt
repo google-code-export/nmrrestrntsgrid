@@ -96,11 +96,15 @@ Check in the usual way with the script weeklyDOCR_FRED.csh.
 Don't do the 'whole/weekly' set yet.
 
 NB - Recall that the script will fail with "No input STAR parsed restraints file: /big/docr/NRG/restraint/unzipped/1a4d_rst.str"
+        if they haven't been retrieved with the weekly script -first-.
+   - The log file for the FC step is in $ccpn_tmp_dir/data/recoord/$x
    - The CCPN xml .tgz is not in the database because of reported issue: 42.
    - There is a new header that still needs to be ok-ed by all. 
    - I will switch the redirection at www.bmrb.wisc.edu to this version when
     we're all ready.
-    
+   - Entries found to be failing:
+        2k0e (issue 66)
+        1ai0 (issue 75)
     
 Now it is time to multiple ones.
 We need to ensure we exclude entries that are going to kill the server
