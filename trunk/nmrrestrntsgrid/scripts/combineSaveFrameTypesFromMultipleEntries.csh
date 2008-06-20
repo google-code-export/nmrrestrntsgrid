@@ -1,4 +1,4 @@
-#!/bin/csh 
+#!/bin/csh -f 
 # Call by:
 # $scripts_dir/combineSaveFrameTypesFromMultipleEntries.csh
 

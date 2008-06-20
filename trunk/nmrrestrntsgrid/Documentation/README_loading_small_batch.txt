@@ -95,7 +95,8 @@ Check he NRG results: http://tang.bmrb.wisc.edu/NRG/MRGridServlet
 Check in the usual way with the script weeklyDOCR_FRED.csh.
 Don't do the 'whole/weekly' set yet.
 
-NB - The CCPN xml .tgz is not in the database because of reported issue: 42.
+NB - Recall that the script will fail with "No input STAR parsed restraints file: /big/docr/NRG/restraint/unzipped/1a4d_rst.str"
+   - The CCPN xml .tgz is not in the database because of reported issue: 42.
    - There is a new header that still needs to be ok-ed by all. 
    - I will switch the redirection at www.bmrb.wisc.edu to this version when
     we're all ready.

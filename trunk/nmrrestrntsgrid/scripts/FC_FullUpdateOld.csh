@@ -1,4 +1,4 @@
-#!/bin/csh 
+#!/bin/csh -f 
 # Author: Jurgen F. Doreleijers 
 # Thu Jun 1 13:51:19 CDT 2006
 ## No changes below
