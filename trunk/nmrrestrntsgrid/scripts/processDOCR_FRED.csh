@@ -5,12 +5,12 @@
 # TASK: Do all processing needed in order to go from parsed restraints
 #       to files for the FRED database. 
 # USE:  processDOCR_FRED.csh [1brv]
-#OR: set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
+#OR: set x = 2k0e  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
    
-#set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh )
+#set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 #set subl = ( 108d 149d 170d 171d 17ra )
 
-set subl = ( 1a4d )
+set subl = ( 1ai0 )
 #set subl = ( `cat  $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
 #set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
 
@@ -21,15 +21,15 @@ if ( $1 != "" ) then
 endif
 
 set doReadMmCif         = 1
-set doJoin              = 1
-set doMerge             = 1 # Actually linking by FC.
-set doAssign            = 1
-set doSurplus           = 1
-set doViolAnal          = 1
-set doCompleteness      = 1
-set doExportsForGrid    = 1 
-set doOrganizeForGrid   = 1
-set doDumpInGrid        = 1
+set doJoin              = 0
+set doMerge             = 0 # Actually linking by FC.
+set doAssign            = 0
+set doSurplus           = 0
+set doViolAnal          = 0
+set doCompleteness      = 0
+set doExportsForGrid    = 0 
+set doOrganizeForGrid   = 0
+set doDumpInGrid        = 0
 set doCleanFiles        = 0 
                           
 set extraWattosOptions  =
@@ -37,9 +37,6 @@ set extraFCOptions      = ( -raise -force )
 
 # Filter a small number of distance restraints out for FRED.
 set dofilterTopViolations = 1
-
-# what kind of merging will be done. By Wattos or FC.
-set doMergeWithWattos   = 0
 
 # E.g. to make it run without an X-server
 set hasHead = 0
@@ -187,111 +184,68 @@ foreach x ( $subl )
         set log_file            = $x"_merge".log
         set inputStarFile       = $x"_join".str
         set outputStarFile      = $dir_star/$x/$x"_merge".str
-
-        if ( $doMergeWithWattos ) then
-            set script_file     = $wcf_dir/MergeNmrStar.wcf
-            set script_file_new = $x"_merge".wcf
-            set log_file        = $x"_merge".log
-            cd $dir_star
-            if ( ! -e $x ) then
-                echo "ERROR: failed to find $x in $dir_star"
-                continue
-            endif
-            cd $x
-            
-            if ( -e $outputStarFile ) then
-                \rm -f $outputStarFile
-            endif
-            
-            if ( ! -e $inputStarFile ) then
-                echo "ERROR: no input star file: $inputStarFile"
-                continue
-            endif
-            
-            sed     -e 's|INPUT_STAR_FILE|'$inputStarFile'|'   $script_file  |\
-                sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|' > $script_file_new
-                            
-            wattos < $script_file_new >& $log_file
-            if ( $status ) then
-                echo "ERROR $x Wattos script $script_file_new failed; not continueing"
-                continue
-            endif
-    
-            grep --quiet ERROR $log_file
-            if ( ! $status ) then
-                echo "ERROR $x found erros in log file; not continueing"
-                continue
-            endif
-            
-            \rm $script_file_new            
-            if ( ! -e $outputStarFile ) then
-                echo "ERROR $x found no output star file $outputStarFile"
-                continue
-            endif
-
-        else        
-            set mergeScriptFile     = $dir_python/recoord2/msd/linkNmrStarData.py
-            
-            cd $dir_link
-            if ( -e $x ) then
-                \rm -rf $x
-            endif
-            mkdir $x
-            cd $x
-
-            if ( ! -e $dir_star/$x/$inputStarFile  ) then
-                echo "ERROR $x previous step produced no star file."
-                continue
-            endif
-            set fcInputDir = $ccpn_tmp_dir/data/archives/bmrb/nmrRestrGrid/$x
-            if ( ! -e $fcInputDir ) then
-            	mkdir -p $fcInputDir
-            endif
-            set fcInputFile = $fcInputDir/joinedCoord.str
-            \cp -f $dir_star/$x/$inputStarFile $fcInputFile
-            if ( ! -e $fcInputFile ) then
-                echo "ERROR $x failed to copy input for FC to: $fcInputDir"
-                continue
-            endif            	
-            # Set the right project dir in the script
-            # directly.
-           
-            python $mergeScriptFile $x $extraFCOptions >& $log_file
-            if ( $status ) then
-                echo "ERROR $x in $mergeScriptFile"
-                continue
-            endif
-            grep --quiet ERROR $log_file
-            if ( ! $status ) then
-                echo "ERROR $x found in merge log file"
-                continue
-            endif
-            
-            set fcOutputFile = $ccpn_tmp_dir/data/recoord/$x/$x"_linked".str
-            if ( ! -e $fcOutputFile  ) then
-                echo "ERROR $x FC produced no star file."
-                continue
-            endif
-            mv $fcOutputFile $outputStarFile
-            
-            ## Check validity without really filtering anything.
-            wjava Wattos.Star.STARFilter $outputStarFile $x"_nice".str . >& STARFilter.log
-            if ( $status ) then 
-              echo "ERROR $x $mergeScriptFile produced no valid star file according to Wattos."
-              continue
-            endif
-            grep --quiet "ERR" STARFilter.log
-            if ( ! $status ) then
-              echo "ERROR $x Wattos reported an error in parsing/unparsing merge step STAR file."
-              continue
-            endif                        
-            if ( ! -e $x"_nice".str ) then
-              echo "ERROR $x Wattos produced no star file after merge step."
-              continue
-            endif     
-            # why not use a nice star file if the choice is there.
-            \mv $x"_nice".str $outputStarFile
+        set mergeScriptFile     = $dir_python/recoord2/msd/linkNmrStarData.py
+        
+        cd $dir_link
+        if ( -e $x ) then
+            \rm -rf $x
         endif
+        mkdir $x
+        cd $x
+
+        if ( ! -e $dir_star/$x/$inputStarFile  ) then
+            echo "ERROR $x previous step produced no star file."
+            continue
+        endif
+        set fcInputDir = $ccpn_tmp_dir/data/archives/bmrb/nmrRestrGrid/$x
+        if ( ! -e $fcInputDir ) then
+        	mkdir -p $fcInputDir
+        endif
+        set fcInputFile = $fcInputDir/joinedCoord.str
+        \cp -f $dir_star/$x/$inputStarFile $fcInputFile
+        if ( ! -e $fcInputFile ) then
+            echo "ERROR $x failed to copy input for FC to: $fcInputDir"
+            continue
+        endif            	
+        # Set the right project dir in the script
+        # directly.
+       
+        python $mergeScriptFile $x $extraFCOptions >& $log_file
+        if ( $status ) then
+            echo "ERROR $x in $mergeScriptFile"
+            continue
+        endif
+        grep --quiet ERROR $log_file
+        if ( ! $status ) then
+            echo "ERROR $x found in merge log file"
+            continue
+        endif
+        
+        set fcOutputFile = $ccpn_tmp_dir/data/recoord/$x/$x"_linked".str
+        if ( ! -e $fcOutputFile  ) then
+            echo "ERROR $x FC produced no star file."
+            continue
+        endif
+        # keep the copy.
+        \cp -f $fcOutputFile $outputStarFile
+        
+        ## Check validity without really filtering anything.
+        wjava Wattos.Star.STARFilter $outputStarFile $x"_nice".str . >& STARFilter.log
+        if ( $status ) then 
+          echo "ERROR $x $mergeScriptFile produced no valid star file according to Wattos."
+          continue
+        endif
+        grep --quiet "ERR" STARFilter.log
+        if ( ! $status ) then
+          echo "ERROR $x Wattos reported an error in parsing/unparsing merge step STAR file."
+          continue
+        endif                        
+        if ( ! -e $x"_nice".str ) then
+          echo "ERROR $x Wattos produced no star file after merge step."
+          continue
+        endif     
+        # why not use a nice star file if the choice is there.
+        \mv $x"_nice".str $outputStarFile
     endif
 
 
@@ -313,6 +267,7 @@ foreach x ( $subl )
         
         if ( ! -e $inputStarFile ) then
             echo "ERROR: $x No addMissingAtoms input star file: $inputStarFile"
+            echo "ERROR: perhaps a previous phase was not done yet?"
             continue
         endif           
         if ( 1 ) then
