@@ -5,7 +5,7 @@ interactiveSession
 false
 SetProp
 verbosity
-3
+9
 SetProp
 writeSessionOnExit
 false

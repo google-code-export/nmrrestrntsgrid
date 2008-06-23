@@ -16,6 +16,10 @@ ReadEntryMmCIF
 INPUT_MMCIF_FILE
 n
 
+# For FC
+TruncateEnsembleToMaxResidues
+7500
+
 WriteEntryNMRSTAR
 OUTPUT_STAR_FILE
 

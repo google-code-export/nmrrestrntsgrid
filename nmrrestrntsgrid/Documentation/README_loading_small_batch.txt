@@ -43,7 +43,7 @@ to the in progress dir and do them one by one.
 Type:
 set x = 1a4d
 scp jurgen@tang.bmrb.wisc.edu:/share/wattos/mr_anno_backup/$x.mr \
-     /Users/jd/wattosTestingPlatform/Wattos/mr_anno_progress
+     /Users/jd/wattosTestingPlatform/Wattos/mr_anno_progress_nrg31
      
 wsetup
 mrannotator
