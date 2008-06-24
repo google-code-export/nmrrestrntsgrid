@@ -5,7 +5,7 @@
 # TASK: Do all processing needed in order to go from parsed restraints
 #       to files for the FRED database. 
 # USE:  processDOCR_FRED.csh [1brv]
-#OR: set x = 2k0e  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
+#OR: set x = 1ai0  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
    
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 #set subl = ( 108d 149d 170d 171d 17ra )
@@ -21,15 +21,15 @@ if ( $1 != "" ) then
 endif
 
 set doReadMmCif         = 1
-set doJoin              = 0
-set doMerge             = 0 # Actually linking by FC.
-set doAssign            = 0
-set doSurplus           = 0
-set doViolAnal          = 0
-set doCompleteness      = 0
-set doExportsForGrid    = 0 
-set doOrganizeForGrid   = 0
-set doDumpInGrid        = 0
+set doJoin              = 1
+set doMerge             = 1 # Actually linking by FC.
+set doAssign            = 1
+set doSurplus           = 1
+set doViolAnal          = 1
+set doCompleteness      = 1
+set doExportsForGrid    = 1 
+set doOrganizeForGrid   = 1
+set doDumpInGrid        = 1
 set doCleanFiles        = 0 
                           
 set extraWattosOptions  =
@@ -184,7 +184,8 @@ foreach x ( $subl )
         set log_file            = $x"_merge".log
         set inputStarFile       = $x"_join".str
         set outputStarFile      = $dir_star/$x/$x"_merge".str
-        set mergeScriptFile     = $dir_python/recoord2/msd/linkNmrStarData.py
+        set mergeScriptFile     = $R/python/recoord2/msd/linkNmrStarData.py
+#        set mergeScriptFile     = $dir_python/recoord2/msd/linkNmrStarData.py
         
         cd $dir_link
         if ( -e $x ) then

@@ -72,8 +72,6 @@ results in the data being at the PHASE 2: Parsed.
 PHASE 3 and 4 - Converted and Filtered. 
 ********************************************************************************
 
-NB: STOP HERE NOT TESTED WELL YET BELOW.
-
 Assuming the above has been set.
 Look up the modified well-known script:
 $WS/nmrrestrntsgrid/scripts/processDOCR_FRED.csh
@@ -88,30 +86,31 @@ and ensure it points to  point to $WS/nmrrestrntsgrid/scripts.
 
 The way you run it hasn't changed:
 set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log
-
+cat $dir_star/$x/$x.log
 
 Check he NRG results: http://tang.bmrb.wisc.edu/NRG/MRGridServlet
 
 Check in the usual way with the script weeklyDOCR_FRED.csh.
-Don't do the 'whole/weekly' set yet.
 
-NB - Recall that the script will fail with "No input STAR parsed restraints file: /big/docr/NRG/restraint/unzipped/1a4d_rst.str"
+NB - Don't do the 'whole/weekly' set yet.
+   - Recall that the script will fail with "No input STAR parsed restraints file: /big/docr/NRG/restraint/unzipped/1a4d_rst.str"
         if they haven't been retrieved with the weekly script -first-.
    - The log file for the FC step is in $ccpn_tmp_dir/data/recoord/$x
    - The CCPN xml .tgz is not in the database because of reported issue: 42.
    - There is a new header that still needs to be ok-ed by all. 
    - I will switch the redirection at www.bmrb.wisc.edu to this version when
     we're all ready.
+   - Entry 2k0e takes the FC about 35 minutes if a cpu is available even after
+        the ensemble is truncated to a max of 7500 residues total.
    - Entries found to be failing:
-        2k0e (issue 66)
         1ai0 (issue 75)
-        1cjg 1iv6 2hgh (issue 76)
-    
-Now it is time to multiple ones.
-We need to ensure we exclude entries that are going to kill the server
-such as 2k0e (issue 66).
+        1cjg 1iv6 2hgh 2k0e (issue 76)
+   - We need to ensure we exclude entries that are going to kill the server
+        such as 2k0e did (issue 66). This is one reason we can't do the whole
+        batch yet.
+   - Consider that the presetDict.py needs to be brought up to date.
+        Issue (issue 76) correspondence.
 
-
-.....
+Now go ahead and try putting all 13 in. Five entries will fail yet. 
  
 
