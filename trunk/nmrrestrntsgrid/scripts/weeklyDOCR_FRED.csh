@@ -14,9 +14,9 @@ set subl = (  1a24 1afp 1ai0 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh )
 set doChecksOnly = 0
 
 set doGet        = 1
-set doProcessing = 1
-set doLogShow    = 1
-set doChecks     = 1
+set doProcessing = 0
+set doLogShow    = 0
+set doChecks     = 0
 
 set max_cpu      = 2
 set max_entries  = 5000    

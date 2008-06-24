@@ -35,7 +35,7 @@ sed 's/\. *\"\(.*\)\"/\. \1/g' restraints.star |\
 #gawk '/_Torsion_angle_constraint.Constraints_ID/{f=1;next}/stop_/{f=0}{if(f==1 && (NF>4))printf ("%-4s %10s %5s %-5s\n", $(NF-3), $(NF-2), $(NF-1), $(NF))}' \
 #    restraints.star | sort -u > $atom_file
 
-python $dir_python/guessOffset.py $seqres_file $atom_file 
+python $R/python/guessOffset.py $seqres_file $atom_file 
 
 echo "Start guessing."
 

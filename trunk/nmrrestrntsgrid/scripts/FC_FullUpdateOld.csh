@@ -23,13 +23,13 @@ echo "Removing old pyc files"
 find . -name "*.pyc" -exec rm {} \;
 
 echo "Commit some in RECOORD"
-if ( ! -e $dir_python ) then
-    mkdir -p $dir_python
+if ( ! -e $R/python ) then
+    mkdir -p $R/python
 endif
 
 # Local things are kept local.
-cp -uv $dir_python/localConstants.py           $base_dir/recoordUpdates
-cp -uv $dir_python/localConstants.py           $base_dir/recoordUpdates
+cp -uv $R/python/localConstants.py           $base_dir/recoordUpdates
+cp -uv $R/python/localConstants.py           $base_dir/recoordUpdates
 # Omit the CVS dir if any.
 cp -uv $base_dir/Python/recoord/PDBmod/*       $base_dir/PDBmodUpdates
 
@@ -85,7 +85,7 @@ endif
 
 if ( $addRecoord ) then
     echo "Add updates to recoord not in CVS."
-    cd $dir_python
+    cd $R/python
     find $base_dir/recoordUpdates  -name "*.py" -print -exec cp {} . \;
     cd $CCPNMR_TOP_DIR/recoord
     if ( ! -e PDBmod ) then
