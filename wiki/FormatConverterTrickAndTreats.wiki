@@ -1,0 +1,13 @@
+#summary How to make the most out of the FormatConverter for processing PDB MR files
+#labels Featured
+
+= Introduction =
+
+Probably good to start a list
+
+
+= Speed =
+
+  * Reduce the number of models for testing (courtesy of Wim)
+    In python/recoord2/msd/linkNmrStarData.py just set the numModelsToRead variable inside the LinkNmrStarData
+class. This could be useful for quicker testing (set it to 1 temporarily).
