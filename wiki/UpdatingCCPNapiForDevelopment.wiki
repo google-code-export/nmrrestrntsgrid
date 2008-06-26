@@ -1,0 +1,54 @@
+#summary One-sentence summary of this page.
+#labels Featured
+
+= Introduction =
+
+The installation on tang is maintained by Wim Vranken. This document details setup on a development machine like nmr.cmbi.ru.nl
+
+= How to =
+
+  * complete refresh of the recoord archive
+{{{
+    cd ~/workspace
+    cvs -z3 -d :pserver:jurgen_bmrb.wisc.edu@cvsebi.ebi.ac.uk:/ebi/cvs/recoord update recoord
+    mv recoord recoordD
+}}}
+  * complete refresh of the ccpn archive
+{{{
+    cd ~/workspace/ccpn
+    \rm -r *
+    cvs -z3 -d jurgenfd@ccpn.cvs.sourceforge.net:/cvsroot/ccpn update
+}}}
+    
+  * regenerate the ccpn data model in/by python:
+{{{
+    python -u $CCPNMR_TOP_DIR/python/memops/scripts_v2/makePython.py
+}}}
+
+    
+  * get info from NMR Restraints Grid for running FC on for example 1brv.
+{{{
+    set x = 1brv
+    python -u ~/workspace/recoordD/python/recoord2/msd/getAllInfo.py $x -force 
+    This will put the data in: .../data/archives
+        bmrb/nmrRestrGrid/1brv and
+        pdb
+}}}
+        
+  * run FC:
+{{{
+    python -u ~/workspace/recoordD/python/recoord2/msd/linkNmrStarData.py $x -noGui -force -raise
+}}}
+    This will put data in: .../data/recoord/$x
+    
+  * run FC on the above for export to CYANA.
+{{{
+    python -u ~/workspace/recoordD/python/recoord2/bmrb/export2Cyana.py $x -noGui -force -raise
+}}}
+    This will put data in: .../data/recoord/$x
+    
+  * document:
+{{{
+python $CCPNMR_TOP_DIR/python/ccpnmr/format/help/createLinkResonancesParametersDoc.py
+python $CCPNMR_TOP_DIR/python/ccpnmr/format/help/createFormatConverterParametersDoc.py
+}}}
