@@ -10,4 +10,14 @@ Probably good to start a list
 
   * Reduce the number of models for testing (courtesy of Wim)
     In python/recoord2/msd/linkNmrStarData.py just set the numModelsToRead variable inside the LinkNmrStarData
-class. This could be useful for quicker testing (set it to 1 temporarily).
+class. This could be useful for quicker testing (set it to 1 temporarily). For 1cjg with 11 models this improved the processing speed from 3'45 to 1'58 on the macbook pro Stella just playing some Doe Maar in the background. Not a huge improvement but everything helps.
+
+  * Limit processing to all but the final write of the NMR-STAR file. (courtesy of Wim)
+    > ...  to test the conversion itself, I've now added a '-noWrite' option that you can pass into the [python/recoord2/msd/linkNmrStarData.py] script. The final NMR-STAR file will not be written, and should speed things up considerably when testing the conversion stage (the .summary file will still be generated).
+    In the NRG setup this can be passed by changing setting:
+{{{
+    set extraFCOptions      = ( -raise -force )
+    to:
+    set extraFCOptions      = ( -raise -force -noWrite )
+}}}
+    For 1cjg with 1 model this improved the processing speed further from 1'58 to 1'48 on the macbook pro Stella now playing some Iron Maiden. So this seems to be a minor improvement.
