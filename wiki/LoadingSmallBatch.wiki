@@ -106,8 +106,7 @@ If they haven't been retrieved with the weekly script -first-.
   * There is a new header that still needs to be ok-ed by all. 
   * I will switch the redirection at www.bmrb.wisc.edu to this version when we're all ready.
   * Entry 2k0e takes the FC about 35 minutes if a cpu is available even after the ensemble is truncated to a max of 7500 residues total.
-* Entries found to be failing:
-        * 1ai0 (issue 75)
+* Entries that need to have settings corrected by annotation:
         * 1cjg 1iv6 2hgh 2k0e (issue 76)
 * We need to ensure we exclude entries that are going to kill the server such as 2k0e did (issue 66). This is one reason we can't do the whole batch yet.
 * Consider that the presetDict.py needs to be brought up to date. Issue (issue 76) correspondence.
