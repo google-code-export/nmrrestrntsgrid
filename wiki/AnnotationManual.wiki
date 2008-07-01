@@ -1,0 +1,13 @@
+#How to process MR files into the NRG
+
+= Introduction =
+
+This wiki may contain the most up to date info on how to annotate the weekly entries.
+
+= Settings =
+
+  * The settings for the new NRG can be modified at:
+{{{
+tang:
+}}}
+It will be Wim's responsibility for sync-ing with the cvs.
