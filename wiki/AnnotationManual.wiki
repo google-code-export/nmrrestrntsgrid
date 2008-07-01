@@ -1,5 +1,5 @@
+#summary How to process the PDB MR files into the NRG
 #labels Featured
-#How to process MR files into the NRG
 
 = Introduction =
 
