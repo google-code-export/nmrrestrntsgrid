@@ -9,6 +9,6 @@ This wiki may contain the most up to date info on how to annotate the weekly ent
 
   * The settings for the new NRG can be modified at:
 {{{
-tang:/big/wim/workspace/recoord/python/recoord2/presetDict.py
+tang:/big/wim/workspace/all/python/recoord2/presetDict.py 
 }}}
 It is Wim's responsibility for sync-ing with the cvs.
