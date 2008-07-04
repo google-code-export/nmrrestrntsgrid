@@ -90,7 +90,9 @@ project. The scripts_dir variable now needs to point to $WS/nmrrestrntsgrid/scri
 WS stands for the workspace directory on /big/docr.
 
 Do:
+{{{
 echo $scripts_dir
+}}}
 and ensure it points to  point to $WS/nmrrestrntsgrid/scripts.
 
 The way you run it hasn't changed:
