@@ -46,15 +46,24 @@ to the in progress dir and do them one by one.
 Type:
 {{{
 set x = 1a4d
-scp jurgen@tang.bmrb.wisc.edu:/share/wattos/mr_anno_backup/$x.mr \
-     /Users/jd/wattosTestingPlatform/Wattos/mr_anno_progress_nrg31
+scp /share/wattos/mr_anno_backup/$x.mr \
+     /dumpzone/pdb/mr_anno_progress_nrg31
 wsetup
 mrannotator
 }}}  
 
 When that gets old, do the bulk loading using a script in Wattos project/scripts:
+{{{
 cd '/Users/jd/CloneWars/DOCR1000/oceans12/bmrb/' # where .mr files are located.
-I have another copy in tang: /big/jurgen/oceans12/bmrb
+}}}
+I have another copy on tang: 
+{{{cd/big/jurgen/oceans12/bmrb}}}
+Note the list of the random 100 resides in:
+{{{
+/big/jurgen/random100/list.csv
+}}}
+
+Then edit
 $WS/wattos/scripts/load_db_raw.csh
 
 
