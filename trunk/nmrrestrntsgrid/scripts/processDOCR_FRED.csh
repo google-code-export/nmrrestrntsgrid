@@ -20,9 +20,9 @@ if ( $1 != "" ) then
     set subl = (  $1  )
 endif
 
-set doReadMmCif         = 1
-set doJoin              = 1
-set doMerge             = 1 # Actually linking by FC.
+set doReadMmCif         = 0
+set doJoin              = 0
+set doMerge             = 0 # Actually linking by FC.
 set doAssign            = 1
 set doSurplus           = 1
 set doViolAnal          = 1
@@ -34,7 +34,7 @@ set doCleanFiles        = 0
                           
 set extraWattosOptions  =
 set extraFCOptions      = ( -raise -force )
-
+#set extraFCOptions      = ( -raise -force -noWrite )
 # Filter a small number of distance restraints out for FRED.
 set dofilterTopViolations = 1
 
@@ -186,6 +186,7 @@ foreach x ( $subl )
         set outputStarFile      = $dir_star/$x/$x"_merge".str
         set mergeScriptFile     = $R/python/recoord2/msd/linkNmrStarData.py
 #        set mergeScriptFile     = $dir_python/recoord2/msd/linkNmrStarData.py
+        set guess_file       = guessLink.txt
         
         cd $dir_link
         if ( -e $x ) then
@@ -211,7 +212,10 @@ foreach x ( $subl )
         # Set the right project dir in the script
         # directly.
        
-        python $mergeScriptFile $x $extraFCOptions >& $log_file
+        # Can be handy for guessing later.
+        $scripts_dir/guessOffSet.csh $x |& tee $guess_file
+       
+        python -u $mergeScriptFile $x $extraFCOptions >& $log_file
         if ( $status ) then
             echo "ERROR $x in $mergeScriptFile"
             continue
@@ -692,7 +696,7 @@ foreach x ( $subl )
 	                > $script_file_new                            
 	            wattos < $script_file_new >& $log_file
 	            if ( $status ) then
-	                echo "ERROR $x in Wattos script file: $script_file"
+	                echo "ERROR $x after executing Wattos script file: $script_file"
 	                continue
 	            endif
 	            grep --quiet ERROR $log_file
@@ -737,7 +741,7 @@ foreach x ( $subl )
 	            
             wattos < $script_file_new >& $log_file
             if ( $status ) then
-                echo "ERROR $x in Wattos script file: $script_file"
+                echo "ERROR $x after executing Wattos script file: $script_file see log file: $log_file"
                 set overallStatus = 1
                 continue
             endif

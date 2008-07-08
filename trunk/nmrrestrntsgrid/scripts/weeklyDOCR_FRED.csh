@@ -7,7 +7,7 @@ echo $scripts_dir
 
 # If no subl variable defined here, the last weekly batch will be retrieved.
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh   )
-set subl = (  1a24 1afp 1ai0 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh )
+set subl = (  1a4d )
 #set subl = ( `cat $list_dir/setDocrFredBaddies786.csv` )
 
 # Overwrites the below 3 settings. Checks will always be done.
@@ -69,9 +69,14 @@ if ( $doGet ) then
         exit 1
     endif
     echo "2"
-    $scripts_dir/getMmCif.csh $subl
+        $scripts_dir/getMmCif.csh $sublcsv
     if ( $status ) then
         echo "ERROR $x found in getMmCif.csh"
+        exit 1
+    endif
+    $scripts_dir/getPdb.csh $sublcsv
+    if ( $status ) then
+        echo "ERROR $x found in getPdb.csh"
         exit 1
     endif
 else
