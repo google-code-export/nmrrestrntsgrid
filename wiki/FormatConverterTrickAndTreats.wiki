@@ -7,6 +7,8 @@ Probably good to start a list
 
 = Interpreting the log files (courtesy of Wim)=
 
+see the closed [http://code.google.com/p/nmrrestrntsgrid/issues/detail?id=82&colspec=Milestone%20Priority%20ID%20Entry%20Component%20FC%20Type%20Status%20Owner%20Summar issue 82] for the discussion
+
 The .summary file should give you enough information to do the linking. In the case of 2k0e (if it does not have a presetDict entry), you should first get these lines:
 {{{
 Number of atom strings read:                        1157
