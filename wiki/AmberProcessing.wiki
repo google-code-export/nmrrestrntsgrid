@@ -1,0 +1,12 @@
+#summary How Amber entries should be processed
+#labels Featured
+
+= Introduction =
+
+Amber coordinate files are needed for the order of the atoms in there determines the number of the atoms in the restraint lists in Amber.
+
+= Details =
+
+  * Get original Amber coordinate file from author.
+  * Truncate to have just one model in this file. Everything from the line MODEL 2 goes.
+  * Place this copy as $x.pdb ($x is the entry id in lower case; e.g. 1brv) in the directory the mrannotator will look for it. It's specified by the variable amber_pdb_dir and currently is: amber_pdb_dir                  : /dumpzone/pdb/external/amber_pdb 
