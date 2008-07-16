@@ -63,6 +63,8 @@ Data on molecules in CCPN:
 I assume the MN residues 181-184 correspond to the Ca chains in CCPN, not sure what residues 201-226 are in this case.
 
 = Speed =
+  * Reduce the number of models for testing
+    The fastest way to run the FC is to eliminate most of it's input anywho. In the $script_dirs/wcf/ReadMmCifWriteNmrStar.wcf there is a setting for that to reduce the number to 7500 but better still; use 500 to be sure you get at least one model (Wattos isn't clever enough to not truncate to at least one). This way I saw the FC processing speed for entry 2hgh drop to an astounding 30 seconds on a macbook pro!
 
   * Reduce the number of models for testing (courtesy of Wim)
     In python/recoord2/msd/linkNmrStarData.py just set the numModelsToRead variable inside the LinkNmrStarData
