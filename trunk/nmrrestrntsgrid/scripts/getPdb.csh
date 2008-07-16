@@ -56,5 +56,5 @@ foreach x ( $subl )
     |& tee $LOGFILE 
 end
 
-echo "Done with syncing PDB mmCIF files for number of entries: $#subl"
+echo "Done with syncing PDB files for number of entries: $#subl"
 
