@@ -20,9 +20,9 @@ if ( $1 != "" ) then
     set subl = (  $1  )
 endif
 
-set doReadMmCif         = 0
-set doJoin              = 0
-set doMerge             = 0 # Actually linking by FC.
+set doReadMmCif         = 1
+set doJoin              = 1
+set doMerge             = 1 # Actually linking by FC.
 set doAssign            = 1
 set doSurplus           = 1
 set doViolAnal          = 1

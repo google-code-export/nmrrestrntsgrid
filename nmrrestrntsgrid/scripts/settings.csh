@@ -47,9 +47,12 @@ if ( $measahost == "stella" ) then
     echo "DEBUG in NRG settings.csh; Now on $HOST which is the development default."
 endif
 
+setenv WS           $UJ/workspace34
+
 if ( $measahost == "tang" ) then
     echo "DEBUG in NRG settings.csh; Now on $HOST which will be the production setup."
     setenv UJ           /big/docr
+	setenv WS           $UJ/workspace                     # Common to all projects currently.
 endif
 
 if ( $measahost == "swoft" ) then
@@ -64,7 +67,6 @@ setenv nrg_project        nmrrestrntsgrid
 setenv pdbbase_dir        $UJ/wattosTestingPlatform/pdb     # For PDB and mmCIF formatted entries data.
 setenv tmp_dir            $UJ/tmp                           #
 setenv big_dir            $UJ/NRG                           # NRG data large in size.
-setenv WS                 $UJ/workspace                     # Common to all projects currently.
 setenv W                  $WS/wattos                        # Wattos install
 setenv nrg_dir            $WS/$nrg_project                  # For NRG project code.
 setenv CCPNMR_TOP_DIR     $WS/ccpnStable                    # Stable version 
@@ -79,6 +81,9 @@ if ( $measahost == "tang" ) then
     setenv CCPNMR_TOP_DIR     /big/wim/workspace/all 
     setenv R                  /big/wim/workspace/recoord 
     setenv pdbbase_dir        /dumpzone/pdb/pdb
+endif
+if ( $measahost == "stella" ) then
+    echo "DEBUG in NRG settings.csh; Now on $HOST which is the development default."
 endif
                        
 ## Directory with this file
