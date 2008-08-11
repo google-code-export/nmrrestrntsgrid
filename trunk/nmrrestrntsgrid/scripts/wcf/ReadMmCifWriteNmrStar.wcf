@@ -17,8 +17,11 @@ INPUT_MMCIF_FILE
 n
 
 # For FC
-TruncateEnsembleToMaxResidues
-7500
+#TruncateEnsembleToMaxResidues
+#500
+# Was: 7500
+TruncateEnsembleToMaxModels
+MAX_MODELS
 
 WriteEntryNMRSTAR
 OUTPUT_STAR_FILE

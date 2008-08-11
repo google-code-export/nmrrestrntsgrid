@@ -4,10 +4,10 @@ File requested by Jurgen to read in NMR-STAR file and create a CCPN project.
 Execute like:
 python -u $dir_nrg_python/nmrrestrntsgrid/util/starToCcpn.py [in out]
 """
-from ccpnmr.format.converters.NmrStarFormat import NmrStarFormat
-from ccpnmr.format.process.matchResonToMolSys import matchResonToMolSys
-from memops.api import Implementation
-from memops.general.Io import saveProject
+from ccpnmr.format.converters.NmrStarFormat import NmrStarFormat #@UnresolvedImport
+from ccpnmr.format.process.matchResonToMolSys import matchResonToMolSys #@UnresolvedImport
+from memops.api import Implementation #@UnresolvedImport
+from memops.general.Io import saveProject #@UnresolvedImport
 from nmrrestrntsgrid.settings.localConstants import ccpn_tmp_dir
 import sys
 import os

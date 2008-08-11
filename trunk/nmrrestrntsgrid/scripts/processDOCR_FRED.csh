@@ -5,12 +5,12 @@
 # TASK: Do all processing needed in order to go from parsed restraints
 #       to files for the FRED database. 
 # USE:  processDOCR_FRED.csh [1brv]
-#OR: set x = 1ai0  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
+#OR: set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
    
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 #set subl = ( 108d 149d 170d 171d 17ra )
 
-set subl = ( 1ai0 )
+set subl = ( 2k0e )
 #set subl = ( `cat  $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
 #set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
 
@@ -31,7 +31,10 @@ set doExportsForGrid    = 1
 set doOrganizeForGrid   = 1
 set doDumpInGrid        = 1
 set doCleanFiles        = 0 
-                          
+
+set interactiveProcessing = 1 # Set to zero to do production run but zero for a very fast run.
+# The largest entry 2k0e is completely reprocessed interactively in 2'30".
+                           
 set extraWattosOptions  =
 set extraFCOptions      = ( -raise -force )
 #set extraFCOptions      = ( -raise -force -noWrite )
@@ -67,6 +70,8 @@ setenv woptions  "$extraWattosOptions -Xmx$WATTOSMEM"
 alias wattos "java $woptions Wattos.CloneWars.UserInterface -at"
 alias wjava  "java $woptions"
 
+echo
+echo "interactiveProcessing       interactive run is fast use zero for production            $interactiveProcessing"
 echo "doReadMmCif       Converts PDB mmCIF to NMR-STAR with Wattos        -> XXXX_wattos.str $doReadMmCif"               
 echo "doJoin            Joins the parsed NMR-STAR rest with coor. Wattos    -> XXXX_join.str $doJoin"               
 echo "doMerge           Converts STAR to STAR with linkNmrStarData.py      -> XXXX_merge.str $doMerge"
@@ -112,8 +117,12 @@ foreach x ( $subl )
             echo "ERROR: $x No input mmCIF file: $inputMmCifFile"
             continue
         endif
-        
+        set maxModels = 999
+        if ( $interactiveProcessing ) then 
+        	set maxModels = 1
+        endif
         sed     -e 's|INPUT_MMCIF_FILE|'$inputMmCifFile'|'   $script_file  |\
+	        sed -e 's|MAX_MODELS|'$maxModels'|'                            |\
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|' > $script_file_new
                         
         wattos < $script_file_new >& $log_file
@@ -637,9 +646,18 @@ foreach x ( $subl )
         if ( ! $status ) then
             set containsNonSurplusDistances = 1
         endif
+        
+        # Reducing time spend for entry (with 1 model)
+        # 1brv from 6 to 3 seconds and for 
+        # 2hgh from 60 to 13 seconds.
+        set maxDistanceCompleteness = 9.0
+        if ( $interactiveProcessing ) then 
+        	set maxDistanceCompleteness = 4.0
+        endif
         if ( $containsNonSurplusDistances ) then                        
-            sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'     $script_file |\
-            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'                    |\
+            sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'     $script_file 				|\
+            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'                    				|\
+            sed -e 's|MAX_DISTANCE_COMPLETENESS|'$maxDistanceCompleteness'|'             	|\
             sed -e 's|OUTPUT_FILE_BASE|'$outputBaseFile'|'     > $script_file_new
                             
             wattos < $script_file_new >& $log_file
