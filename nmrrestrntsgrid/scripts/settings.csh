@@ -65,6 +65,7 @@ endif
 # Development settings; other locals need to be setenv below. Can be overiden by next section
 setenv nrg_project        nmrrestrntsgrid
 setenv pdbbase_dir        $UJ/wattosTestingPlatform/pdb     # For PDB and mmCIF formatted entries data.
+setenv mr_anno_progress_dir $UJ/wattosTestingPlatform/Wattos/mr_anno_progress # mrannotator
 setenv tmp_dir            $UJ/tmp                           #
 setenv big_dir            $UJ/NRG                           # NRG data large in size.
 setenv W                  $WS/wattos                        # Wattos install
