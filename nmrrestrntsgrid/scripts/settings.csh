@@ -80,8 +80,8 @@ setenv R                  $WS/recoordD
 
 # Host name based locals SECTION II (see section I). These are modifications.
 if ( $measahost == "tang" ) then
-    setenv CCPNMR_TOP_DIR     /big/wim/workspace/all 
-    setenv R                  /big/wim/workspace/recoord 
+#    setenv CCPNMR_TOP_DIR     /big/wim/workspace/all 
+#    setenv R                  /big/wim/workspace/recoord 
     setenv pdbbase_dir        /dumpzone/pdb/pdb
 endif
 if ( $measahost == "stella" ) then
