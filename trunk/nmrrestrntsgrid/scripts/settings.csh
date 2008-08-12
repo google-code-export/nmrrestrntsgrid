@@ -47,13 +47,13 @@ if ( $measahost == "stella" ) then
     echo "DEBUG in NRG settings.csh; Now on $HOST which is the development default."
 endif
 
-setenv WS           $UJ/workspace34
-
 if ( $measahost == "tang" ) then
     echo "DEBUG in NRG settings.csh; Now on $HOST which will be the production setup."
     setenv UJ           /big/docr
 	setenv WS           $UJ/workspace                     # Common to all projects currently.
 endif
+
+setenv WS           $UJ/workspace34
 
 if ( $measahost == "swoft" ) then
     echo "DEBUG in settings.csh; Now on swoft"
