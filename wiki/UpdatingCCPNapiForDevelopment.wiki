@@ -10,8 +10,25 @@ The installation on tang is now maintained by Jurgen, Chris, and Jundong. $WS po
   * complete refresh of the recoord archive
 {{{
     cd $WS
-    cvs -z3 -d :pserver:jurgen_bmrb.wisc.edu@cvsebi.ebi.ac.uk:/ebi/cvs/recoord update recoord
+    cvs -z3 -d :pserver:jurgen_bmrb.wisc.edu@cvsebi.ebi.ac.uk:/ebi/cvs/recoord update recoord    
 }}}
+Then, also localize with a file: /big/docr/workspace/recoordD/python/msd/adatah/localConstants.py containing:
+{{{
+import os
+
+# Contain dirs: data with dirs: allChemComps, archives, and recoord 
+localTopDir = "/Users/jd/ccpn_tmp"
+dataDir             = os.path.join(localTopDir,'data')
+archivesDataDir     = os.path.join(dataDir,'archives')
+archivesCcpnDataDir = os.path.join(dataDir,'archivesCcpn')
+pythonCommand       = "python"
+numCpu              = 1
+allChemCompDataPath = os.path.join(dataDir,'allChemComps')
+ 
+print "Read msd.adatah.localConstants.py version 0.0.2"
+}}}
+
+
   * complete refresh of the ccpn archive
 {{{
     cd $WS/ccpnStable
