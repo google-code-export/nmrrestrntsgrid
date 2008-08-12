@@ -78,11 +78,14 @@ setenv ccpn_tmp_dir       $UJ/ccpn_tmp                      # Temporary location
 setenv C                  $WS/cing
 setenv R                  $WS/recoordD
 
+setenv servletUrl  'http://localhost/NRG/MRGridServlet'
+
 # Host name based locals SECTION II (see section I). These are modifications.
 if ( $measahost == "tang" ) then
 #    setenv CCPNMR_TOP_DIR     /big/wim/workspace/all 
 #    setenv R                  /big/wim/workspace/recoord 
     setenv pdbbase_dir        /dumpzone/pdb/pdb
+    setenv servletUrl  'http://tang.bmrb.wisc.edu/NRG/MRGridServlet' 
 endif
 if ( $measahost == "stella" ) then
     echo "DEBUG in NRG settings.csh; Now on $HOST which is the development default."
@@ -121,20 +124,14 @@ setenv dir_recoord_na   $big_dir/recoord_na
 #mkdir -p $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all $dir_nomen $dir_db $dir_restraint $dir_restr_unzip $dir_extra
 
 setenv dir_pdb_status   $pdbbase_dir/data/status 
-
-setenv servletUrl  'http://localhost/NRG/MRGridServlet'
               
 ## No changes below this line. Except special case of Wim's 'all'.
 ##############################################################################
 # Wattos.
-#setenv PYTHONPATH   ${PYTHONPATH}:$W/python
 setenv PYTHONPATH   $W/python
-if ( $measahost == "tang" ) then
-    setenv servletUrl  'http://tang.bmrb.wisc.edu/NRG/MRGridServlet' 
-else
-    # recoord (needs to preceed ccpn because both have a msd package.)
-    setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
-endif
+
+# recoord (needs to preceed ccpn because both have a msd package.)
+setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
 
 # restrntsgrid
 setenv PYTHONPATH   ${PYTHONPATH}:${dir_nrg_python}
@@ -142,15 +139,12 @@ setenv PYTHONPATH   ${PYTHONPATH}:${dir_nrg_python}
 # ccpn/recoord with api 
 setenv PYTHONPATH   ${PYTHONPATH}:$CCPNMR_TOP_DIR/python
 
-#echo "Before CING: $PYTHONPATH"
 # CING
 if ( -e $C/cing.csh ) then
     source $C/cing.csh
 endif
-#echo "After CING: $PYTHONPATH"
 
 # Wattos
 alias wsetup        'setenv WATTOSROOT $W; source $W/scripts/wsetup'
 # FormatConverter
 alias fc            'python $CCPNMR_TOP_DIR/python/ccpnmr/format/gui/FormatConverter.py'
-
