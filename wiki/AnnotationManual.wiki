@@ -9,26 +9,26 @@ This wiki may contain the most up to date info on how to annotate the weekly ent
 
 To get the development settings, execute:
 
-^swNRG31^
+{{{swNRG31}}}
 
 Then to set classpath by executing: 
  
-^wsetup^ 
+{{{wsetup}}} 
 
 After this there should be rights jars included in the classpath.
 To check that do:
 
-^echo $CLASSPATH^ 
+{{{echo $CLASSPATH}}} 
 
 The first jar should be: 
 
-^/big/docr/workspace/wattos/lib/Wattos.jar^
+{{{/big/docr/workspace/wattos/lib/Wattos.jar}}}
 
 = Annotation =
 
 After setting the environment classpath, start annotation by executing: 
 
-^mrannotator^
+{{{mrannotator}}}
 
 Choose the place where you like to start your processing. After annotating, save and quit from Jedit. The parsing process will start. Check any possible errors at this parsing phase and fix the errors . 
 
@@ -38,6 +38,14 @@ When the initial annotation is finished, this script is run:
 
 
 Right now the process use only one model(the first model) during the conversion. This setting is in the processDOCR_FRED.csh . The weeklyDOCR_FRED.csh inherit such setting since it indirectly call the the processDOCR_FRED.csh script. 
+
+The directory for these two scripts is: 
+
+{{{/big/docr/workspace/nmrrestrntsgrid/scripts}}}
+
+There is alias for this directory is $script_dir. 
+
+
 
 Check the output of the  weeklyDOCR_FRED.csh. 
 
