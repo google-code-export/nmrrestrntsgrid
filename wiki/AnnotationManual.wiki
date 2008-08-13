@@ -57,6 +57,9 @@ The location of the settings (presetDict.py) for the new NRG is at:
 
 There is a alias for this directory $P. 
 
+The web page for the MRgrid:
+
+_http://tang.bmrb.wisc.edu/NRG/MRGridServlet_
 
 
 = Settings =
