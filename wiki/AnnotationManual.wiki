@@ -60,6 +60,6 @@ _http://tang.bmrb.wisc.edu/NRG/MRGridServlet_
 
   * The settings for the new NRG can be modified at:
 {{{
-tang:/big/wim/workspace/all/python/recoord2/presetDict.py 
+tang:/big/docr/workspace/recoordD/python/recoord2/presetDict.py 
 }}}
-It is Wim's responsibility for sync-ing with the cvs.
+It is the annotator's responsibility for sync-ing with the cvs.
