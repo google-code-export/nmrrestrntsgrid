@@ -7,13 +7,7 @@ This wiki may contain the most up to date info on how to annotate the weekly ent
 
 = Environment Settings =
 
-To get the development settings, execute:
-
-{{{swNRG31}}}
-
-Then to set classpath by executing: 
- 
-{{{wsetup}}} 
+The development settings including what wsetup does are now initialized from the ~/.cshrc no need to do anything.
 
 After this there should be rights jars included in the classpath.
 To check that do:
