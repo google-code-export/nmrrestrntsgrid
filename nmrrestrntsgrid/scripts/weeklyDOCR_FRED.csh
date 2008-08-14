@@ -7,16 +7,17 @@ echo $scripts_dir
 
 # If no subl variable defined here, the last weekly batch will be retrieved.
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh   )
-set subl = (  2k17 )
+#set subl = (  2k17 )
 #set subl = ( `cat $list_dir/setDocrFredBaddies786.csv` )
+set subl = ( `cat ~/entries_2008-08-12_1000.csv` | tail -100 )
 
 # Overwrites the below 3 settings. Checks will always be done.
 set doChecksOnly = 0
 
-set doGet        = 1
-set doProcessing = 0
-set doLogShow    = 0
-set doChecks     = 0
+set doGet        = 1 # if you need many (100+) do this step manually separate from this setup (getFilesFromGrid.csh)
+set doProcessing = 1
+set doLogShow    = 1
+set doChecks     = 1
 
 set max_cpu      = 2
 set max_entries  = 5000    
@@ -53,7 +54,8 @@ else
     endif
 endif    
 
-echo "Doing batch of $#subl entries: $subl"
+#echo "Doing batch of $#subl entries: $subl"
+echo "Doing batch of $#subl entries"
 
 if ( $doGet ) then
     echo "Getting files from grid for processing"

@@ -18,7 +18,7 @@ if ( $1 != "" ) then
 endif
 
 # Uncomment if you want to get all files
-#set par3            = ""
+set par3            = ""
 set zipFile         = $run_id.zip
 set wgetLogFile     = $run_id"_wget".log
 set unzipLogFile    = $run_id"_unzip".log
