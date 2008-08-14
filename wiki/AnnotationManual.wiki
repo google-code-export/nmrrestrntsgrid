@@ -62,4 +62,28 @@ _http://tang.bmrb.wisc.edu/NRG/MRGridServlet_
 {{{
 tang:/big/docr/workspace/recoordD/python/recoord2/presetDict.py 
 }}}
+
+
+The log file are at 
+
+/big/docr/NRG/link
+
+The alias for this directory is: $dir_link
+
+the summary file is ###_merge.log
+
+There are traceback information in the log file. 
+
+Other files that are useful for looking for clues for setting to FC are:
+
+atoms_tmp.txt  
+guessLink.txt 
+
+link_NMRStar.log (this file is not in the directory yet, it's need to be copied from CCPN dir)
+
+The files link_NMRStar.log from CCPN are at: 
+
+/big/docr/ccpn_tmp/data/recoord/
+
+
 It is the annotator's responsibility for sync-ing with the cvs.
