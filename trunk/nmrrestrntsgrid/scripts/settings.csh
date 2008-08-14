@@ -77,6 +77,7 @@ setenv ccpn_tmp_dir       $UJ/ccpn_tmp                      # Temporary location
 # CING, and RECOORD
 setenv C                  $WS/cing
 setenv R                  $WS/recoordD
+setenv P                  $R/python/recoord2
 
 setenv servletUrl  'http://localhost/NRG/MRGridServlet'
 

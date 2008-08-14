@@ -21,7 +21,6 @@
 # You should CHANGE THE NEXT THREE LINES to suit your local setup
 #/Users/jd/wattosTestingPlatform/pdb/data/structures/divided/nmr_restraints
 set MIRRORDIR=$pdbbase_dir                         # your top level rsync directory
-set LOGFILE=$MIRRORDIR/logs                        # file for storing logs
 set RSYNC=rsync                            # location of local rsync
 
 # You should NOT CHANGE THE NEXT TWO LINES
@@ -36,7 +35,7 @@ set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then	
-    set subl = (  `echo $1 | sed 's/,/ /'`  )
+    set subl = (  `echo $1 | sed 's/,/ /g'`  )
 endif
 
 
@@ -51,8 +50,7 @@ foreach x ( $subl )
    endif
    $RSYNC -rlpt -z --delete --port=$PORT \
     $SERVER/data/structures/divided/mmCIF/$ch23/$x.cif.gz \
-    $subdirLoc/$x.cif.gz \
-    |& tee $LOGFILE 
+    $subdirLoc/$x.cif.gz
 end
 
 echo "Done with syncing PDB mmCIF files for number of entries: $#subl"
