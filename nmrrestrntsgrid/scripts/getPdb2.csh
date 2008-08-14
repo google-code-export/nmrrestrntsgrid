@@ -37,7 +37,7 @@ set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then
 #    set subl = (  $1  )
-    set subl = (  `echo $1 | sed 's/,/ /'`  )
+    set subl = (  `echo $1 | sed 's/,/ /'g`  )
 endif
 
 
