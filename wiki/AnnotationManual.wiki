@@ -63,13 +63,17 @@ _http://tang.bmrb.wisc.edu/NRG/MRGridServlet_
 tang:/big/docr/workspace/recoordD/python/recoord2/presetDict.py 
 }}}
 
+There are files generated during the postprocessing. 
 
 The log file are at 
 
+{{{
 /big/docr/NRG/link
-
-The alias for this directory is: $dir_link
-
+}}}
+The alias for this directory is: 
+{{{
+$dir_link
+}}}
 the summary file is ###_merge.log
 
 There are traceback information in the log file. 
