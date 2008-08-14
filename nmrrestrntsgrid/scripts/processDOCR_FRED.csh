@@ -191,6 +191,9 @@ foreach x ( $subl )
    if ( $doMerge ) then
         echo "  merge"
         set log_file            = $x"_merge".log
+        set fc_entry_dir        = $ccpn_tmp_dir/data/recoord/$x
+        set fc_log_file         = $fc_entry_dir/linkNmrStarData.log
+        set fc_sum_file         = $fc_entry_dir/linkNmrStarData.summary
         set inputStarFile       = $x"_join".str
         set outputStarFile      = $dir_star/$x/$x"_merge".str
         set mergeScriptFile     = $R/python/recoord2/msd/linkNmrStarData.py
@@ -229,13 +232,15 @@ foreach x ( $subl )
             echo "ERROR $x in $mergeScriptFile"
             continue
         endif
+        # Take a copy for ease of annotation together in this dir.
+        \cp -f $fc_log_file $fc_sum_file .
         grep --quiet ERROR $log_file
         if ( ! $status ) then
             echo "ERROR $x found in merge log file"
             continue
         endif
         
-        set fcOutputFile = $ccpn_tmp_dir/data/recoord/$x/$x"_linked".str
+        set fcOutputFile = $fc_entry_dir/$x"_linked".str
         if ( ! -e $fcOutputFile  ) then
             echo "ERROR $x FC produced no star file."
             continue
