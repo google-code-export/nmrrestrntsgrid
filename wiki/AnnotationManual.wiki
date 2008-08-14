@@ -5,6 +5,10 @@
 
 This wiki may contain the most up to date info on how to annotate the weekly entries.
 
+The web page for the MRgrid:
+
+_http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet_
+
 = Environment Settings =
 
 The development settings including what wsetup does are now initialized from the ~/.cshrc no need to do anything.
@@ -50,10 +54,6 @@ The location of the settings (presetDict.py) for the new NRG is at:
 }}}
 
 There is a alias for this directory $P. 
-
-The web page for the MRgrid:
-
-_http://tang.bmrb.wisc.edu/NRG/MRGridServlet_
 
 
 = Settings =
