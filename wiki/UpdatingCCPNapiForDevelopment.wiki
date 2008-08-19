@@ -33,7 +33,7 @@ print "Read msd.adatah.localConstants.py version 0.0.2"
 {{{
     cd $WS/ccpnStable
     \rm -r *
-    cvs -z3 -d jurgenfd@ccpn.cvs.sourceforge.net:/cvsroot/ccpn update
+    cvs -z3 -d jurgenfd@ccpn.cvs.sourceforge.net:/cvsroot/ccpn update -r stable
 }}}
     
   * regenerate the ccpn data model in/by python:
