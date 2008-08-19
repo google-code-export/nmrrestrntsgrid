@@ -12,7 +12,7 @@ The installation on tang is now maintained by Jurgen, Chris, and Jundong. $WS po
     cd $WS
     cvs -z3 -d :pserver:jurgen_bmrb.wisc.edu@cvsebi.ebi.ac.uk:/ebi/cvs/recoord update recoord    
 }}}
-Then, also localize with a file: /big/docr/workspace/recoordD/python/msd/adatah/localConstants.py containing:
+Then, also localize with a file: /big/docr/workspace/recoord/python/msd/adatah/localConstants.py containing:
 {{{
 import os
 
@@ -29,7 +29,7 @@ print "Read msd.adatah.localConstants.py version 0.0.2"
 }}}
 
 
-  * complete refresh of the ccpn archive
+  * Complete refresh of the ccpn archive
 {{{
     # Goto the workspace
     cd $WS
