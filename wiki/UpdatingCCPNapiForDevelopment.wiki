@@ -10,7 +10,9 @@ The installation on tang is now maintained by Jurgen, Chris, and Jundong. $WS po
   * complete refresh of the recoord archive
 {{{
     cd $WS
-    cvs -z3 -d :pserver:jurgen_bmrb.wisc.edu@cvsebi.ebi.ac.uk:/ebi/cvs/recoord update recoord    
+    cvs -z3 -d :pserver:jurgen_bmrb.wisc.edu@cvsebi.ebi.ac.uk:/ebi/cvs/recoord checkout recoord    
+    # or just update:
+    cvs update $WS/recoord
 }}}
 Then, also localize with a file: /big/docr/workspace/recoord/python/msd/adatah/localConstants.py containing:
 {{{
