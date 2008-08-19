@@ -13,7 +13,7 @@ ALSO SEE: $NRG/scripts/sql/prepare_database_mysql.sql and handy_commands.sql
         Making sure all servers are down before starting this one.
         
 * integration with Eclipse is thru: mysql-connector-java-5.0.3.jar
-    - Make sure the data tools are installed. INstall trhu 
+    - Make sure the data tools are installed. Install thru: 
         Help->Software Install->new->Europa Discovery Site->data tools or something
         Add the driver from Wattos/lib. Doesn't need to match exact version of db installed..
             Test it with pinging until connection made.

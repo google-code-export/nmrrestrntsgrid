@@ -71,12 +71,12 @@ setenv tmp_dir            $UJ/tmp                           #
 setenv big_dir            $UJ/NRG                           # NRG data large in size.
 setenv W                  $WS/wattos                        # Wattos install
 setenv nrg_dir            $WS/$nrg_project                  # For NRG project code.
-setenv CCPNMR_TOP_DIR     $WS/ccpnStable                    # Stable version 
+setenv CCPNMR_TOP_DIR     $WS/ccpn 
 setenv ccpn_tmp_dir       $UJ/ccpn_tmp                      # Temporary location for FC data.
 
 # CING, and RECOORD
 setenv C                  $WS/cing
-setenv R                  $WS/recoordD
+setenv R                  $WS/recoord
 setenv P                  $R/python/recoord2
 
 setenv servletUrl  'http://localhost/NRG/MRGridServlet'
