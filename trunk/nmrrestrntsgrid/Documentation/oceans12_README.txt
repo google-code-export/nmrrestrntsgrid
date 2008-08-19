@@ -13,7 +13,7 @@ Molecular system:
 1ieh well known
 1iv6 complex
 2k0e Largest in total (35 Mb cif file; 160 models with each 148 residues.
-
+2jzn Entry with wildly different models in the ensemble.
 
 On the restraint side:
 **********************

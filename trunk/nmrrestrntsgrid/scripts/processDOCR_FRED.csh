@@ -64,7 +64,7 @@ else
 endif     
 
 # redefine wattos alias
-wsetup
+# wsetup now done in ~/.cshrc of docr user.
 setenv WATTOSMEM 2g
 setenv woptions  "$extraWattosOptions -Xmx$WATTOSMEM"
 alias wattos "java $woptions Wattos.CloneWars.UserInterface -at"
