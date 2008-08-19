@@ -3,7 +3,7 @@
 
 = Introduction =
 
-The installation on tang is now maintained by Jurgen, Chris, and Jundong. $WS points to the workspace. The projects have been named ccpnStable and recoordD. D is for development.
+The installation on tang is now maintained by Jurgen, Chris, and Jundong. $WS points to the workspace. The projects are named ccpn and recoord.
 
 = How to =
 
@@ -31,9 +31,17 @@ print "Read msd.adatah.localConstants.py version 0.0.2"
 
   * complete refresh of the ccpn archive
 {{{
-    cd $WS/ccpnStable
-    \rm -r *
-    cvs -z3 -d jurgenfd@ccpn.cvs.sourceforge.net:/cvsroot/ccpn update -r stable
+    # Goto the workspace
+    cd $WS
+    # Remove any previous install if needed.
+    \rm -r ccpn
+    # Only login once this info will be saved. Need to have developer access otherwise syncing is delayed a lot. How to do this is described best at the sf.net site. You need to setup shared keys.
+    # Check out stable version:
+    #cvs -z3 -d:pserver:anonymous@ccpn.cvs.sourceforge.net:/cvsroot/ccpn checkout -r stable ccpn
+    cvs -z3 -d:ext:jurgenfd@ccpn.cvs.sourceforge.net:/cvsroot/ccpn co -r stable -P ccpn
+
+    # If you only need to update you can do from any dir:
+    cvs -z3 -d:pserver:anonymous@ccpn.cvs.sourceforge.net:/cvsroot/ccpn update -r stable $WS/ccpnStable
 }}}
     
   * regenerate the ccpn data model in/by python:
