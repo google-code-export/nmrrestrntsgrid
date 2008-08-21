@@ -2,8 +2,7 @@ SELECT distinct ( F.PDB_ID )
 FROM mrblock AS B, mrfile AS F
 WHERE B.mrfile_ID=F.mrfile_ID
 
-CREATE TABLE duplicates (
-    pdb_id                         CHAR(4));
+CREATE TABLE tmp_table (   pdb_id CHAR(4));
 
 
 load data infile 'duplicats.csv'
@@ -34,4 +33,33 @@ LIMIT 1;
 
 select e.pdb_id from entry e
 where e.pdb_id IN (select * from duplicates);
+
+select pdb_id
+into outfile 'entries_all_2008-08-19.csv' 
+from entry ;
+select pdb_id into outfile '/big/docr/entries_all_2008-08-19.csv' from entry ;
+
+-- Look for the todo list.
+SELECT DISTINCT PDB_ID 
+into outfile 'entries_all_2008-08-19_todo.csv' 
+FROM mrfile AS F
+WHERE DETAIL LIKE '1-%' AND
+PDB_ID NOT IN ( 
+	SELECT PDB_ID
+	FROM tmp_table
+) ORDER BY PDB_ID
+LIMIT 10;
+
+insert into tmp_table ( pdb_id ) 
+SELECT DISTINCT F.PDB_ID
+FROM mrblock AS B, mrfile AS F
+WHERE B.mrfile_ID=F.mrfile_ID AND TYPE='entry' AND PROGRAM='STAR' AND text_type LIKE '3-%'
+;
+
+
+
+select pdb_id
+into outfile 'entries_all_2008-08-19_unfinished.csv' 
+from entry ;
+select pdb_id into outfile '/big/docr/entries_all_2008-08-19.csv' from entry ;
 

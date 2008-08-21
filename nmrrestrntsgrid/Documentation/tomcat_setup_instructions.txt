@@ -32,7 +32,9 @@
             ---
             > JAVA_OPTS="$JAVA_OPTS -Dcatalina.ext.dirs=$CATALINA_HOME/shared/lib:$CATALINA_HOME/common/lib"
     
-    * /usr/share/tomcat5/webapps/WebModule/WEB-INF/lib Place for jars.
+    * /usr/share/tomcat5/webapps/NRG/WEB-INF/lib Place for jars.
+    * OLD /usr/share/tomcat5/webapps/WebModule/WEB-INF/lib Place for jars.
+
     * /etc/init.d/tomcat5 restart
     * For now use old setup in: 
 -       rwxr--r-- 1 jurgen users 1570717 Jan 19 10:25 /share/wattos/Wattos/lib/Wattos.jar*
