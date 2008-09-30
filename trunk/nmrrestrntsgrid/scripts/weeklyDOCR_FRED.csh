@@ -7,7 +7,7 @@ echo $scripts_dir
 
 # If no subl variable defined here, the last weekly batch will be retrieved.
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh   )
-set subl = (  2k17 )
+set subl = (  2juy )
 #set subl = ( `cat $list_dir/setDocrFredBaddies786.csv` )
 #set subl = ( `cat ~/entries_2008-08-12_1000.csv | tail -100` )
 
