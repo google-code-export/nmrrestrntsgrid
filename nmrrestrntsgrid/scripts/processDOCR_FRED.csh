@@ -5,7 +5,7 @@
 # TASK: Do all processing needed in order to go from parsed restraints
 #       to files for the FRED database. 
 # USE:  processDOCR_FRED.csh [1brv]
-#OR: set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
+#OR: set x = 2o7w  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
    
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 #set subl = ( 108d 149d 170d 171d 17ra )
@@ -124,17 +124,18 @@ foreach x ( $subl )
         sed     -e 's|INPUT_MMCIF_FILE|'$inputMmCifFile'|'   $script_file  |\
 	        sed -e 's|MAX_MODELS|'$maxModels'|'                            |\
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|' > $script_file_new
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         wattos < $script_file_new >& $log_file
         if ( $status ) then
             echo "ERROR $x Wattos script $script_file_new failed; not continueing"
             continue
         endif
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
 
         grep --quiet ERROR $log_file
         if ( ! $status ) then
-            echo "ERROR $x found erros in log file; not continueing"
+            echo "ERROR $x found erros in log file; not continueing; will now grep for ERROR again."
+            grep ERROR $log_file               
             continue
         endif
         
@@ -169,17 +170,18 @@ foreach x ( $subl )
             continue
         endif
         
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         wjava Wattos.Star.STARJoin $inputStarCoorFile $inputStarRestFile $outputStarFile >& $log_file
         if ( $status ) then
             echo "ERROR $x STARJoin; not continueing"
             continue
         endif
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
 
         grep --quiet ERROR $log_file
         if ( ! $status ) then
-            echo "ERROR $x found erros in log file; not continueing"
+            echo "ERROR $x found erros in log file; not continueing; will now grep for ERROR again."
+            grep ERROR $log_file               
             continue
         endif
         
@@ -229,18 +231,19 @@ foreach x ( $subl )
         # Can be handy for guessing later.
         $scripts_dir/guessOffSet.csh $x |& tee $guess_file
        
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         python -u $mergeScriptFile $x $extraFCOptions >& $log_file
         if ( $status ) then
             echo "ERROR $x in $mergeScriptFile"
             continue
         endif
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         # Take a copy for ease of annotation together in this dir.
         \cp -f $fc_log_file $fc_sum_file .
         grep --quiet ERROR $log_file
         if ( ! $status ) then
-            echo "ERROR $x found in merge log file"
+            echo "ERROR $x found in merge log file; will now grep for ERROR again."
+            grep ERROR $log_file               
             continue
         endif
         
@@ -253,16 +256,17 @@ foreach x ( $subl )
         \cp -f $fcOutputFile $outputStarFile
         
         ## Check validity without really filtering anything.
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         wjava Wattos.Star.STARFilter $outputStarFile $x"_nice".str . >& STARFilter.log
         if ( $status ) then 
           echo "ERROR $x $mergeScriptFile produced no valid star file according to Wattos."
           continue
         endif
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         grep --quiet "ERR" STARFilter.log
         if ( ! $status ) then
-          echo "ERROR $x Wattos reported an error in parsing/unparsing merge step STAR file."
+          echo "ERROR $x Wattos reported an error in parsing/unparsing merge step STAR file.; will now grep for ERROR again."
+          grep ERROR $log_file               
           continue
         endif                        
         if ( ! -e $x"_nice".str ) then
@@ -462,16 +466,17 @@ foreach x ( $subl )
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'     $script_file |\
             sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'     > $script_file_new
                             
-	        echo -n "DEBUG: "; date
+#	        echo -n "DEBUG: "; date
             wattos < $script_file_new >& $log_file
             if ( $status ) then
                 echo "ERROR $x in Wattos assign script"
                 continue
             endif
-            echo -n "DEBUG: "; date
+#            echo -n "DEBUG: "; date
             grep --quiet ERROR $log_file
             if ( ! $status ) then
-                echo "ERROR $x found in assign log file"
+                echo "ERROR $x found in assign log file; will now grep for ERROR again."
+	            grep ERROR $log_file
                 continue
             endif
             if ( ! -e $outputStarFile ) then
@@ -543,16 +548,17 @@ foreach x ( $subl )
             sed -e 's|\#FILTER_TOP_VIOLATIONS|'$filterTopViolationsText'|'   |\
             sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'     > $script_file_new
                             
-        	echo -n "DEBUG: "; date
+#        	echo -n "DEBUG: "; date
             wattos < $script_file_new >& $log_file
             if ( $status ) then
                 echo "ERROR $x in Wattos surplus script"
                 continue
             endif
-	        echo -n "DEBUG: "; date
+#	        echo -n "DEBUG: "; date
             grep --quiet ERROR $log_file
             if ( ! $status ) then
-                echo "ERROR $x found in surplus log file"
+                echo "ERROR $x found in surplus log file; will now grep for ERROR again."
+	            grep ERROR $log_file
                 continue
             endif
             \rm -f $x"_tmp".str        
@@ -611,16 +617,17 @@ foreach x ( $subl )
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'     $script_file |\
             sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'     > $script_file_new
                             
-	        echo -n "DEBUG: "; date
+#	        echo -n "DEBUG: "; date
             wattos < $script_file_new >& $log_file
             if ( $status ) then
                 echo "ERROR $x in Wattos violation script"
                 continue
             endif
-	        echo -n "DEBUG: "; date
+#	        echo -n "DEBUG: "; date
             grep --quiet ERROR $log_file
             if ( ! $status ) then
-                echo "ERROR $x found in viol log file"
+                echo "ERROR $x found in viol log file; will now grep for ERROR again."
+	            grep ERROR $log_file                
                 continue
             endif
             if ( ! -e $outputStarFile ) then
@@ -677,16 +684,17 @@ foreach x ( $subl )
             sed -e 's|MAX_DISTANCE_COMPLETENESS|'$maxDistanceCompleteness'|'             	|\
             sed -e 's|OUTPUT_FILE_BASE|'$outputBaseFile'|'     > $script_file_new
                             
-	        echo -n "DEBUG: "; date
+#	        echo -n "DEBUG: "; date
             wattos < $script_file_new >& $log_file
             if ( $status ) then
                 echo "ERROR $x in Wattos completeness script"
                 continue
             endif
-	        echo -n "DEBUG: "; date
+#	        echo -n "DEBUG: "; date
             grep --quiet ERROR $log_file
             if ( ! $status ) then
-                echo "ERROR $x found in compl log file"
+                echo "ERROR $x found in compl log file; will now grep for ERROR again."
+	            grep ERROR $log_file                
                 continue
             endif
             if ( ! -e $outputStarFile ) then
@@ -752,7 +760,7 @@ foreach x ( $subl )
     # Converts to XPLOR (and later others) formatted restraints and coordinates.
     if ( $doExportsForGrid ) then
         echo "  exportsForGrid"
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         set script_file      = $wcf_dir/ExportForNRG.wcf
         set overallStatus = 0
         cd $dir_export
@@ -785,14 +793,15 @@ foreach x ( $subl )
             endif
             grep --quiet ERROR $log_file
             if ( ! $status ) then
-                echo "ERROR $x found in export log file"
+                echo "ERROR $x found in export log file; will now grep for ERROR again."
+	            grep ERROR $log_file                
                 set overallStatus = 1
                 continue
             endif
             \rm $script_file_new
         end            
             
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         if ( $overallStatus ) then
             echo "ERROR $x found in doExportsForGrid"
             continue
@@ -803,7 +812,7 @@ foreach x ( $subl )
     # Add BMRB specific notes for DOCR/FRED NMR-STAR files.
     if ( $doOrganizeForGrid ) then
         echo "  gridOrganize"
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         set overallStatus = 0
         foreach d ( DOCR FRED ) 
             set dataFile      = "data_"$d"_restraints_with_modified_coordinates_PDB_code_"
@@ -838,7 +847,8 @@ foreach x ( $subl )
             endif
             grep --quiet "ERR" STARFilter.log
             if ( ! $status ) then
-                echo "ERROR $x Wattos reported an error in parsing/unparsing gridOrganize step STAR file."
+                echo "ERROR $x Wattos reported an error in parsing/unparsing gridOrganize step STAR file.; will now grep for ERROR again."
+	            grep ERROR STARFilter.log              
                 continue
             endif                        
             if ( ! -e $x"_testRead".str ) then
@@ -905,7 +915,7 @@ foreach x ( $subl )
     if ( $doDumpInGrid ) then
         set log_file         = $dir_db/$x"_loadDB".log
         echo "  gridDump"
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
         java -Xmx500m Wattos.Episode_II.MRInterloop >& $log_file << EOD
 l
 $dir_db
@@ -919,10 +929,11 @@ EOD
         endif
         grep --quiet ERROR $log_file
         if ( ! $status ) then
-            echo "ERROR $x found in gridDump log file: $log_file"
+            echo "ERROR $x found in gridDump log file: $log_file; will now grep for ERROR again."
+            grep ERROR $log_file               
             continue
         endif        
-        echo -n "DEBUG: "; date
+#        echo -n "DEBUG: "; date
     endif
 
     # Insert the files into the NMR Restraints Grid.

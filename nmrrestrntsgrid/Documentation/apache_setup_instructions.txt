@@ -19,9 +19,10 @@
         Sharing
             Turn on "Web Sharing" and check server in browser.
 
-    For working together with tomcat on 8080 add to server.xml:
+    For working together with tomcat on 8080 add to /private/etc/apache2/httpd.conf:
         ProxyPass         /NRG http://localhost:8080/WebModule
         ProxyPassReverse  /NRG http://localhost:8080/WebModule
+        The tomcat server in eclipse works together with the apache configured here.
     
 * apache on tang (solarix): 
     * /etc/httpd/conf/httpd.conf                    configuration file (cc-ed to system settings)

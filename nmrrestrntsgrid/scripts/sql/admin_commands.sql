@@ -1,3 +1,4 @@
+-- mysql -h localhost -u wattos1 -p4I4KMS  wattos1 
 SELECT distinct ( F.PDB_ID )
 FROM mrblock AS B, mrfile AS F
 WHERE B.mrfile_ID=F.mrfile_ID
@@ -26,7 +27,7 @@ FROM mrblock AS B, mrfile AS F
 WHERE B.mrfile_ID=F.mrfile_ID AND TYPE='entry' AND PROGRAM='STAR' AND text_type LIKE '3-%';
 
 SELECT DISTINCT PDB_ID 
-into outfile '/tmp/entries_all_2008-08-21_todo.csv' 
+into outfile '/tmp/entries_all_2008-09-30_todo.csv' 
 FROM mrfile AS F
 WHERE DETAIL LIKE '1-%' AND
 PDB_ID NOT IN ( 
