@@ -4,12 +4,16 @@
         /private/etc/apache2/httpd.conf and
         /private/etc/apache2/users/jd.conf
         
+        
     Logs:
         tail -f /private/var/log/apache2/*_log &  
     
     CGI stuff (not needed for nmrrestrntsgrid project):
         /Library/WebServer/CGI-Executables/
 
+	Test:
+		apachectl configtest
+	
     Restart:
         /usr/sbin/httpd -k restart
 
@@ -22,7 +26,7 @@
     For working together with tomcat on 8080 add to /private/etc/apache2/httpd.conf:
         ProxyPass         /NRG http://localhost:8080/WebModule
         ProxyPassReverse  /NRG http://localhost:8080/WebModule
-        The tomcat server in eclipse works together with the apache configured here.
+
     
 * apache on tang (solarix): 
     * /etc/httpd/conf/httpd.conf                    configuration file (cc-ed to system settings)
@@ -39,6 +43,8 @@
         through invocation in /etc/rc.d:
         Apache starts before tomcat and stops after tomcat stops although that's not essential.
     * The location and format of the access logfile (Common Logfile Format).
+		ErrorLog "| /usr/sbin/rotatelogs /var/log/httpd/error_log.%Y.%W 604800"
+    	Used to be:
         CustomLog "| /usr/sbin/rotatelogs /bmrb/admin/logs/tang/apache/access_log.%Y.%W 604800" combined
     * a notpub on port 8675 is used for temporary data exchange.
         but logs will show it.

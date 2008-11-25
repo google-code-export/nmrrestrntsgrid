@@ -44,7 +44,8 @@ set measahost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
 
 # Host name based locals SECTION I (there is a section II below).
 if ( $measahost == "stella" ) then
-    echo "DEBUG in NRG settings.csh; Now on $HOST which is the development default."
+	# Note that the following statement interfers with scp when shown.
+    #echo "DEBUG in NRG settings.csh; Now on $HOST which is the development default."
 endif
 
 if ( $measahost == "tang" ) then
@@ -79,14 +80,14 @@ setenv C                  $WS/cing
 setenv R                  $WS/recoord
 setenv P                  $R/python/recoord2
 
-setenv servletUrl  'http://localhost/NRG/MRGridServlet'
+setenv servletUrl  'http://localhost/NRG'
 
 # Host name based locals SECTION II (see section I). These are modifications.
 if ( $measahost == "tang" ) then
 #    setenv CCPNMR_TOP_DIR     /big/wim/workspace/all 
 #    setenv R                  /big/wim/workspace/recoord 
     setenv pdbbase_dir        /dumpzone/pdb/pdb
-    setenv servletUrl  'http://tang.bmrb.wisc.edu/NRG/MRGridServlet' 
+    setenv servletUrl  'http://tang.bmrb.wisc.edu/NRG' 
 endif
                        
 ## Directory with this file

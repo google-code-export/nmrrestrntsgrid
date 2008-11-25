@@ -31,7 +31,8 @@ set PORT=33444                                                  # port remote se
 
 
 #set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
-set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
+#set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
+set subl = ( 2jxd )
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then	
