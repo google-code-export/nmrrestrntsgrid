@@ -1,0 +1,42 @@
+# call like:
+# gawk -v entry_id=$x -f getAuthorsPdb inputfile
+
+/_citation_author.name/ {
+    getline 
+    while ( ! /^loop_/ ) {
+        gsub(/, .*/,"")
+        split($0,a,/'/)
+#        if ( length(a) != 3 ) {
+#            print "ERROR: author name misformed in mmCIF file line: NR" > /dev/stderr
+#            print "ERROR: $0" > /dev/stderr
+#            exit 1
+#        }
+        if ( match($1,"primary") ) {
+            printf("%s,%s\n", entry_id, a[2] )
+        }
+        getline
+    }
+    exit 0
+}
+
+##    
+#loop_
+#_citation_author.citation_id
+#_citation_author.name
+#_citation_author.ordinal
+#primary 'Wong, D.M.'           1
+#primary 'Brumstein, B.'        2
+#primary 'Greenblatt, H.M.'     3
+#primary 'Carlier, P.R.'        4
+#primary 'Han, Y.-F.'           5
+#primary 'Pang, Y.-P.'          6
+#primary 'Silman, I.'           7
+#primary 'Sussman, J.L.'        8
+#1       'Wong, D.M.'           9
+#1       'Greenblatt, H.M.'     10
+#1       'Dvir, H.'             11
+#1       'Carlier, P.R.'        12
+
+END {
+    exit 0
+}

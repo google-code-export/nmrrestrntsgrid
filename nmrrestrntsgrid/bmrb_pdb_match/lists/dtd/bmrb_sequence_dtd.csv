@@ -1,0 +1,3 @@
+bmrb_id,INTEGER,bmrb_main,bmrb_id
+query_orf_subid,STRING
+sequence,STRING

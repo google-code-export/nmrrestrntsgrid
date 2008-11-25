@@ -1,0 +1,8 @@
+bmrb_id,INTEGER,bmrb_main,bmrb_id
+pdb_id,STRINGNR,pdb_main,pdb_id
+ets_score,INTEGER
+author_score,INTEGER
+nmr_score,INTEGER
+blast_score,INTEGER
+ligand_score,INTEGER
+overall_score,INTEGER

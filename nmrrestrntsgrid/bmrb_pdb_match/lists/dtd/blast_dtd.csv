@@ -1,0 +1,8 @@
+bmrb_id,INTEGER,bmrb_main,bmrb_id
+query_orf_subid,STRINGNR
+pdb_id,STRINGNR,pdb_main,pdb_id
+subject_orf_subid,STRINGNR
+match_size,INTEGER 
+number_gaps,INTEGER
+number_identities,INTEGER
+query_orf_match_start,INTEGER

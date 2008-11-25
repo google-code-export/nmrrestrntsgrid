@@ -1,0 +1,26 @@
+bmrb_id,pdb_id,match_type,notes
+32,1osl,9,no correspondence
+32,1lqc,9,no correspondence
+32,1l1m,9,no correspondence
+32,1cjg,9,no correspondence
+96,1osl,9,no correspondence
+96,1lqc,9,no correspondence
+96,1l1m,9,no correspondence
+96,1cjg,9,no correspondence
+127,1osl,9,no correspondence
+127,1lqc,9,no correspondence
+127,1l1m,9,no correspondence
+127,1cjg,9,no correspondence
+421,1c5a,0,Residue 65 was later corrected GLU -> GLN by PDB to match coordinate section.
+1154,1mhu,0,Leading and trailing mismatching regions of over size 15 is scored 9.
+2262,1edp,0,PDB sequence length of 17 is below cutoff of 20 so blast didn't give it.
+4096,1vre,0,BMRB entry misses PDB codes for ligands HEM and CMO.
+4096,1vrf,2,BMRB entry misses PDB codes for ligands HEM and CMO.
+4038,1vre,3,BMRB entry misses PDB codes for ligands HEM and CMO.
+4038,1vrf,5,BMRB entry misses PDB codes for ligands HEM and CMO.
+4876,1i56,0,lacked a good ligand score because the PDB entry misses the bound Ca2+ coordinate it indicates to be present in the header information
+6238,1tot,0,The ligand score for the target with PDB entry 1TOT is not good because there are two Zn2+ atoms and only one is picked up by Wattos.
+6248,1ttv,0,Because the PDB code for ligand IMY was missing; the ligand score prevented the hit.
+6444,1z3j,0,Manual inspection shows the BMRB entry misses the PDB code for the ligand which is listed as NGH in the PDB entry. The BMRB entry also misses the Zn and Ca ions present in different stoichiometries in the PDB entries 1Z3J and 1YCM.
+6444,1ycm,0,Manual inspection shows the BMRB entry misses the PDB code for the ligand which is listed as NGH in the PDB entry. The BMRB entry also misses the Zn and Ca ions present in different stoichiometries in the PDB entries 1Z3J and 1YCM.
+6320,1xhp,0,RNA only

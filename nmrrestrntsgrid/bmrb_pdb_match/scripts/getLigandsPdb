@@ -1,0 +1,10 @@
+# call like:
+# gawk -v entry_id=$x -f getLigandsPdb inputfile
+
+/^ATOM/ {
+    exit 
+}
+
+/^HET /{
+    printf "%s,%s\n", entry_id, $2
+}
