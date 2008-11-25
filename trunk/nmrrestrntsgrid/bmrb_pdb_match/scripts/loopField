@@ -1,0 +1,39 @@
+# USE:
+# gawk -F',' -v col=N -f loopField inputfile
+# where N is the column number which to split and loop.
+
+# EXAMPLE
+# Input:
+# 1brv,doreleijers rullmann
+# Output:
+# 1brv,doreleijers
+# 1brv,rullmann
+ 
+{
+    # chomp
+    gsub(/[ \t\n\r]+$/, "")
+    ##print "DEBUG: $0: '" $0 "'"
+}
+
+{    
+    if ( $(col) ~ /  */ ) {
+        split($(col), a, /  */ )
+        for ( val in a ) {
+            ##print "DEBUG: val in a: " val
+            for ( i=1;i<=NF;i++) {
+                if ( i != col ) {
+                    printf $(i)
+                } else {
+                    printf a[val]
+                }
+                if ( i != NF ) {
+                    printf ","
+                }
+            }
+            printf "\n"
+        }
+    } else {
+        print $0
+    }
+}    
+

@@ -1,0 +1,41 @@
+# call like:
+# gawk -v entry_id=$x -f getModelsPdb inputfile
+BEGIN {
+    found_model = 0
+}
+
+# Scanning for the first model.
+/^MODEL /{
+    found_model = 1 
+}
+
+# Scanning for the first atom.
+/^ATOM / {
+    if ( ! found_model ) {
+        found_model = 1 
+        exit
+    }
+    ## Scan to the next model or to the end of file.
+    while ( 1 ) {
+        status = getline
+        # catch eof (most expensive because of full scan
+        if ( status == 0 ) {
+            found_model = 1
+            exit
+        }
+        if ( $0 ~ /^MODEL/ ) {
+            found_model = 2
+            exit
+        }
+    }
+    exit 
+}
+
+END {
+    # some entries like 1ao2 have no ATOM records (only HETATM)
+    # they are assumed to be 1 model entries.
+    if ( found_model == 0 ) {
+        found_model = 1
+    }
+    printf "%s,%d\n", entry_id, found_model
+}

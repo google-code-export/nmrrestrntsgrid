@@ -1,0 +1,4 @@
+bmrb_id,INTEGER,bmrb_main,bmrb_id
+pdb_id,STRINGNR,pdb_main,pdb_id
+overall_score,INTEGER
+notes,STRINGNR

@@ -1,0 +1,31 @@
+# call like:
+# gawk -f getBlast -F',' -v file=file_name
+
+BEGIN {
+    getline nmr_entries < file
+    if ( index( nmr_entries, ",") == 0 ) {
+        print "ERROR: none or one nmr_entry given?"
+        print "ERROR: nmr_entries:" nmr_entries
+        exit 1
+    }
+}
+{
+    pdb_id = $21
+    # Skip targets to entries of origin different than NMR.
+    if ( index( nmr_entries, pdb_id) == 0 ) {
+        #print "DEBUG: skipping non-NMR entry: " pdb_id
+        next
+    }
+    # Document the other columns.
+# bmrb_id                    2
+# query_orf_subid            3
+# pdb_id                    21
+# subject_orf_subid         22
+# match_size                 8
+# number_gaps                9
+# number_identities         10
+# query_orf_match_start     13
+    
+    printf "%s,%s,%s,%s,%d,%d,%d,%d\n", 
+        $2, $3, $21, $22, $8, $9, $10, $13
+}
