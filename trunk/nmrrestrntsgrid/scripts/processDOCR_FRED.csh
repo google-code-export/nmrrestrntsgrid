@@ -5,7 +5,7 @@
 # TASK: Do all processing needed in order to go from parsed restraints
 #       to files for the FRED database. 
 # USE:  processDOCR_FRED.csh [1brv]
-#OR: set x = 2o7w  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
+#OR: set x = 2jxd  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
    
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 #set subl = ( 108d 149d 170d 171d 17ra )
@@ -22,17 +22,17 @@ endif
 
 set doReadMmCif         = 1
 set doJoin              = 1
-set doMerge             = 1 # Actually linking by FC.
-set doAssign            = 1
-set doSurplus           = 1
-set doViolAnal          = 1
-set doCompleteness      = 1
-set doExportsForGrid    = 1 
-set doOrganizeForGrid   = 1
-set doDumpInGrid        = 1
+set doMerge             = 0 # Actually linking by FC.
+set doAssign            = 0
+set doSurplus           = 0
+set doViolAnal          = 0
+set doCompleteness      = 0
+set doExportsForGrid    = 0 
+set doOrganizeForGrid   = 0
+set doDumpInGrid        = 0
 set doCleanFiles        = 0 
 
-set interactiveProcessing = 1 # Set to zero to do production run but zero for a very fast run.
+set interactiveProcessing = 1 # Set to zero to do production run but one for a very fast run.
 # The largest entry 2k0e is completely reprocessed interactively in 2'30".
                            
 set extraWattosOptions  =
@@ -196,6 +196,7 @@ foreach x ( $subl )
         echo "  merge"
         set log_file            = $x"_merge".log
         set fc_entry_dir        = $ccpn_tmp_dir/data/recoord/$x
+        set fcInputDir          = $ccpn_tmp_dir/data/archives/bmrb/nmrRestrGrid/$x
         set fc_log_file         = $fc_entry_dir/linkNmrStarData.log
         set fc_sum_file         = $fc_entry_dir/linkNmrStarData.summary
         set inputStarFile       = $x"_join".str
@@ -215,7 +216,6 @@ foreach x ( $subl )
             echo "ERROR $x previous step produced no star file."
             continue
         endif
-        set fcInputDir = $ccpn_tmp_dir/data/archives/bmrb/nmrRestrGrid/$x
         if ( ! -e $fcInputDir ) then
         	mkdir -p $fcInputDir
         endif
@@ -246,6 +246,11 @@ foreach x ( $subl )
             grep ERROR $log_file               
             continue
         endif
+        
+        set theCwd = $cwd
+        cd $fc_entry_dir/$x
+        tar -cf - linkNmrStarData | gzip --fast > $x.tgz 
+        cd $theCwd
         
         set fcOutputFile = $fc_entry_dir/$x"_linked".str
         if ( ! -e $fcOutputFile  ) then
@@ -761,7 +766,14 @@ foreach x ( $subl )
     if ( $doExportsForGrid ) then
         echo "  exportsForGrid"
 #        echo -n "DEBUG: "; date
-        set script_file      = $wcf_dir/ExportForNRG.wcf
+        # FC exports
+        set fc_ScriptFile       = $R/python/recoord2/msd/exportCyana.py
+        set fc_log_file         = $x"_fc_export".log
+        set fc_entry_dir        = $ccpn_tmp_dir/data/recoord/$x
+        set fc_log_file         = $fc_entry_dir/linkNmrStarData.log
+        set fc_sum_file         = $fc_entry_dir/linkNmrStarData.summary
+        # Wattos exports
+        set script_file         = $wcf_dir/ExportForNRG.wcf
         set overallStatus = 0
         cd $dir_export
         if ( -e $x ) then
@@ -769,6 +781,36 @@ foreach x ( $subl )
         endif
         mkdir $x
         cd $x
+
+        echo -n "DEBUG: "; date
+	    #pdbCode = 1brv
+	    #projectDir = '/Users/wim/workspace/stable/all/data/recoord/
+	    #outputDirectory = local/cyanaTest        
+        python -u $fc_ScriptFile $x "$fc_entry_dir/.." . >& $log_file
+        if ( $status ) then
+            echo "ERROR $x in $mergeScriptFile"
+            continue
+        endif
+        echo -n "DEBUG: "; date
+        # Take a copy for ease of annotation together in this dir.
+        \cp -f $fc_log_file $fc_sum_file .
+        grep --quiet ERROR $log_file
+        if ( ! $status ) then
+            echo "ERROR $x found in merge log file; will now grep for ERROR again."
+            grep ERROR $log_file               
+            continue
+        endif
+        
+        set fcOutputFile = $fc_entry_dir/$x"_linked".str
+        if ( ! -e $fcOutputFile  ) then
+            echo "ERROR $x FC produced no star file."
+            continue
+        endif
+        
+        xxxxxxxxxxxxxxxxxx TODO:
+        
+        
+        
         foreach d ( DOCR FRED ) 
             set outputFileBase = $x"_"$d
             set inputFile     = $dir_nomen/$x/$x"_nomen".str
