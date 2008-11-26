@@ -22,15 +22,15 @@ endif
 
 set doReadMmCif         = 1
 set doJoin              = 1
-set doMerge             = 0 # Actually linking by FC.
-set doAssign            = 0
-set doSurplus           = 0
-set doViolAnal          = 0
-set doCompleteness      = 0
-set doExportsForGrid    = 0 
-set doOrganizeForGrid   = 0
-set doDumpInGrid        = 0
-set doCleanFiles        = 0 
+set doMerge             = 1 # Actually linking by FC.
+set doAssign            = 1
+set doSurplus           = 1
+set doViolAnal          = 1
+set doCompleteness      = 1
+set doExportsForGrid    = 1 
+set doOrganizeForGrid   = 1
+set doDumpInGrid        = 1
+set doCleanFiles        = 1 
 
 set interactiveProcessing = 1 # Set to zero to do production run but one for a very fast run.
 # The largest entry 2k0e is completely reprocessed interactively in 2'30".
@@ -248,7 +248,7 @@ foreach x ( $subl )
         endif
         
         set theCwd = $cwd
-        cd $fc_entry_dir/$x
+        cd $fc_entry_dir
         tar -cf - linkNmrStarData | gzip --fast > $x.tgz 
         cd $theCwd
         
@@ -782,32 +782,33 @@ foreach x ( $subl )
         mkdir $x
         cd $x
 
-        echo -n "DEBUG: "; date
+ #       echo -n "DEBUG: "; date
 	    #pdbCode = 1brv
 	    #projectDir = '/Users/wim/workspace/stable/all/data/recoord/
-	    #outputDirectory = local/cyanaTest        
-        python -u $fc_ScriptFile $x "$fc_entry_dir/.." . >& $log_file
-        if ( $status ) then
-            echo "ERROR $x in $mergeScriptFile"
-            continue
-        endif
-        echo -n "DEBUG: "; date
-        # Take a copy for ease of annotation together in this dir.
-        \cp -f $fc_log_file $fc_sum_file .
-        grep --quiet ERROR $log_file
-        if ( ! $status ) then
-            echo "ERROR $x found in merge log file; will now grep for ERROR again."
-            grep ERROR $log_file               
-            continue
-        endif
+#	    #outputDirectory = local/cyanaTest        
+#        python -u $fc_ScriptFile $x "$fc_entry_dir/.." . >& $log_file
+#        if ( $status ) then
+#            echo "ERROR $x in $mergeScriptFile"
+#            continue
+#        endif
         
-        set fcOutputFile = $fc_entry_dir/$x"_linked".str
-        if ( ! -e $fcOutputFile  ) then
-            echo "ERROR $x FC produced no star file."
-            continue
-        endif
+#        echo -n "DEBUG: "; date
+#        # Take a copy for ease of annotation together in this dir.
+#        \cp -f $fc_log_file $fc_sum_file .
+#        grep --quiet ERROR $log_file
+#        if ( ! $status ) then
+#            echo "ERROR $x found in merge log file; will now grep for ERROR again."
+#            grep ERROR $log_file               
+#            continue
+#        endif
         
-        xxxxxxxxxxxxxxxxxx TODO:
+#        set fcOutputFile = $fc_entry_dir/$x"_linked".str
+#        if ( ! -e $fcOutputFile  ) then
+#            echo "ERROR $x FC produced no star file."
+#            continue
+#        endif
+        
+#        xxxxxxxxxxxxxxxxxx TODO:
         
         
         
