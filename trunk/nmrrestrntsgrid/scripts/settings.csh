@@ -80,14 +80,14 @@ setenv C                  $WS/cing
 setenv R                  $WS/recoord
 setenv P                  $R/python/recoord2
 
-setenv servletUrl  'http://localhost/NRG'
+setenv servletUrl  'http://localhost/NRG/MRGridServlet'
 
 # Host name based locals SECTION II (see section I). These are modifications.
 if ( $measahost == "tang" ) then
 #    setenv CCPNMR_TOP_DIR     /big/wim/workspace/all 
 #    setenv R                  /big/wim/workspace/recoord 
     setenv pdbbase_dir        /dumpzone/pdb/pdb
-    setenv servletUrl  'http://tang.bmrb.wisc.edu/NRG' 
+    setenv servletUrl  'http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet' 
 endif
                        
 ## Directory with this file
