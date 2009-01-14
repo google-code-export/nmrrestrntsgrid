@@ -2,7 +2,10 @@
 
 Dear Sirs I want to analyze different NMR models according to the amount of restraints per residues that they have. As you noted in your article the data in the PDB are not annotated in a standard form and are therefore very hard to read by computer. Is it possible to use your site (http://www.bmrb.wisc.edu/), to insert a list of pdb entries and receive the number of constraints for each entry in a standardized file? If so please direct me regarding how it is done. Thanks
 
-Here's one way of doing this:
+=Here's one way of doing this:=
+
+http://nmrrestrntsgrid.googlecode.com/files/restraintsPerResidueFiles.zip
+
 *A) get the number of restraints per entry from the NMR Restraints Grid:
   # Goto: http://www.bmrb.wisc.edu/servlets/MRGridServlet
   # Select "3-converted-DOCR" for stage; submit for an update
