@@ -7,7 +7,7 @@
 ############################################################################
 
 
-set subl = ( 2k17 )
+set subl = ( 2k5b )
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then	

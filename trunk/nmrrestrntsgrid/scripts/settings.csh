@@ -80,7 +80,7 @@ setenv C                  $WS/cing
 setenv R                  $WS/recoord
 setenv P                  $R/python/recoord2
 
-setenv servletUrl  'http://localhost/NRG/MRGridServlet'
+setenv servletUrl  'http://localhost:9999/NRG/MRGridServlet'
 
 # Host name based locals SECTION II (see section I). These are modifications.
 if ( $measahost == "tang" ) then
@@ -95,6 +95,7 @@ setenv scripts_dir      $nrg_dir/scripts
 setenv wcf_dir          $scripts_dir/wcf 
 setenv list_dir         $big_dir/lists
 setenv results_dir      $big_dir/Results
+setenv wwPDB_dir        $big_dir/wwPDB
 setenv perEntry_dir     $results_dir/perEntry
 setenv dir_nrg_python   $nrg_dir/python
 #setenv DIR_WHATIF   /home/vriend/whatif

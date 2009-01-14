@@ -1,5 +1,7 @@
 Why these (originally) 12 test entries were special to JFD, CP, WV
-1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e
+
+Current count: 13
+Current list:  1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e
 
 Molecular system:
 **********************

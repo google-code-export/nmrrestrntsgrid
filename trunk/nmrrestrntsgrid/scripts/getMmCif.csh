@@ -21,7 +21,7 @@
 # You should CHANGE THE NEXT THREE LINES to suit your local setup
 #/Users/jd/wattosTestingPlatform/pdb/data/structures/divided/nmr_restraints
 set MIRRORDIR=$pdbbase_dir                         # your top level rsync directory
-set RSYNC=rsync                            # location of local rsync
+set RSYNC=rsync                                    # location of local rsync
 
 # You should NOT CHANGE THE NEXT TWO LINES
 
