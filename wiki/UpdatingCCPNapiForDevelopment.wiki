@@ -44,6 +44,10 @@ print "Read msd.adatah.localConstants.py version 0.0.2"
     #cvs -z3 -d:pserver:anonymous@ccpn.cvs.sourceforge.net:/cvsroot/ccpn checkout -r stable ccpn
     cvs -z3 -d:ext:jurgenfd@ccpn.cvs.sourceforge.net:/cvsroot/ccpn co -r stable -P ccpn
 
+    Then link in the chem comps:
+    cd ccpn
+    ln -s /big/docr/ccpn-chemcomp .
+
     # If you only need to update you can do from any dir:
     cvs -z3 -d:ext:jurgenfd@ccpn.cvs.sourceforge.net:/cvsroot/ccpn update -r stable $WS/ccpn
 }}}
