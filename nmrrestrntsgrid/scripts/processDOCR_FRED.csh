@@ -5,12 +5,14 @@
 # TASK: Do all processing needed in order to go from parsed restraints
 #       to files for the FRED database. 
 # USE:  processDOCR_FRED.csh [1brv]
-#OR: set x = 2jxd  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
+#OR: set x = 1ai0  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
    
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
+
+set subl = ( 1a4d 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 #set subl = ( 108d 149d 170d 171d 17ra )
 
-set subl = ( 1a4d )
+#set subl = ( 1ai0 )
 #set subl = ( `cat  $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
 #set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
 
@@ -27,12 +29,12 @@ set doAssign            = 1
 set doSurplus           = 1
 set doViolAnal          = 1
 set doCompleteness      = 1
-set doExportsForGrid    = 1 
+set doExportsForGrid    = 1
 set doOrganizeForGrid   = 1
 set doDumpInGrid        = 1
-set doCleanFiles        = 1 
+set doCleanFiles        = 0 
 
-set interactiveProcessing = 1 # Set to zero to do production run but one for a very fast run.
+set interactiveProcessing = 0 # Set to zero to do production run but one for a very fast run.
 # The largest entry 2k0e is completely reprocessed interactively in 2'30".
                            
 set extraWattosOptions  =
@@ -46,10 +48,12 @@ set hasHead = 0
 # No need to change things below this line
 ###############################################################################
 
-set doAddMissingAtoms   = 1
-set doWHATIF            = 1
-set doNomenclature      = 1
-set doCoplanars         = 1
+# steps that are not really done anymore but are dealt with so that the setup stays consistent.
+set regularProcessing = 1
+set doAddMissingAtoms   = $regularProcessing
+set doWHATIF            = $regularProcessing
+set doNomenclature      = $regularProcessing
+set doCoplanars         = $regularProcessing
 
 if ( $hasHead ) then
     # Check head.
@@ -65,7 +69,8 @@ endif
 
 # redefine wattos alias
 # wsetup now done in ~/.cshrc of docr user.
-setenv WATTOSMEM 2g
+#setenv WATTOSMEM 2g failed after updating OS FS to case sensitive
+setenv WATTOSMEM 1500m
 setenv woptions  "$extraWattosOptions -Xmx$WATTOSMEM"
 alias wattos "java $woptions Wattos.CloneWars.UserInterface -at"
 alias wjava  "java $woptions"
@@ -125,6 +130,7 @@ foreach x ( $subl )
 	        sed -e 's|MAX_MODELS|'$maxModels'|'                            |\
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|' > $script_file_new
 #        echo -n "DEBUG: "; date
+
         wattos < $script_file_new >& $log_file
         if ( $status ) then
             echo "ERROR $x Wattos script $script_file_new failed; not continueing"
@@ -235,6 +241,7 @@ foreach x ( $subl )
         python -u $mergeScriptFile $x $extraFCOptions >& $log_file
         if ( $status ) then
             echo "ERROR $x in $mergeScriptFile"
+            echo "please check the log: $cwd/$log_file (it hasn't been copied to: $fc_sum_file yet because aborting entry at this point."
             continue
         endif
 #        echo -n "DEBUG: "; date
@@ -765,13 +772,8 @@ foreach x ( $subl )
     # Converts to XPLOR (and later others) formatted restraints and coordinates.
     if ( $doExportsForGrid ) then
         echo "  exportsForGrid"
-#        echo -n "DEBUG: "; date
         # FC exports
-        set fc_ScriptFile       = $R/python/recoord2/msd/exportCyana.py
-        set fc_log_file         = $x"_fc_export".log
         set fc_entry_dir        = $ccpn_tmp_dir/data/recoord/$x
-        set fc_log_file         = $fc_entry_dir/linkNmrStarData.log
-        set fc_sum_file         = $fc_entry_dir/linkNmrStarData.summary
         # Wattos exports
         set script_file         = $wcf_dir/ExportForNRG.wcf
         set overallStatus = 0
@@ -782,37 +784,44 @@ foreach x ( $subl )
         mkdir $x
         cd $x
 
- #       echo -n "DEBUG: "; date
-	    #pdbCode = 1brv
-	    #projectDir = '/Users/wim/workspace/stable/all/data/recoord/
-#	    #outputDirectory = local/cyanaTest        
-#        python -u $fc_ScriptFile $x "$fc_entry_dir/.." . >& $log_file
-#        if ( $status ) then
-#            echo "ERROR $x in $mergeScriptFile"
-#            continue
-#        endif
+        set overallStatus = 0
+        foreach fcExportFormat (  Cns Cyana )
+	        # check if loop encountered a fatal error before.
+	        if ( $overallStatus ) then
+	            #echo "DEBUG: $x found error before in doExportsForGrid"
+	            continue
+	        endif
+	        
+	        #echo "DEBUG: exporting $fcExportFormat"
+
+            if ( ! -e $fcExportFormat ) then
+            	mkdir $fcExportFormat
+            endif
+            
+            # use absolute path for human user that sees the message.
+            set fc_ScriptFile       = $R/python/recoord2/msd/"export"$fcExportFormat.py
+            set fc_log_file         = $cwd/$fcExportFormat/$x"_fc_export_"$fcExportFormat.log
+
+	        python -u $fc_ScriptFile $x "$fc_entry_dir/.." $fcExportFormat >& $fc_log_file
+	        if ( $status ) then
+	            echo "ERROR $x in $fc_ScriptFile"
+                set overallStatus = 1          
+                continue
+	        endif
+	        
+	        grep --quiet ERROR $fc_log_file
+	        if ( ! $status ) then
+	           echo "ERROR $x found in $fc_log_file log file; will now grep for ERROR again."
+	           grep ERROR $fc_log_file     
+	           set overallStatus = 1          
+	           continue
+	        endif
+        end        
         
-#        echo -n "DEBUG: "; date
-#        # Take a copy for ease of annotation together in this dir.
-#        \cp -f $fc_log_file $fc_sum_file .
-#        grep --quiet ERROR $log_file
-#        if ( ! $status ) then
-#            echo "ERROR $x found in merge log file; will now grep for ERROR again."
-#            grep ERROR $log_file               
-#            continue
-#        endif
         
-#        set fcOutputFile = $fc_entry_dir/$x"_linked".str
-#        if ( ! -e $fcOutputFile  ) then
-#            echo "ERROR $x FC produced no star file."
-#            continue
-#        endif
-        
-#        xxxxxxxxxxxxxxxxxx TODO:
-        
-        
-        
-        foreach d ( DOCR FRED ) 
+        # disable for testing.
+        #foreach d ( ) 
+        foreach d ( DOCR ) 
             set outputFileBase = $x"_"$d
             set inputFile     = $dir_nomen/$x/$x"_nomen".str
             if ( $d == "FRED" ) then
@@ -828,6 +837,7 @@ foreach x ( $subl )
 	            continue
 	        endif
 	            
+	        # Note that the Wattos generated restraint files are not put into NRG. The FC generated ones are used.
             wattos < $script_file_new >& $log_file
             if ( $status ) then
                 echo "ERROR $x after executing Wattos script file: $script_file see log file: $log_file"
@@ -851,28 +861,42 @@ foreach x ( $subl )
         endif
     endif
 
-    # Organize the files for insertion into NMR Restraints Grid.
+    # Organize the files for insertion into NMR Restraints Grid and wwPDB.
     # Add BMRB specific notes for DOCR/FRED NMR-STAR files.
     if ( $doOrganizeForGrid ) then
         echo "  gridOrganize"
 #        echo -n "DEBUG: "; date
         set overallStatus = 0
-        foreach d ( DOCR FRED ) 
+        
+        set wwPDB_dir_entry = $wwPDB_dir/$ch23/$x
+        # Create directory with parents if needed
+        mkdir -p $wwPDB_dir_entry
+        # Remove any previous content for this entry.
+        \rm -rf $wwPDB_dir_entry/* >& /dev/null
+        
+        # Create the STAR files with correct header.
+        foreach d ( DOCR FRED wwPDB ) 
+            #echo "Creating STAR file for $d"
             set dataFile      = "data_"$d"_restraints_with_modified_coordinates_PDB_code_"
+            if ( $d == "wwPDB" ) then
+            	set dataFile      = "data_wwPDB_remediated_restraints_file_for_PDB_entry_"
+            endif
+            
             set fileHeader    = $nrg_dir/data/change_comment_star_$d.txt
             set DBdir         = $dir_db/$d/$x
+            if ( $d == "wwPDB" ) then
+                # It's put into this location because it was most efficient to code but the wwPDB archive is not here!
+                set DBdir         = $dir_db/wwPDBtmp/$x
+            endif
+            
             set outputFile    = $x"_project".str
             set inputFile     = $dir_nomen/$x/$x"_nomen".str
             if ( $d == "FRED" ) then
                 set inputFile   = $dir_surplus/$x/$x"_nonsurplus".str
             endif
-            set assignFile    =  $dir_assign/$x/assignment.str
-            set surplusFile   = $dir_surplus/$x/surplus_summary.str
-            set complFile     =   $dir_compl/$x/$x"_compl".str
-            set violFile      =    $dir_viol/$x/$x"_viol".str
             
             ## NO CHANGES BELOW
-            \rm -rf $DBdir
+            \rm -rf $DBdir >& /dev/null
             mkdir -p $DBdir
             cd $DBdir
             echo $dataFile$x                                  >  $outputFile
@@ -891,7 +915,7 @@ foreach x ( $subl )
             grep --quiet "ERR" STARFilter.log
             if ( ! $status ) then
                 echo "ERROR $x Wattos reported an error in parsing/unparsing gridOrganize step STAR file.; will now grep for ERROR again."
-	            grep ERROR STARFilter.log              
+                grep ERROR STARFilter.log              
                 continue
             endif                        
             if ( ! -e $x"_testRead".str ) then
@@ -900,53 +924,85 @@ foreach x ( $subl )
                 continue
             endif     
             \rm -f $x"_testRead".str          
-            
+        end
+        
+        # Gzip and copy the star file to wwPDB_dir_entry 
+        gzip -c $dir_db/wwPDBtmp/$x/$x"_project".str > $wwPDB_dir_entry/$x.str.gz
+        \rm -rf $dir_db/wwPDBtmp/$x 
+                
+        foreach d ( DOCR FRED ) 
+            set DBdir         = $dir_db/$d/$x
+            cd $DBdir
+
+            set assignFile    =  $dir_assign/$x/assignment.str
+            set surplusFile   = $dir_surplus/$x/surplus_summary.str
+            set complFile     =   $dir_compl/$x/$x"_compl".str
+            set violFile      =    $dir_viol/$x/$x"_viol".str
+                        
+            if ( $d == "DOCR" ) then
+                # Get the 
+                cp $dir_export/$x/$x"_DOCR_"*.py .
+
+                # only setting DOCR converted files.
+	#            set dataTypeList = (  dc                             di               rdc )
+	            set dataTypeList = (  dist                           hBond                          dihed               rdc )
+	            set dataTypeList2 = ( _distance_general_distance_na_ _distance_HB_na_               _dihedral_na_na_    _dipolar_coupling_na_na_)
+	            @ dataTypeNumber = 0
+	            foreach dataType ( $dataTypeList )
+	                #echo "DEBUG: working on dataType: " $dataType
+	                @ dataTypeNumber ++ 
+	                # name changed from Wattos: 1a4d_DOCR_dc_001.tbl to FC: 
+	                # Cns/1a4d.dist.1.tbl
+	                # Cyana/1brv.dihed.1.aco
+	                
+	#                set list = ( `find $dir_export/$x -name "$x\_$d\_$dataType*"` )
+	                set list = ( `find $dir_export/$x -name "$x\.$dataType\.*"` )
+	                foreach file ( $list )
+	                    #echo "DEBUG: working on file: " $file
+	                                        
+	#                   set number = ( `gawk -v f=$file:t:r 'BEGIN{f=substr(f,5);gsub(/[a-z_A-Z]/,"",f);printf("%d\n", f)}' /dev/null`)
+	                    set number = ( `gawk -v f=$file:t:r 'BEGIN{split(f,a,".");printf("%s\n", a[3])}'                    /dev/null`)                    
+	                    
+	                    #echo "DEBUG: deduced number: " $number
+	                    set extension = $file:e
+	                    set fileNew = $x$dataTypeList2[$dataTypeNumber]$number.$extension
+	                    cp $file $fileNew
+	                    if ( $status ) then
+	                        echo "ERROR $x failed to copy file $file to $fileNew."
+	                        set overallStatus = 1
+	                        continue
+	                    endif                             
+	                end
+	            end
+                set cyanaSeqFile = $dir_export/$x/Cyana/$x.seq
+                if ( -e $cyanaSeqFile  ) then
+                    cp $cyanaSeqFile $x"_sequence".seq
+                endif
+                
+	            ## Only create the ccpn project once.
+	            cd $ccpn_tmp_dir/data/recoord/$x
+	            #cd $dir_link/$x/ccpn
+	            # Create a tgz copy that will not be deleted whereas the ccpn dir will.
+	            tar czf $dir_link/$x/$x"_project".xml.tgz * > /dev/null
+	            if ( $status ) then
+	                echo "ERROR $x failed to tar xml files to $DBdir/$x"_project".xml.tgz"
+	                set overallStatus = 1
+	                continue
+	            endif                
+	            cd $DBdir
+	            ln -s $ccpn_tmp_dir/data/recoord/$x/$x.tgz $x"_project".xml.tgz
+                cp $x"_project".xml.tgz $wwPDB_dir_entry/$x"_ccpn".tgz
+            endif # db is DOCR
+
+
             # Allow absent files without complain
             if ( $d == "FRED" ) then
                 cp -v $assignFile  $x"_assign".str     >& /dev/null
                 cp -v $surplusFile $x"_surplus".str    >& /dev/null
                 cp -v $violFile    $x"_viol".str       >& /dev/null
                 cp -v $complFile   $x"_compl".str      >& /dev/null
-            else
-                cp $dir_export/$x/$x"_DOCR_"*.py .
             endif
 
-            set dataTypeList = (  dc                             di               rdc )
-            set dataTypeList2 = ( _distance_general_distance_na_ _dihedral_na_na_ _dipolar_coupling_na_na_)
-            @ dataTypeNumber = 0
-            foreach dataType ( $dataTypeList )
-                #echo "DEBUG: working on dataType: " $dataType
-                @ dataTypeNumber ++ 
-                set list = ( `find $dir_export/$x -name "$x\_$d\_$dataType*"` )
-                foreach file ( $list )
-                    #echo "DEBUG: working on file: " $file
-                    set number = ( `gawk -v f=$file:t:r 'BEGIN{f=substr(f,5);gsub(/[a-z_A-Z]/,"",f);printf("%d\n", f)}' /dev/null`)
-                    #echo "DEBUG: deduced number: " $number
-                    set extension = $file:e
-                    set fileNew = $x$dataTypeList2[$dataTypeNumber]$number.$extension
-                    cp $file $fileNew
-                    if ( $status ) then
-                        echo "ERROR $x failed to copy file $file to $fileNew."
-                        set overallStatus = 1
-                        continue
-                    endif                             
-                end
-            end
-
-            ## Only create the tgz project once.
-            # if ( $d == "DOCR" ) then
-                # cd $dir_link/$x/ccpn
-    # #            tar czf $DBdir/$x"_project".xml.tgz * > /dev/null
-                # # Create a tgz copy that will not be deleted whereas the ccpn dir will.
-                # tar czf $dir_link/$x/$x"_project".xml.tgz * > /dev/null
-                # if ( $status ) then
-                    # echo "ERROR $x failed to tar xml files to $DBdir/$x"_project".xml.tgz"
-                    # set overallStatus = 1
-                    # continue
-                # endif                
-            # endif
-            # cd $DBdir
-            # ln -s $dir_link/$x/$x"_project".xml.tgz .
         end
         if ( $overallStatus ) then
             echo "ERROR $x found in doOrganizeForGrid"

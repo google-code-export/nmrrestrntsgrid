@@ -31,16 +31,28 @@ set SERVER=rsync.wwpdb.org::ftp/                                # remote server 
 set PORT=33444                                           # port remote server is using
 
 
-
-set subdirLoc = $MIRRORDIR/data/structures/divided
-if ( ! -e $subdirLoc ) then
-    echo "Creating dir: " $subdirLoc
-    mkdir -p $subdirLoc
+set subl = ( 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2juy 2jvf 2k0e 2k17 2o7w )
+# Get argument pdb code if it exists.
+if ( $1 != "" ) then    
+    set subl = (  `echo $1 | sed 's/,/ /g'`  )
 endif
-$RSYNC -rlpt -v -z --delete --port=$PORT \
-    $SERVER/data/structures/divided/nmr_restraints \
-    $subdirLoc \
-    |& tee $LOGFILE 
 
+echo "Doing" $#subl "pdb entries"
+foreach x ( $subl )
+   echo "Doing $x"
+   set ch23 = ( `echo $x | cut -c2-3` )
+   set subdirLoc = $MIRRORDIR/data/structures/divided/nmr_restraints/$ch23
+
+
+#	set subdirLoc = $MIRRORDIR/data/structures/divided
+	if ( ! -e $subdirLoc ) then
+	    echo "Creating dir: " $subdirLoc
+	    mkdir -p $subdirLoc
+	endif
+
+   $RSYNC -rlpt -z --delete --port=$PORT \
+    $SERVER/data/structures/divided/nmr_restraints/$ch23/$x.mr.gz \
+    $subdirLoc/$x.mr.gz
+end
 echo "Done with syncing PDB MR files"
 

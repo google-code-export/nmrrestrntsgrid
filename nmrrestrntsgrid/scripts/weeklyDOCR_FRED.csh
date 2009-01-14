@@ -1,23 +1,21 @@
 #!/bin/csh -f
 # Author: Jurgen F. Doreleijers 
 # Thu Jun 1 13:51:19 CDT 2006
-echo "Last update: Fri Jun 20 13:54:53 CEST 2008"
-echo $scripts_dir
 # $scripts_dir/weeklyDOCR_FRED.csh
 
 # If no subl variable defined here, the last weekly batch will be retrieved.
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh   )
-set subl = (  2juy )
+set subl = (  1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh )
 #set subl = ( `cat $list_dir/setDocrFredBaddies786.csv` )
 #set subl = ( `cat /tmp/entries_all_2008-09-30_todo.csv | tail -100` )
 
 # Overwrites the below 3 settings. Checks will always be done.
 set doChecksOnly = 0
 
-set doGet        = 1 # if you need many (100+) do this step manually separate from this setup (getFilesFromGrid.csh)
+set doGet        = 0 # if you need many (100+) do this step manually separate from this setup (getFilesFromGrid.csh)
 set doProcessing = 1
 set doLogShow    = 1
-set doChecks     = 1
+set doChecks     = 0
 
 set max_cpu      = 2
 set max_entries  = 5000    
@@ -28,7 +26,7 @@ set list_file    = $list_dir/list_tmp.csv # note that this is a temporary file n
 set distanceCutOffMaxViol = 1.8
 set countCutOffPercentage = 99
 
-# No changes below this line. 
+# No changes below this line.
 #######################################################################################
 
 if ( $doChecksOnly ) then
