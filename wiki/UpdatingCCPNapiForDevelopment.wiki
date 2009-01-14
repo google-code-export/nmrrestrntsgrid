@@ -27,7 +27,8 @@ archivesDataDir     = os.path.join(dataDir,'archives')
 archivesCcpnDataDir = os.path.join(dataDir,'archivesCcpn')
 pythonCommand       = "python"
 numCpu              = 1
-allChemCompDataPath = os.path.join(dataDir,'allChemComps')
+# note that this is no longer needed if JFD is correct
+#allChemCompDataPath = os.path.join(dataDir,'allChemComps')
  
 print "Read msd.adatah.localConstants.py version 0.0.2"
 }}}
