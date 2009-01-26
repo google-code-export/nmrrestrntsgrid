@@ -9,10 +9,10 @@
    
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 
-set subl = ( 1a4d 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
+#set subl = ( 1a4d 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 #set subl = ( 108d 149d 170d 171d 17ra )
 
-#set subl = ( 1ai0 )
+set subl = ( 1mit )
 #set subl = ( `cat  $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
 #set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
 
@@ -23,16 +23,16 @@ if ( $1 != "" ) then
 endif
 
 set doReadMmCif         = 1
-set doJoin              = 1
-set doMerge             = 1 # Actually linking by FC.
-set doAssign            = 1
-set doSurplus           = 1
-set doViolAnal          = 1
-set doCompleteness      = 1
-set doExportsForGrid    = 1
-set doOrganizeForGrid   = 1
-set doDumpInGrid        = 1
-set doCleanFiles        = 0 
+set doJoin              = 0
+set doMerge             = 0 # Actually linking by FC.
+set doAssign            = 0
+set doSurplus           = 0
+set doViolAnal          = 0
+set doCompleteness      = 0
+set doExportsForGrid    = 0
+set doOrganizeForGrid   = 0
+set doDumpInGrid        = 0
+set doCleanFiles        = 0
 
 set interactiveProcessing = 0 # Set to zero to do production run but one for a very fast run.
 # The largest entry 2k0e is completely reprocessed interactively in 2'30".
@@ -256,7 +256,7 @@ foreach x ( $subl )
         
         set theCwd = $cwd
         cd $fc_entry_dir
-        tar -cf - linkNmrStarData | gzip --fast > $x.tgz 
+        tar -cf - linkNmrStarData | gzip --fast > $x.tgz         
         cd $theCwd
         
         set fcOutputFile = $fc_entry_dir/$x"_linked".str
@@ -604,7 +604,8 @@ foreach x ( $subl )
         echo "  viol"
         set script_file      = $wcf_dir/CalcConstrViolation.wcf
         set inputStarFile    = $dir_surplus/$x/$x"_nonsurplus".str
-        set outputStarFile   = $x"_viol".str
+        set outputDistStarFile   = $x"_dist_viol".str
+        set outputDihedStarFile  = $x"_dihed_viol".str
         set script_file_new  = $x.wcf  
         set log_file         = $x.log
          
@@ -619,37 +620,41 @@ foreach x ( $subl )
             echo "ERROR: $x No FormatConverter input star file: $inputStarFile"
             continue
         endif
-        # The flag disables any output; exit status will be zero when any match is found
-        set containsNonSurplusDistances = 0
+
+        sed -e 's|OUTPUT_DIST_STAR_FILE|'$outputDistStarFile'|'     $script_file |\
+        sed -e 's|OUTPUT_DIHED_STAR_FILE|'$outputDihedStarFile'|' |\
+        sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'     > $script_file_new
+                        
+        wattos < $script_file_new >& $log_file
+        if ( $status ) then
+            echo "ERROR $x in Wattos violation script"
+            continue
+        endif
+
+        grep --quiet ERROR $log_file
+        if ( ! $status ) then
+            echo "ERROR $x found in viol log file; will now grep for ERROR again."
+            grep ERROR $log_file                
+            continue
+        endif
+
         grep --quiet "_Dist_constraint_tree.Constraint_ID" $inputStarFile
         if ( ! $status ) then
-            set containsNonSurplusDistances = 1
+	        if ( ! -e $outputDistStarFile ) then
+	            echo "ERROR $x found no result file $outputDistStarFile"
+	            continue
+	        endif
+	    endif
+	    
+        grep --quiet "_Torsion_angle_constraint_list.ID" $inputStarFile
+        if ( ! $status ) then
+            if ( ! -e $outputDihedStarFile ) then
+                echo "ERROR $x found no result file $outputDihedStarFile"
+                continue
+            endif
         endif
-        if ( $containsNonSurplusDistances ) then            
-            sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'     $script_file |\
-            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'     > $script_file_new
-                            
-#	        echo -n "DEBUG: "; date
-            wattos < $script_file_new >& $log_file
-            if ( $status ) then
-                echo "ERROR $x in Wattos violation script"
-                continue
-            endif
-#	        echo -n "DEBUG: "; date
-            grep --quiet ERROR $log_file
-            if ( ! $status ) then
-                echo "ERROR $x found in viol log file; will now grep for ERROR again."
-	            grep ERROR $log_file                
-                continue
-            endif
-            if ( ! -e $outputStarFile ) then
-                echo "ERROR $x found no result file $outputStarFile"
-                continue
-            endif
-            \rm $script_file_new
-        else
-#            echo "DEBUG: ignoring violation analysis because no distance constraints were found."
-        endif
+	    
+        \rm $script_file_new
     endif
 
     
@@ -1041,6 +1046,7 @@ EOD
         \rm -rf $dir_db/DOCR/$x 
         \rm -rf $dir_db/FRED/$x
         \rm -rf $dir_link/$x/ccpn
+        \rm -rf $ccpn_tmp_dir/data/recoord/$x/linkNmrStarData
     endif
     
     echo "  Finished $x"

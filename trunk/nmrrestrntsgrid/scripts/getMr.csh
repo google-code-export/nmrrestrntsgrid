@@ -31,7 +31,7 @@ set SERVER=rsync.wwpdb.org::ftp/                                # remote server 
 set PORT=33444                                           # port remote server is using
 
 
-set subl = ( 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2juy 2jvf 2k0e 2k17 2o7w )
+#set subl = ( 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2juy 2jvf 2k0e 2k17 2o7w )
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then    
     set subl = (  `echo $1 | sed 's/,/ /g'`  )

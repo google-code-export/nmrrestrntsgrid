@@ -50,6 +50,7 @@ foreach x ( $subl )
         echo "Creating dir: " $subdirLoc
         mkdir -p $subdirLoc
    endif
+   
    $RSYNC -rlpt -z --delete --port=$PORT \
     $SERVER/data/structures/divided/pdb/$ch23/pdb$x.ent.gz \
     $subdirLoc/pdb$x.ent.gz \

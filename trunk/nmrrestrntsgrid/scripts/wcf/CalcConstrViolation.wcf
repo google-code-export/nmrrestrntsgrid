@@ -32,7 +32,11 @@ y
 
 CalcDistConstraintViolation
 0.5
-OUTPUT_STAR_FILE
+OUTPUT_DIST_STAR_FILE
+
+CalcDihConstraintViolation
+5.0
+OUTPUT_DIHED_STAR_FILE
 
 Quit
 

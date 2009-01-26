@@ -115,13 +115,13 @@ if __name__ == '__main__':
     print "Doing %s entries %s\n" % (len(entry_list), entry_list)
 
     processes_max = string.atoi(sys.argv[2])
-    if processes_max < 1 or processes_max > 2:
-        print "check parameter for max number of processors to use; expected range: [1-2] but got: ", sys.argv[2]
+    if processes_max < 1 or processes_max > 20:
+        print "check parameter for max number of processors to use; expected range: [1-20] but got: ", sys.argv[2]
         sys.exit(1)
         
     max_entries_todo = string.atoi(sys.argv[3])
-    if max_entries_todo < 1 or max_entries_todo > 5000:
-        print "check parameter for max number of entries to do; expected range: [1-5000] but got: ", sys.argv[3]
+    if max_entries_todo < 1 or max_entries_todo > 6000:
+        print "check parameter for max number of entries to do; expected range: [1-6000] but got: ", sys.argv[3]
         sys.exit(1)
 
     ## Initialize the project
