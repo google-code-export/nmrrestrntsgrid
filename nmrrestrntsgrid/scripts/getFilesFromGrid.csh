@@ -26,6 +26,7 @@ set scriptFile      = $run_id.csh
 
 ## No changes below next line
 ########################################################################
+echo "Using pdb ids [all if none given]: $par3"
 if ( -e $dir_restraint/$run_id ) then
     \rm -rf $dir_restraint/$run_id
 endif

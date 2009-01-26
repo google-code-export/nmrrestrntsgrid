@@ -15,7 +15,7 @@ import shutil
 
 
 #allChemCompDataPath = '/Users/wim/workspace/stable/all/data/allChemComps'
-allChemCompDataPath = os.path.join(ccpn_tmp_dir, 'data/allChemComps')
+#allChemCompDataPath = os.path.join(ccpn_tmp_dir, 'data/allChemComps')
 fcInputDir          = os.path.join(ccpn_tmp_dir, 'data/archives/bmrb/nmrRestrGrid')
 
 if __name__ == '__main__':
@@ -34,7 +34,8 @@ if __name__ == '__main__':
     # Read NMR-STAR file
     nmrStarFormat = NmrStarFormat(ccpnProject, guiParent = None)
     entry = nmrStarFormat.readProject(inputNmrStarFile, version = '3.1', minimalPrompts = True, 
-                useOriginalChainCode = True, linkAtoms = False, chemCompPath = allChemCompDataPath)
+                useOriginalChainCode = True, linkAtoms = False)
+    #, chemCompPath = allChemCompDataPath)
     
     # Run linkResonances
     keywds = {}    
