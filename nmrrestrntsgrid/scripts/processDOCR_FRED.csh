@@ -12,7 +12,7 @@
 #set subl = ( 1a4d 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 #set subl = ( 108d 149d 170d 171d 17ra )
 
-set subl = ( 1mit )
+set subl = ( 1a4d )
 #set subl = ( `cat  $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
 #set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
 
@@ -22,7 +22,7 @@ if ( $1 != "" ) then
     set subl = (  $1  )
 endif
 
-set doReadMmCif         = 1
+set doReadMmCif         = 0
 set doJoin              = 0
 set doMerge             = 0 # Actually linking by FC.
 set doAssign            = 0
@@ -31,10 +31,10 @@ set doViolAnal          = 0
 set doCompleteness      = 0
 set doExportsForGrid    = 0
 set doOrganizeForGrid   = 0
-set doDumpInGrid        = 0
+set doDumpInGrid        = 1
 set doCleanFiles        = 0
 
-set interactiveProcessing = 0 # Set to zero to do production run but one for a very fast run.
+set interactiveProcessing = 1 # Set to zero to do production run but one for a very fast run.
 # The largest entry 2k0e is completely reprocessed interactively in 2'30".
                            
 set extraWattosOptions  =
@@ -942,7 +942,6 @@ foreach x ( $subl )
             set assignFile    =  $dir_assign/$x/assignment.str
             set surplusFile   = $dir_surplus/$x/surplus_summary.str
             set complFile     =   $dir_compl/$x/$x"_compl".str
-            set violFile      =    $dir_viol/$x/$x"_viol".str
                         
             if ( $d == "DOCR" ) then
                 # Get the 
@@ -1004,8 +1003,11 @@ foreach x ( $subl )
             if ( $d == "FRED" ) then
                 cp -v $assignFile  $x"_assign".str     >& /dev/null
                 cp -v $surplusFile $x"_surplus".str    >& /dev/null
-                cp -v $violFile    $x"_viol".str       >& /dev/null
                 cp -v $complFile   $x"_compl".str      >& /dev/null
+                set outputDistStarFile   = $dir_viol/$x/$x"_dist_viol".str
+                set outputDihedStarFile  = $dir_viol/$x/$x"_dihed_viol".str
+                cp -v $outputDistStarFile    .       >& /dev/null
+                cp -v $outputDihedStarFile   .       >& /dev/null
             endif
 
         end
