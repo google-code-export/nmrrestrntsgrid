@@ -11,12 +11,12 @@
 set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
 
 # Overwrites the below 3 settings. Checks will always be done.
-set doChecksOnly = 0
+set doChecksOnly = 1
 
 set doGet        = 1 # if you need many (100+) do this step manually separate from this setup (getFilesFromGrid.csh)
-set doProcessing = 0
-set doLogShow    = 0
-set doChecks     = 0
+set doProcessing = 1
+set doLogShow    = 1
+set doChecks     = 1
 
 set max_cpu      = 1
 set max_entries  = 5000    
@@ -25,6 +25,7 @@ set list_file    = $list_dir/list_tmp.csv # note that this is a temporary file n
 
 # Maxium distance violation for reporting.
 set distanceCutOffMaxViol = 1.8
+set dihedralCutOffMaxViol = 120
 set countCutOffPercentage = 99
 
 # No changes below this line.
@@ -126,14 +127,28 @@ if ( $doChecks ) then
         echo
         echo $x
             
-        if ( -e $dir_viol/$x/$x"_viol".str ) then
-            set violations = (`grep "_Distance_constraint_stats_list.Viol_max" $dir_viol/$x/$x"_viol".str |\
+        set outputDistStarFile   = $x"_dist_viol".str
+        set outputDihedStarFile  = $x"_dihed_viol".str
+            
+        if ( -e $dir_viol/$x/$outputDistStarFile ) then
+            set violations = (`grep "_Distance_constraint_stats_list.Viol_max" $dir_viol/$x/$outputDistStarFile |\
                 gawk -v c=$distanceCutOffMaxViol '{if ($2 >c) print $2}'`)
             if ( "$violations" != "" ) then
-                echo $x Violations $violations
+                echo $x Distance max violation(s): $violations
             endif
         else 
-            echo "$x no violation report"
+#            echo "$x no distance violation report"
+            continue
+        endif
+        
+        if ( -e $dir_viol/$x/$outputDihedStarFile ) then
+            set violations = (`grep "_TA_constraint_stats_list.Viol_max" $dir_viol/$x/$outputDihedStarFile |\
+                gawk -v c=$dihedralCutOffMaxViol '{if ($2 >c) print $2}'`)
+            if ( "$violations" != "" ) then
+                echo $x Dihedral max violation(s): $violations
+            endif
+        else 
+#            echo "$x no dihedral violation report"
             continue
         endif
 
