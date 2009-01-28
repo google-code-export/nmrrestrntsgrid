@@ -1,11 +1,15 @@
 #A sorted list of problems that prevent the entries from not making it all the way thru to FRED.
 
 = Problem list =
-  problemId,issueId
-  1,157,"Failure in 1j6t Wattos script 1j6t.wcf reading mmCIF"
-  2,
+{{{
+problemId,issueId
+1,157,"Failure in 1j6t Wattos script 1j6t.wcf reading mmCIF"
+2,
+}}}
 
 = Entry list =
-  entryId,problemId
-  1j6t,1
 
+{{{
+entryId,problemId
+1j6t,1
+}}}
