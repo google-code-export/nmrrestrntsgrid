@@ -80,7 +80,8 @@ setenv C                  $WS/cing
 setenv R                  $WS/recoord
 setenv P                  $R/python/recoord2
 
-setenv servletUrl  'http://localhost:9999/NRG/MRGridServlet'
+setenv servletUrl  'http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet' 
+#setenv servletUrl  'http://localhost:9999/NRG/MRGridServlet'
 
 # Host name based locals SECTION II (see section I). These are modifications.
 if ( $measahost == "tang" ) then

@@ -30,9 +30,9 @@ set SERVER=rsync.wwpdb.org::ftp/                                # remote server 
 set PORT=33444                                                  # port remote server is using
 
 
-#set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
+set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
-set subl = ( 2jxd )
+#set subl = ( 2jxd )
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then	
@@ -49,6 +49,11 @@ foreach x ( $subl )
         echo "Creating dir: " $subdirLoc
         mkdir -p $subdirLoc
    endif
+   
+    if ( -e $subdirLoc/$x.cif.gz ) then
+        continue
+    endif
+   
    $RSYNC -rlpt -z --delete --port=$PORT \
     $SERVER/data/structures/divided/mmCIF/$ch23/$x.cif.gz \
     $subdirLoc/$x.cif.gz

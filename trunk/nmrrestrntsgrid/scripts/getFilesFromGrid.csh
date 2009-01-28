@@ -35,9 +35,14 @@ cd $dir_restraint/$run_id
 
 echo "-1- Getting files from NMR Restraint Grid"
 # Write all output to 1 zip file as it should be.
+\rm -f $zipFile >& /dev/null
 wget -v -o $wgetLogFile -O $zipFile $servletUrl'?'"$par1&$par2&$par3"
 if ( $status ) then
     echo "ERROR: failed to wget from url: $servletUrl"
+    exit 1
+endif
+if ( ! -e $zipFile ) then
+    echo "ERROR: failed to find zip file: $zipFile"
     exit 1
 endif
 
