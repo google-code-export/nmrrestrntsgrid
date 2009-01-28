@@ -12,7 +12,8 @@
 #set subl = ( 1a4d 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 #set subl = ( 108d 149d 170d 171d 17ra )
 
-set subl = ( 1a4d )
+#set subl = ( 1a4d )
+set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
 #set subl = ( `cat  $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
 #set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
 
@@ -22,16 +23,16 @@ if ( $1 != "" ) then
     set subl = (  $1  )
 endif
 
-set doReadMmCif         = 0
+set doReadMmCif         = 1
 set doJoin              = 0
 set doMerge             = 0 # Actually linking by FC.
 set doAssign            = 0
 set doSurplus           = 0
 set doViolAnal          = 0
 set doCompleteness      = 0
-set doExportsForGrid    = 0
+set doExportsForGrid    = 1
 set doOrganizeForGrid   = 0
-set doDumpInGrid        = 1
+set doDumpInGrid        = 0
 set doCleanFiles        = 0
 
 set interactiveProcessing = 1 # Set to zero to do production run but one for a very fast run.
@@ -124,7 +125,7 @@ foreach x ( $subl )
         endif
         set maxModels = 999
         if ( $interactiveProcessing ) then 
-        	set maxModels = 1
+        	set maxModels = 2
         endif
         sed     -e 's|INPUT_MMCIF_FILE|'$inputMmCifFile'|'   $script_file  |\
 	        sed -e 's|MAX_MODELS|'$maxModels'|'                            |\

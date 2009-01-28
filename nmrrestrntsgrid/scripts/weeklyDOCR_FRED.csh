@@ -5,19 +5,20 @@
 
 # If no subl variable defined here, the last weekly batch will be retrieved.
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh   )
-set subl = (  2p7c )
+#set subl = (  1b4c )
 #set subl = ( `cat $list_dir/setDocrFredBaddies786.csv` )
 #set subl = ( `cat /tmp/entries_all_2008-09-30_todo.csv | tail -100` )
+set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
 
 # Overwrites the below 3 settings. Checks will always be done.
 set doChecksOnly = 0
 
 set doGet        = 1 # if you need many (100+) do this step manually separate from this setup (getFilesFromGrid.csh)
-set doProcessing = 1
-set doLogShow    = 1
-set doChecks     = 1
+set doProcessing = 0
+set doLogShow    = 0
+set doChecks     = 0
 
-set max_cpu      = 2
+set max_cpu      = 1
 set max_entries  = 5000    
 set this_prog    = $scripts_dir/weeklyDOCR_FRED.csh
 set list_file    = $list_dir/list_tmp.csv # note that this is a temporary file not the input.

@@ -49,7 +49,9 @@ foreach x ( $subl )
 	    echo "Creating dir: " $subdirLoc
 	    mkdir -p $subdirLoc
 	endif
-
+    if ( -e $subdirLoc/$x.mr.gz ) then
+    	continue
+    endif
    $RSYNC -rlpt -z --delete --port=$PORT \
     $SERVER/data/structures/divided/nmr_restraints/$ch23/$x.mr.gz \
     $subdirLoc/$x.mr.gz
