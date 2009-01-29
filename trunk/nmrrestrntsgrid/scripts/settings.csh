@@ -131,11 +131,11 @@ setenv dir_pdb_status   $pdbbase_dir/data/status
 # Wattos.
 setenv PYTHONPATH   $W/python
 
-# recoord (needs to preceed ccpn because both have a msd package.)
-setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
-
 # restrntsgrid
 setenv PYTHONPATH   ${PYTHONPATH}:${dir_nrg_python}
+
+# recoord (needs to preceed ccpn because both have a msd package.)
+setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
 
 # ccpn/recoord with api 
 setenv PYTHONPATH   ${PYTHONPATH}:$CCPNMR_TOP_DIR/python

@@ -13,7 +13,7 @@
 #set subl = ( 108d 149d 170d 171d 17ra )
 
 #set subl = ( 1a4d )
-set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
+#set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
 #set subl = ( `cat  $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
 #set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
 
@@ -24,15 +24,15 @@ if ( $1 != "" ) then
 endif
 
 set doReadMmCif         = 1
-set doJoin              = 0
-set doMerge             = 0 # Actually linking by FC.
-set doAssign            = 0
-set doSurplus           = 0
-set doViolAnal          = 0
-set doCompleteness      = 0
+set doJoin              = 1
+set doMerge             = 1 # Actually linking by FC.
+set doAssign            = 1
+set doSurplus           = 1
+set doViolAnal          = 1
+set doCompleteness      = 1
 set doExportsForGrid    = 1
-set doOrganizeForGrid   = 0
-set doDumpInGrid        = 0
+set doOrganizeForGrid   = 1
+set doDumpInGrid        = 1
 set doCleanFiles        = 0
 
 set interactiveProcessing = 1 # Set to zero to do production run but one for a very fast run.
@@ -46,6 +46,9 @@ set dofilterTopViolations = 1
 
 # E.g. to make it run without an X-server
 set hasHead = 0
+
+source $WS/nmrrestrntsgrid/scripts/settings.csh
+
 # No need to change things below this line
 ###############################################################################
 
