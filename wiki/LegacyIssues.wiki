@@ -1,5 +1,3 @@
-=Legacy Issues=
-
 = Introduction =
 
 This page describes some of the legacy issues with the code. It has gone from reading 'old' NMR-STAR files and 'old' PDB files to 3.1 NMR-STAR with remediated PDB files, then joined NMR-STAR files containing both the constraints and the information from mmCIF. Because there are differences in chain and/or sequence codes in all these formats, and other slight differences in the way the information is stored, some complex code changes had to be made to handle this progression (the code still had to work with the previous setup while testing the new one).
