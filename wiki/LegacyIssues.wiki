@@ -1,4 +1,4 @@
-#LegacyIssues
+=Legacy Issues=
 
 = Introduction =
 
@@ -8,4 +8,7 @@ This page describes some of the legacy issues with the code. It has gone from re
 
  * The chain and/or sequence numbering in author tags of the coordinate section of the joined NMR-STAR file can be different from the actual sequence numbering. This is because of differences in the mmCIF and remediated PDB file (see issue 102).
  * The sequence can be longer than the information found in the coordinate section. This problem should now be fixed when this happens at the N-terminus of a sequence, but it might still be an issue if it happens at the C-terminus.
+*example needed*
+
  * In CCPN, the internal NMR-STAR sequence numbering corresponds to seqId numbering, while the PDB author codes correspond to seqCode numbering. Because the seqCodes are used to match up the sequence to the NMR constraint data, any problems with setting these correctly (because of the above) can result in mismatches.
+*example needed*
