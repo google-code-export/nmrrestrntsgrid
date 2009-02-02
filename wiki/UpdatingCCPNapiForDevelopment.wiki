@@ -64,7 +64,9 @@ print "Read msd.adatah.localConstants.py version 0.0.2"
   * get info from NMR Restraints Grid for running FC on for example 1brv.
 {{{
     set x = 1brv
-    python -u $WS/recoordD/python/recoord2/msd/getAllInfo.py $x -force 
+    #python -u $WS/recoordD/python/recoord2/msd/getAllInfo.py $x -force 
+    # not using recoordD anymore
+    python -u $WS/recoord/python/recoord2/msd/getAllInfo.py $x -force 
     This will put the data in: .../data/archives
         bmrb/nmrRestrGrid/1brv and
         pdb
@@ -72,13 +74,15 @@ print "Read msd.adatah.localConstants.py version 0.0.2"
         
   * run FC:
 {{{
-    python -u $WS/recoordD/python/recoord2/msd/linkNmrStarData.py $x -noGui -force -raise
+    #python -u $WS/recoordD/python/recoord2/msd/linkNmrStarData.py $x -noGui -force -raise
+    python -u $WS/recoord/python/recoord2/msd/linkNmrStarData.py $x -noGui -force -raise
 }}}
     This will put data in: .../data/recoord/$x
     
   * run FC on the above for export to CYANA.
 {{{
-    python -u $WS/recoordD/python/recoord2/bmrb/export2Cyana.py $x -noGui -force -raise
+    #python -u $WS/recoordD/python/recoord2/bmrb/export2Cyana.py $x -noGui -force -raise
+    python -u $WS/recoord/python/recoord2/bmrb/export2Cyana.py $x -noGui -force -raise
 }}}
     This will put data in: .../data/recoord/$x
     
