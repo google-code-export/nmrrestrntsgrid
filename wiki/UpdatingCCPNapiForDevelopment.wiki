@@ -43,7 +43,9 @@ print "Read msd.adatah.localConstants.py version 0.0.2"
     # Only login once this info will be saved. Need to have developer access otherwise syncing is delayed a lot. How to do this is described best at the sf.net site. You need to setup shared keys.
     # Check out stable version:
     #cvs -z3 -d:pserver:anonymous@ccpn.cvs.sourceforge.net:/cvsroot/ccpn checkout -r stable ccpn
-    cvs -z3 -d:ext:jurgenfd@ccpn.cvs.sourceforge.net:/cvsroot/ccpn co -r stable -P ccpn
+    #cvs -z3 -d:ext:jurgenfd@ccpn.cvs.sourceforge.net:/cvsroot/ccpn co -r stable -P ccpn
+    # on docr@grunt, we are becoming non-person-centric, so we now have the user, bmrb
+    cvs -z3 -d:ext:bmrb@ccpn.cvs.sourceforge.net:/cvsroot/ccpn co -r stable -P ccpn
 
     Then link in the chem comps:
     cd ccpn
