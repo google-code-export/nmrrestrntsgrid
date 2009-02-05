@@ -1,0 +1,15 @@
+=Updating FC chem comps=
+
+=do only once=
+{{{
+cd /big/docr
+cvs -d :pserver:anonymous@ccpforge.cse.rl.ac.uk:/cvsroot/ccpn-chemcomp checkout ccpn-chemcomp # will take a few mintues.
+cd $CCPNROOT
+ln -s /big/docr/ccpn-chemcomp .
+}}}
+
+=update=
+{{{
+cd $CCPNROOT/ccpn-chemcomp # might lead you to follow the symbolic link.
+cvs update .
+}}}
