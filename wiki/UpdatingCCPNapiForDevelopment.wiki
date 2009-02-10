@@ -91,7 +91,8 @@ CCPN SF one.
   * run FC on the above for export to CYANA.
 {{{
     #python -u $WS/recoordD/python/recoord2/bmrb/export2Cyana.py $x -noGui -force -raise
-    python -u $WS/recoord/python/recoord2/bmrb/export2Cyana.py $x -noGui -force -raise
+   # python -u $WS/recoord/python/recoord2/bmrb/export2Cyana.py $x -noGui -force -raise - outdated
+    python -u $WS/recoord/python/recoord2/msd/exportCyana.py $x in_directory out_directory  
 }}}
     This will put data in: .../data/recoord/$x
     
