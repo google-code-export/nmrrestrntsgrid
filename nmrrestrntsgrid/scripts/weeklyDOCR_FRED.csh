@@ -137,8 +137,7 @@ if ( $doChecks ) then
                 echo $x Distance max violation(s): $violations
             endif
         else 
-#            echo "$x no distance violation report"
-            continue
+            echo "$x no distance violation report"
         endif
         
         if ( -e $dir_viol/$x/$outputDihedStarFile ) then
@@ -149,7 +148,6 @@ if ( $doChecks ) then
             endif
         else 
 #            echo "$x no dihedral violation report"
-            continue
         endif
 
         set url = '&format=n%2Fa&pdb_id='$x'&request_type=block_set&subtype=full&type=entry'

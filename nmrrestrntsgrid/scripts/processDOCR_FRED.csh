@@ -5,7 +5,7 @@
 # TASK: Do all processing needed in order to go from parsed restraints
 #       to files for the FRED database. 
 # USE:  processDOCR_FRED.csh [1brv]
-#OR: set x = 1ai0  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
+#OR: set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log 
    
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 
@@ -23,19 +23,19 @@ if ( $1 != "" ) then
     set subl = (  $1  )
 endif
 
-set doReadMmCif         = 1
-set doJoin              = 1
-set doMerge             = 1 # Actually linking by FC.
-set doAssign            = 1
-set doSurplus           = 1
-set doViolAnal          = 1
-set doCompleteness      = 1
-set doExportsForGrid    = 1
-set doOrganizeForGrid   = 1
-set doDumpInGrid        = 1
-set doCleanFiles        = 0
+set doReadMmCif         = 0
+set doJoin              = 0
+set doMerge             = 0 # Actually linking by FC.
+set doAssign            = 0
+set doSurplus           = 0
+set doViolAnal          = 0
+set doCompleteness      = 0
+set doExportsForGrid    = 0
+set doOrganizeForGrid   =  1
+set doDumpInGrid        = 0
+set doCleanFiles        = 0 # Keep this on for it does fill up > 100 G on > 4,000 entries
 
-set interactiveProcessing = 1 # Set to zero to do production run but one for a very fast run.
+set interactiveProcessing = 0 # Set to zero to do production run but one for a very fast run.
 # The largest entry 2k0e is completely reprocessed interactively in 2'30".
                            
 set extraWattosOptions  =
@@ -53,7 +53,7 @@ source $WS/nmrrestrntsgrid/scripts/settings.csh
 ###############################################################################
 
 # steps that are not really done anymore but are dealt with so that the setup stays consistent.
-set regularProcessing = 1
+set regularProcessing = 0
 set doAddMissingAtoms   = $regularProcessing
 set doWHATIF            = $regularProcessing
 set doNomenclature      = $regularProcessing
@@ -870,7 +870,7 @@ foreach x ( $subl )
         endif
     endif
 
-    # Organize the files for insertion into NMR Restraints Grid and wwPDB.
+    # Organize the files for insertion into NMR Restraints Grid -AND- to wwPDB.
     # Add BMRB specific notes for DOCR/FRED NMR-STAR files.
     if ( $doOrganizeForGrid ) then
         echo "  gridOrganize"
@@ -948,11 +948,10 @@ foreach x ( $subl )
             set complFile     =   $dir_compl/$x/$x"_compl".str
                         
             if ( $d == "DOCR" ) then
-                # Get the 
+                # Get the Wattos generated XPLOR sequence files.
                 cp $dir_export/$x/$x"_DOCR_"*.py .
 
                 # only setting DOCR converted files.
-	#            set dataTypeList = (  dc                             di               rdc )
 	            set dataTypeList = (  dist                           hBond                          dihed               rdc )
 	            set dataTypeList2 = ( _distance_general_distance_na_ _distance_HB_na_               _dihedral_na_na_    _dipolar_coupling_na_na_)
 	            @ dataTypeNumber = 0
@@ -974,7 +973,8 @@ foreach x ( $subl )
 	                    #echo "DEBUG: deduced number: " $number
 	                    set extension = $file:e
 	                    set fileNew = $x$dataTypeList2[$dataTypeNumber]$number.$extension
-	                    cp $file $fileNew
+                        cp $file $fileNew
+                        cp $file $wwPDB_dir_entry
 	                    if ( $status ) then
 	                        echo "ERROR $x failed to copy file $file to $fileNew."
 	                        set overallStatus = 1
@@ -984,7 +984,9 @@ foreach x ( $subl )
 	            end
                 set cyanaSeqFile = $dir_export/$x/Cyana/$x.seq
                 if ( -e $cyanaSeqFile  ) then
-                    cp $cyanaSeqFile $x"_sequence".seq
+                    set fileNew = $x"_sequence".seq
+                    cp $cyanaSeqFile $fileNew
+                    cp $cyanaSeqFile $wwPDB_dir_entry/$fileNew
                 endif
                 
 	            ## Only create the ccpn project once.
@@ -996,7 +998,7 @@ foreach x ( $subl )
 	                echo "ERROR $x failed to tar xml files to $DBdir/$x"_project".xml.tgz"
 	                set overallStatus = 1
 	                continue
-	            endif                
+	            endif
 	            cd $DBdir
 	            ln -s $ccpn_tmp_dir/data/recoord/$x/$x.tgz $x"_project".xml.tgz
                 cp $x"_project".xml.tgz $wwPDB_dir_entry/$x"_ccpn".tgz
@@ -1048,11 +1050,15 @@ EOD
 
     # Insert the files into the NMR Restraints Grid.
     if ( $doCleanFiles ) then
+    	
         # Remove redundant data if all went fine
         \rm -rf $dir_db/DOCR/$x 
         \rm -rf $dir_db/FRED/$x
         \rm -rf $dir_link/$x/ccpn
         \rm -rf $ccpn_tmp_dir/data/recoord/$x/linkNmrStarData
+        \rm -rf $dir_star/$x/*.str >& /dev/null
+        \rm -rf $dir_assign/$x/*_assign.str >& /dev/null
+        \rm -rf $dir_surplus/$x/*_nonsurplus.str >& /dev/null
     endif
     
     echo "  Finished $x"
