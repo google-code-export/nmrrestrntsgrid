@@ -14,3 +14,10 @@ ln -s /big/docr/ccpn-chemcomp .
 cd $CCPNROOT/ccpn-chemcomp # might lead you to follow the symbolic link.
 cvs update .
 }}}
+
+=access from code=
+{{{
+ls $CCPN_TOP_DIR/ccpn-chemcomp 
+}}}
+
+This will display a directory of all the symbolic links to the actual data.
