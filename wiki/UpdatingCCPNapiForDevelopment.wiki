@@ -18,19 +18,7 @@ The installation on tang is now maintained by Jurgen, Chris, and Jundong. $WS po
 }}}
 Then, also localize with a file: /big/docr/workspace/recoord/python/msd/adatah/localConstants.py containing:
 {{{
-import os
-
-# Contain dirs: data with dirs: allChemComps, archives, and recoord 
-localTopDir = "/Users/jd/ccpn_tmp"
-dataDir             = os.path.join(localTopDir,'data')
-archivesDataDir     = os.path.join(dataDir,'archives')
-archivesCcpnDataDir = os.path.join(dataDir,'archivesCcpn')
-pythonCommand       = "python"
-numCpu              = 1
-# note that this is no longer needed if JFD is correct
-#allChemCompDataPath = os.path.join(dataDir,'allChemComps')
- 
-print "Read msd.adatah.localConstants.py version 0.0.2"
+http://nmrrestrntsgrid.googlecode.com/files/localConstants.py
 }}}
 
 
