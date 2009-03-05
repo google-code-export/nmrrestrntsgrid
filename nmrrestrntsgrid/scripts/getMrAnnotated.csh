@@ -7,10 +7,11 @@
 ############################################################################
 
 
-set subl = ( 2k5b )
+#set subl = ( 2k5b )
+set subl = ( 1brv 2jnd 2jqs 2ofc 2pmc )
 
 # Get argument pdb code if it exists.
-if ( $1 != "" ) then	
+if ( $1 != "" ) then
     set subl = (  `echo $1 | sed 's/,/ /'`  )
 endif
 
@@ -21,7 +22,7 @@ foreach x ( $subl )
    	scp jurgen@tang.bmrb.wisc.edu:/share/wattos/mr_anno_backup/$x.mr \
        $mr_anno_progress_dir
    endif
-end    
+end
 
 echo "Done with retrieving the annotated MR file from BMRB"
 

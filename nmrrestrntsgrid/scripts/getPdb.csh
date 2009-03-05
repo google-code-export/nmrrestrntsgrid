@@ -27,8 +27,13 @@ set RSYNC=rsync                            # location of local rsync
 # You should NOT CHANGE THE NEXT TWO LINES
 
 #set SERVER=rsync.rcsb.org::ftp/                                # remote server name OLD
-set SERVER=rsync.wwpdb.org::ftp/                                # remote server name
-set PORT=33444                                                  # port remote server is using
+#set SERVER=rsync.wwpdb.org::ftp/                                # remote server name
+set SERVER=rcsb-rsync-4.rutgers.edu::ftp-v3.2/pdb/
+
+#set PORT=33444                                                  # port remote server is using
+set PORT=8730
+set USER_ID=wwpdb
+set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
 
 #set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
@@ -52,7 +57,8 @@ foreach x ( $subl )
    endif
    
    $RSYNC -rlpt -z --delete --port=$PORT \
-    $SERVER/data/structures/divided/pdb/$ch23/pdb$x.ent.gz \
+    --password-file=$PASSWORD_FILE \
+    $USER_ID@$SERVER/data/structures/divided/pdb/$ch23/pdb$x.ent.gz \
     $subdirLoc/pdb$x.ent.gz \
     |& tee $LOGFILE 
 end
