@@ -1,5 +1,5 @@
 #!/bin/csh -f
-# Author: Jurgen F. Doreleijers 
+# Author: Jurgen F. Doreleijers
 # Fri Apr  1 15:01:48 CST 2005 Initiated
 # Thu Mar 13 09:21:34 CET 2008 Modified to work under sf.net project
 
@@ -8,34 +8,34 @@
 
 # TODO: remove these lines when debugging is done.
 # some get inhereted by the production setup that is still the default.
-unset nrg_project    
-unset base_dir       
-unset pdbbase_dir    
-unset tmp_dir        
-unset big_dir        
-unset WS             
-unset W              
-unset nrg_dir        
-unset CCPNMR_TOP_DIR 
-unset ccpn_tmp_dir   
-unset scripts_dir 
-unset big_dir     
-unset dir_star         
-unset dir_link         
-unset dir_compl        
-unset dir_coplanar     
-unset dir_viol         
-unset dir_surplus      
-unset dir_assign       
-unset dir_wi_all       
-unset dir_nomen        
-unset dir_extra        
-unset dir_export       
-unset dir_db           
-unset dir_restraint    
-unset dir_restr_unzip  
-unset dir_recoord_na   
-unset dir_python   
+unset nrg_project
+unset base_dir
+unset pdbbase_dir
+unset tmp_dir
+unset big_dir
+unset WS
+unset W
+unset nrg_dir
+unset CCPNMR_TOP_DIR
+unset ccpn_tmp_dir
+unset scripts_dir
+unset big_dir
+unset dir_star
+unset dir_link
+unset dir_compl
+unset dir_coplanar
+unset dir_viol
+unset dir_surplus
+unset dir_assign
+unset dir_wi_all
+unset dir_nomen
+unset dir_extra
+unset dir_export
+unset dir_db
+unset dir_restraint
+unset dir_restr_unzip
+unset dir_recoord_na
+unset dir_python
 unset perEntry_dir
 unset results_dir
 
@@ -56,14 +56,6 @@ else
     setenv WS           $UJ/workspace34
 endif
 
-
-if ( $measahost == "swoft" ) then
-    echo "DEBUG in settings.csh; Now on swoft"
-    setenv tmp_dir         ~jurgen/tmp
-    setenv big_dir         ~jurgen/tmp/DOCR_big_tmp_
-    setenv pdbbase_dir     ~/PDB_rem/ftp.ebi.ac.uk/pub/databases/rcsb/pdb-remediated
-endif
-
 # Development settings; other locals need to be setenv below. Can be overiden by next section
 setenv nrg_project        nmrrestrntsgrid
 setenv pdbbase_dir        $UJ/wattosTestingPlatform/pdb     # For PDB and mmCIF formatted entries data.
@@ -72,7 +64,7 @@ setenv tmp_dir            $UJ/tmp                           #
 setenv big_dir            $UJ/NRG                           # NRG data large in size.
 setenv W                  $WS/wattos                        # Wattos install
 setenv nrg_dir            $WS/$nrg_project                  # For NRG project code.
-setenv CCPNMR_TOP_DIR     $WS/ccpn 
+setenv CCPNMR_TOP_DIR     $WS/ccpn
 setenv ccpn_tmp_dir       $UJ/ccpn_tmp                      # Temporary location for FC data.
 
 # CING, and RECOORD
@@ -80,20 +72,20 @@ setenv C                  $WS/cing
 setenv R                  $WS/recoord
 setenv P                  $R/python/recoord2
 
-setenv servletUrl  'http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet' 
+setenv servletUrl  'http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet'
 #setenv servletUrl  'http://localhost:9999/NRG/MRGridServlet'
 
 # Host name based locals SECTION II (see section I). These are modifications.
 if ( $measahost == "tang" ) then
-#    setenv CCPNMR_TOP_DIR     /big/wim/workspace/all 
-#    setenv R                  /big/wim/workspace/recoord 
+#    setenv CCPNMR_TOP_DIR     /big/wim/workspace/all
+#    setenv R                  /big/wim/workspace/recoord
     setenv pdbbase_dir        /dumpzone/pdb/pdb
-    setenv servletUrl  'http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet' 
+    setenv servletUrl  'http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet'
 endif
-                       
+
 ## Directory with this file
 setenv scripts_dir      $nrg_dir/scripts
-setenv wcf_dir          $scripts_dir/wcf 
+setenv wcf_dir          $scripts_dir/wcf
 setenv list_dir         $big_dir/lists
 setenv results_dir      $big_dir/Results
 setenv wwPDB_dir        $big_dir/wwPDB
@@ -124,8 +116,8 @@ setenv dir_recoord_na   $big_dir/recoord_na
 # perhaps do the below once.
 #mkdir -p $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all $dir_nomen $dir_db $dir_restraint $dir_restr_unzip $dir_extra
 
-setenv dir_pdb_status   $pdbbase_dir/data/status 
-              
+setenv dir_pdb_status   $pdbbase_dir/data/status
+
 ## No changes below this line. Except special case of Wim's 'all'.
 ##############################################################################
 # Wattos.
@@ -137,7 +129,7 @@ setenv PYTHONPATH   ${PYTHONPATH}:${dir_nrg_python}
 # recoord (needs to preceed ccpn because both have a msd package.)
 setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
 
-# ccpn/recoord with api 
+# ccpn/recoord with api
 setenv PYTHONPATH   ${PYTHONPATH}:$CCPNMR_TOP_DIR/python
 
 # CING
