@@ -6,22 +6,18 @@
 `1a24 1a4d 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e`
 
 = PHASE - Prep =
-Make sure you work under the development settings. Execute:
-
-swNRG31
+Make sure you work under the development settings.
 
 and check that your classpath starts with the correct jar with:
 {{{
-wsetup
 echo $CLASSPATH
 /big/docr/workspace/wattos/lib/Wattos.jar....
 }}}
-If it's the one in /share you need to change something caus that's production.
-
+If it's the one in not in workspace you need to change something caus that's production.
 
 Now, empty the tables of the DEVELOPMENT database.
 
-The production database is wattos2. The development is wattos1. The user name
+The production database is wattos1. The development is wattos1 but on a different machine (stella). The user name
 is always the same as the database name.
 
 Login to the mysql database to remove spurious entries:
@@ -31,8 +27,7 @@ mysql -h localhost -u wattos1 -p4I4KMS wattos1
 
 BEFORE YOU CONTINUE, look at the nice data online in NRG we have in production and develop.
 Make sure that after you do the next step only the development has been touched!
-It takes a long time before I can restore the production site completely. Perhaps
-as much as a week!
+It takes about 2 weeks on a single processor to restore the production site completely!
 
 To remove all:
 {{{
@@ -64,8 +59,10 @@ Note the list of the random 100 resides in:
 }}}
 
 Then edit
+{{{
 $WS/wattos/scripts/load_db_raw.csh
-
+}}}
+and execute.
 
 = PHASE 2 Parsed =
 
