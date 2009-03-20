@@ -4,4 +4,13 @@
 
 Taking diffs on the mr files annotated and originals and using that in Nijmegen to reconstruct the annotations.
 
-Enties 1new, 2new contain DOS eol chars instead of \n
+Entries below contain DOS eol chars instead of \n
+1new 
+2new 
+1d1d 
+1j7o 
+1j7p 
+1qrj 
+
+Get them from good versions at:
+ jurgen@tang.bmrb.wisc.edu:/share/wattos/mr_anno_backup/$x.mr 
