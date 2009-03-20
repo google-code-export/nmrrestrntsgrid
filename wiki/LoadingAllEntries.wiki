@@ -22,6 +22,7 @@ $WS/wattos/scripts/load_db_raw.csh
 
 check the log for errors.
 E.g. JFD saw:
+{{{
 Reading file: ./1go0.mr as a textual file.
 Read 0 lines.
 Doing: splitToBlocks
@@ -35,9 +36,10 @@ DEBUG: Check: checkBlockEmptiness
 ERROR: Found one or more errors by checking.
 ERROR: in MRInterloop.loadEntry found:
 ERROR: Checks not successful.
+}}}
 
 Also check these suspicious entries:
-
+{{{
 jd:nmr/~/ l $mr_anno_progress_dir | sort -n --key=5 | head
 -rw-------     1 jd  jd            0 Mar 20 13:19 1go0.mr
 -rw-------     1 jd  jd            0 Mar 20 13:20 1m9o.mr
@@ -49,5 +51,8 @@ drwxr-xr-x    10 jd  jd          340 Mar 20 13:54 ../
 -rw-------     1 jd  jd         3510 Mar 20 13:20 1pjd.mr
 -rw-r--r--@    1 jd  jd         6148 Nov 29  2007 .DS_Store
 -rw-------     1 jd  jd         6526 Mar 20 13:21 2h3o.mr
+}}}
 
-
+  * 1go0 is issue 194
+  * 1m9o is fixed now because it was 1m9O (capital O)
+  * 1ccf is issue 195
