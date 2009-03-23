@@ -16,28 +16,22 @@
 # Updated by Chen, L. Nov 10, 2006
 # Updated by Jurgen Doreleijers 2007
 
+source $0:h/settings.csh
 
 
 # You should CHANGE THE NEXT THREE LINES to suit your local setup
-#/Users/jd/wattosTestingPlatform/pdb/data/structures/divided/nmr_restraints
 set MIRRORDIR=$pdbbase_dir                         # your top level rsync directory
 set LOGFILE=$MIRRORDIR/logs                        # file for storing logs
 set RSYNC=rsync                            # location of local rsync
 
-# You should NOT CHANGE THE NEXT TWO LINES
-
-#set SERVER=rsync.rcsb.org::ftp/                                # remote server name OLD
-#set SERVER=rsync.wwpdb.org::ftp/                                # remote server name
 set SERVER=rcsb-rsync-4.rutgers.edu::ftp-v3.2/pdb/
-
-#set PORT=33444                                                  # port remote server is using
 set PORT=8730
 set USER_ID=wwpdb
 set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
-
+set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
 #set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
-set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
+#set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then

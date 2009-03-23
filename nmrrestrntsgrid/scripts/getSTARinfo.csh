@@ -5,7 +5,7 @@
 # TASK: Retrieves info from star files as far as they're not in db already.
 # USE:  $scripts_dir/getSTARinfo.csh
 #       AND repeat for each term to do.  
-
+source $0:h/settings.csh
 
 set run_id          = weekly20070517
 set DUMP_DIR        = /var/www/servlet_data/viavia/mr_mysql_backup

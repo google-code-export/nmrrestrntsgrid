@@ -1,6 +1,8 @@
 #!/bin/csh -f
 # Author: Jurgen F. Doreleijers @ Fri Jun 24 15:25:15 CDT 2005
 
+source $0:h/settings.csh
+
 set src_dir = $dir_wi_all
 
 # The good entries:
