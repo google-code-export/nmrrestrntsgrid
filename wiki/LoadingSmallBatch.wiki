@@ -96,6 +96,15 @@ echo $scripts_dir
 }}}
 and ensure it points to  point to $WS/nmrrestrntsgrid/scripts.
 
+= NEW: =
+The restraint files that are input to process_DOCR_FRED.csh need first to be put into place using the weekly script. In settings.csh there is a servletUrl to be edited before you try this on a different machine. Perhaps use the suggested 
+{{{
+setenv servletUrl  'http://localhost:8080/NRG/MRGridServlet'
+}}} 
+Then edit the line to reflect which entries you want to do such as:
+{{{
+set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
+}}}
 The way you run it hasn't changed:
 {{{
 set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log
