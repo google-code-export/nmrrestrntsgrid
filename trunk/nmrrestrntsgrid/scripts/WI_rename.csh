@@ -27,6 +27,8 @@ set topology_file = /home/vriend/whatif/dbdata/TOPOLOGY.H
 # No need to change things below this line
 ###############################################################################
 
+source $0:h/settings.csh
+
 
 if ($#argv != 4 ) then
  goto usage

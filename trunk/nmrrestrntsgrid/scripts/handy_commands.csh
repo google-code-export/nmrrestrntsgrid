@@ -1,3 +1,15 @@
+source $0:h/settings.csh
+
+
+set list = ( 1d1d 1j7o 1j7p 1qrj 1new 2new )
+
+
+foreach x ( $list )
+    scp jurgen@tang.bmrb.wisc.edu:/share/wattos/mr_anno_backup/$x.mr /Users/jd/wattosTestingPlatform/Wattos/mr_anno_progress
+end
+
+
+
 gawk -f $WATTOSSCRIPTSDIR/convert_star2pdb nonredun.str nonredun.pdb
 
 

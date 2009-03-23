@@ -17,19 +17,18 @@
 # Updated by Jurgen Doreleijers 2007
 
 
+source $0:h/settings.csh
 
-# You should CHANGE THE NEXT THREE LINES to suit your local setup
-#/Users/jd/wattosTestingPlatform/pdb/data/structures/divided/nmr_restraints
 set MIRRORDIR=$pdbbase_dir                         # your top level rsync directory
 set LOGFILE=$MIRRORDIR/logs                        # file for storing logs
 set RSYNC=rsync                            # location of local rsync
 
-# You should NOT CHANGE THE NEXT TWO LINES
+set SERVER=rcsb-rsync-4.rutgers.edu::ftp-v3.2/pdb/
+set PORT=8730
+set USER_ID=wwpdb
+set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
-#set SERVER=rsync.rcsb.org::ftp/                                # remote server name OLD
-set SERVER=rsync.wwpdb.org::ftp/                                # remote server name
-set PORT=33444                                           # port remote server is using
-
+set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
 
 #set subl = ( 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2juy 2jvf 2k0e 2k17 2o7w )
 # Get argument pdb code if it exists.
@@ -53,7 +52,8 @@ foreach x ( $subl )
     	continue
     endif
    $RSYNC -rlpt -z --delete --port=$PORT \
-    $SERVER/data/structures/divided/nmr_restraints/$ch23/$x.mr.gz \
+    --password-file=$PASSWORD_FILE \
+    $USER_ID@$SERVER/data/structures/divided/nmr_restraints/$ch23/$x.mr.gz \
     $subdirLoc/$x.mr.gz
 end
 echo "Done with syncing PDB MR files"

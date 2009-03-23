@@ -1,6 +1,8 @@
 #!/bin/csh -f
 # Author: Jurgen F. Doreleijers @ Fri Apr  1 15:01:48 CST 2005
 
+source $0:h/settings.csh
+
 
 # REQUIRED: - Wattos is installed.
 

@@ -1,5 +1,11 @@
 ALSO SEE: $NRG/scripts/sql/prepare_database_mysql.sql and handy_commands.sql
 
+* mysql on nmr
+    * start up automated with: MySQL preference pane. This needs to be enable on the Mac
+        by looking for it in SpotLight (white magnifying glass in blue filled circle at the top right)
+        Making sure all servers are down before starting this one.
+
+    
 * mysql under fink on Mac (Currently 5.0.38-1005)
     fink install mysql
     daemonic enable mysql (only once). Tested fine.
@@ -21,10 +27,6 @@ ALSO SEE: $NRG/scripts/sql/prepare_database_mysql.sql and handy_commands.sql
         wattos2     wattos database although since they are innodb
                         typed tables most of the actual data is in the log and bin
                         files in the datadir.
-    * installed among others: 
-    * start up automated with: MySQL preference pane. This needs to be enable on the Mac
-        by looking for it in SpotLight (white magnifying glass in blue filled circle at the top right)
-        Making sure all servers are down before starting this one.
         
 * integration with Eclipse is thru: mysql-connector-java-5.0.3.jar
     - Make sure the data tools are installed. Install thru: 

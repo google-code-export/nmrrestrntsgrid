@@ -5,11 +5,13 @@
 # Updated by Chen, L. Nov 10, 2006
 # Updated by Jurgen Doreleijers Thu Mar  5 10:30:45 CET 2009
 
+source $0:h/settings.csh
+
 set MIRRORDIR=$pdbbase_dir                         # your top level rsync directory
 set RSYNC=rsync                                    # location of local rsync
 
 # Set to 0 for using normal archive.
-set useRemediated=0
+set useRemediated=1
 
 #set SERVER=rsync.rcsb.org::ftp/                                # remote server name OLD
 set SERVER=rsync.wwpdb.org::ftp/                                # remote server name
@@ -26,7 +28,7 @@ endif
 
 #set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
-set subl = ( 2jnd 2ofc 2pmc )
+set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then

@@ -72,8 +72,7 @@ setenv C                  $WS/cing
 setenv R                  $WS/recoord
 setenv P                  $R/python/recoord2
 
-setenv servletUrl  'http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet'
-#setenv servletUrl  'http://localhost:9999/NRG/MRGridServlet'
+setenv servletUrl  'http://localhost:8080/NRG/MRGridServlet'
 
 # Host name based locals SECTION II (see section I). These are modifications.
 if ( $measahost == "tang" ) then
@@ -81,6 +80,10 @@ if ( $measahost == "tang" ) then
 #    setenv R                  /big/wim/workspace/recoord
     setenv pdbbase_dir        /dumpzone/pdb/pdb
     setenv servletUrl  'http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet'
+endif
+
+if ( $measahost == "nmr" ) then
+    echo "DEBUG in NRG settings.csh; Now on $HOST which will be the Nijmegen setup."    
 endif
 
 ## Directory with this file
@@ -114,7 +117,7 @@ setenv dir_restr_unzip  $big_dir/restraint/unzipped
 setenv dir_recoord_na   $big_dir/recoord_na
 
 # perhaps do the below once.
-#mkdir -p $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all $dir_nomen $dir_db $dir_restraint $dir_restr_unzip $dir_extra
+#mkdir -p $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all $dir_nomen $dir_db $dir_restraint $dir_restr_unzip $dir_extra $list_dir
 
 setenv dir_pdb_status   $pdbbase_dir/data/status
 

@@ -18,6 +18,8 @@
 #set subl = ( `cat  $list_dir/nmr_list_parsed_2008-02-15.txt`)
 #set subl = ( 1brv 2jnd 2jqs 2ofc 2pmc )
 
+source $0:h/settings.csh
+
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then
@@ -36,7 +38,7 @@ set doOrganizeForGrid   = 1
 set doDumpInGrid        = 1
 set doCleanFiles        = 0 # Keep this on for it does fill up > 100 G on > 4,000 entries
 
-set interactiveProcessing = 0 # Set to zero to do production run but one for a very fast run.
+set interactiveProcessing = 1 # Set to zero to do production run but one for a very fast run.
 # The largest entry 2k0e is completely reprocessed interactively in 2'30".
 
 set extraWattosOptions  =
@@ -47,8 +49,6 @@ set dofilterTopViolations = 1
 
 # E.g. to make it run without an X-server
 set hasHead = 0
-
-source $WS/nmrrestrntsgrid/scripts/settings.csh
 
 # No need to change things below this line
 ###############################################################################
