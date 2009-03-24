@@ -31,7 +31,7 @@ It takes about 2 weeks on a single processor to restore the production site comp
 
 To remove all:
 {{{
-delete from entry;
+mysql -u wattos1 -p4I4KMS  wattos1 < $WS/wattos/scripts/sql//db_create.sql
 }}}
 
 = PHASE 1 Original =
