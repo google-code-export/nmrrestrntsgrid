@@ -28,7 +28,8 @@ set PORT=8730
 set USER_ID=wwpdb
 set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
-set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
+#set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
+set subl = ( `cat $list_dir/entry_list_nrg_2009-03-12.txt`)
 
 #set subl = ( 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2juy 2jvf 2k0e 2k17 2o7w )
 # Get argument pdb code if it exists.

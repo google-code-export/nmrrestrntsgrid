@@ -9,7 +9,8 @@ set run_id          = all
 set par1            = "block_text_type=2-parsed&file_detail=2-parsed&format=n%2Fa"
 #set par2            = "request_type=archive&subtype=full&type=entry&db_username=wattos2"
 set par2            = "request_type=archive&subtype=full&type=entry"
-set par3            = "pdb_id=1brv,1hue"
+#set par3            = "pdb_id=1brv,1hue"
+set par3            = "pdb_id=" # all
 
 # Get argument pdb codes (comma seperated if it exists.)
 if ( $1 != "" ) then
@@ -49,6 +50,11 @@ endif
 
 echo "-2- Unzipping"
 unzip $zipFile > $unzipLogFile
+if ( $status ) then
+	echo "ERROR: Failed to unzip in getFilesFromGrid.csh on $cwd/$zipFile"
+	exit 1
+endif
+ 
 echo "-3- Getting info from index file."
 gawk -F',' '{if ((NR==1)||(NF<14))next;printf "mv block_%s.str %s_rst.str\n",$2,$3}' index.csv > $scriptFile
     

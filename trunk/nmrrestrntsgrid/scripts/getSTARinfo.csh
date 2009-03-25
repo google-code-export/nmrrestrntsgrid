@@ -7,10 +7,13 @@
 #       AND repeat for each term to do.  
 source $0:h/settings.csh
 
-set run_id          = weekly20070517
-set DUMP_DIR        = /var/www/servlet_data/viavia/mr_mysql_backup
-set list            = ( `gawk '{print $3}'  $DUMP_DIR/entry.txt |sort` )
-#set list = ( 1brv )
+set run_id          = weekly20090312
+#set DUMP_DIR        = /var/www/servlet_data/viavia/mr_mysql_backup
+set DUMP_DIR = /Users/jd/Sites/viavia/mr_mysql_backup
+
+#set list            = ( `gawk '{print $3}'  $DUMP_DIR/entry.txt |sort` )
+#set list            = ( `cat $list_dir/entry_list_nrg_2009-03-12.txt` )
+set list = ( 1brv )
 #No changes below
 ################
 

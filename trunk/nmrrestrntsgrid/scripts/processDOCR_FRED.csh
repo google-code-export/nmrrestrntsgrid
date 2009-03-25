@@ -341,59 +341,6 @@ foreach x ( $subl )
     endif
 
 
-    ## Don't care when whatif crashes.
-    if ( $doWHATIF ) then
-#        echo "  skipping wi"
-        if ( 0 ) then
-	        set inputPDBFile   = $dir_extra/$x/$x"_extra".pdb
-	        cd $dir_wi_all
-	        if ( -e $x ) then
-	            \rm -rf $x
-	        endif
-	        mkdir $x
-	        cd $x
-
-	        #\rm $x"_rename".log >& /dev/null
-	        #\rm $x"_wi".pdb     >& /dev/null
-	        #\rm -f $x.pdb       >& /dev/null
-	        #if ( -e $pdbmod_dir/pdb$x.ent ) then
-	        #    echo "DEBUG: $x using the PDB coordinates from the mod directory"
-	        #    ln -s $pdbmod_dir/pdb$x.ent $x.pdb
-	        #else
-	        #    zcat $PDBZ2/$ch23/pdb$x.ent.gz > $x.pdb
-	        #endif
-	# ARGUMENTS:
-	#   do_logs
-	#   add_coordinates
-	#   do_write
-	#   pdb file name with directory
-
-	        # Get the file locally because WI doesn't deal well with long path names.
-	        ln -s $inputPDBFile $x.pdb
-	        # What if needs to be fooled in thinking it has an input stream.
-	        $scripts_dir/WI_rename.csh f f t $x.pdb < /dev/null >& $x"_rename".log
-	        if ( $status ) then
-	            echo "WARNING $x in whatif"
-	            # continue
-	        endif
-	        grep --quiet ERROR $x"_rename".log
-	        if ( ! $status ) then
-	            echo "WARNING $x found in whatif log file"
-	            # continue
-	        endif
-	        grep --quiet "No match" $x"_rename".log
-	        if ( ! $status ) then
-	            echo "WARNING $x found 'No match' in log file"
-	            # continue
-	        endif
-	        if ( ! -e $x"_wi".pdb ) then
-	            echo "WARNING $x found no WI pdb file"
-	            # continue
-	        endif
-	        # \rm $x.pdb
-        endif
-    endif
-
 
     if ( $doNomenclature ) then
 #        echo "  skipping nomen"
@@ -642,18 +589,19 @@ foreach x ( $subl )
             continue
         endif
 
-        grep --quiet "_Dist_constraint_tree.Constraint_ID" $inputStarFile
+        grep --quiet "_Dist_constraint.Atom_ID" $inputStarFile
         if ( ! $status ) then
+        	# if the input contains distances then it's expected to see a result file.
 	        if ( ! -e $outputDistStarFile ) then
-	            echo "ERROR $x found no result file $outputDistStarFile"
+	            echo "WARNING $x found no result file $outputDistStarFile"
 	            continue
 	        endif
 	    endif
 
-        grep --quiet "_Torsion_angle_constraint_list.ID" $inputStarFile
+        grep --quiet "_Torsion_angle_constraint.Torsion_angle_name" $inputStarFile
         if ( ! $status ) then
             if ( ! -e $outputDihedStarFile ) then
-                echo "ERROR $x found no result file $outputDihedStarFile"
+                echo "WARNING $x found no result file $outputDihedStarFile"
                 continue
             endif
         endif
