@@ -1,22 +1,67 @@
 ALSO SEE: $NRG/scripts/sql/prepare_database_mysql.sql and handy_commands.sql
 
 * mysql on nmr
-    * start up automated with: MySQL preference pane. This needs to be enable on the Mac
-        by looking for it in SpotLight (white magnifying glass in blue filled circle at the top right)
-        Making sure all servers are down before starting this one.
+    * To start mysqld at boot time you have to copy
+support-files/mysql.server to the right place for your system
 
+PLEASE REMEMBER TO SET A PASSWORD FOR THE MySQL root USER !
+To do so, start the server, then issue the following commands:
+/sw/bin/mysqladmin -u root password 'new-password'
+/sw/bin/mysqladmin -u root -h nmr.cmbi.umcn.nl password 'new-password'
+See the manual for more instructions.
+
+You can test the MySQL daemon with mysql-test-run.pl
+cd mysql-test ; perl mysql-test-run.pl
     
+      
+            
+            
 * mysql under fink on Mac (Currently 5.0.38-1005)
     fink install mysql
-    daemonic enable mysql (only once). Tested fine.
-     
-    Otherwise start by hand. 
-    /sw/sbin/mysqld --basedir=/sw --datadir=/sw/var/mysql --user=m
-       
+    daemonic enable mysql (only once). Tested fine. It installs:
+        /Library/StartupItems/daemonic-mysql/daemonic-mysql
+    Which benefits from an added stop command:
+          stop)
+            ConsoleMessage "Stopping MySQL database server"          
+            killall mysqld_safe mysqld
+            ;;    
+    Defined datadir is: 
+        set mysqldatadir = /sw/var/mysql 
+        cd $mysqldatadir
+    Get the config file:
+        cp /sw/share/mysql/my-innodb-heavy-4G.cnf my.cnf
+    Remove the mysql data out of the way for inno to take it's new settings:
+        rm ibdata1 ib_logfile*
+        
+    DON'T SET THE ROOT PASSWORD BECAUSE I DON'T KNWO HOW TO CONFIGURE ALL TO WORK THEN.
+    Seems like I can't login as root with mysql when I'm not logged in as root under the OS.
+    
+    RESTART:
+        # Funny thing is that logging into mysql as root can only be done as Unix root user.
+            mysqladmin --user root -p'\!Ecj%Y&R' status
+            mysqladmin --user root -p'\!Ecj%Y&R' --shutdown_timeout=10 shutdown
+        or
+            /Library/StartupItems/daemonic-mysql/daemonic-mysql stop
+        Never use kill -9. Only regular kill or killall is safe.
+        Then:
+            /Library/StartupItems/daemonic-mysql/daemonic-mysql start
+    Connect:
+        mysql --user wattos1 -p4I4KMS wattos1
+        mysql --user root wattos1
+        mysqladmin --user root status               
+    LOG:
+        tail -f $mysqldatadir/stella.err &        
+        tail -f /var/log/system.log
+        
+    CONFIG:
+        /sw/share/mysql/my-innodb-heavy-4G.cnf original to be copied to /sw
     PLEASE REMEMBER TO SET A PASSWORD FOR THE MySQL root USER !
     To do so, start the server, then issue the following commands:
-    /sw/bin/mysqladmin -u root password ''
+        /sw/bin/mysqladmin -u root password '' 
+    or if it was misset before:
+        /sw/bin/mysqladmin -u root -p4I4KMS password '\!Ecj%Y&R'
 
+    
     
 
 

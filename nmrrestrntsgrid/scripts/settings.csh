@@ -66,6 +66,7 @@ setenv W                  $WS/wattos                        # Wattos install
 setenv nrg_dir            $WS/$nrg_project                  # For NRG project code.
 setenv CCPNMR_TOP_DIR     $WS/ccpn
 setenv ccpn_tmp_dir       $UJ/ccpn_tmp                      # Temporary location for FC data.
+setenv VIAVIA             $UJ/Sites/viavia                  # Files served away from NRG such as mysql backup files.
 
 # CING, and RECOORD
 setenv C                  $WS/cing
@@ -80,10 +81,11 @@ if ( $measahost == "tang" ) then
 #    setenv R                  /big/wim/workspace/recoord
     setenv pdbbase_dir        /dumpzone/pdb/pdb
     setenv servletUrl  'http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet'
+    setenv VIAVIA           /var/www/servlet_data/viavia
 endif
 
 if ( $measahost == "nmr" ) then
-    echo "DEBUG in NRG settings.csh; Now on $HOST which will be the Nijmegen setup."    
+#    echo "DEBUG in NRG settings.csh; Now on $HOST which will be the Nijmegen setup."    
 endif
 
 ## Directory with this file
@@ -94,10 +96,9 @@ setenv results_dir      $big_dir/Results
 setenv wwPDB_dir        $big_dir/wwPDB
 setenv perEntry_dir     $results_dir/perEntry
 setenv dir_nrg_python   $nrg_dir/python
-#setenv DIR_WHATIF   /home/vriend/whatif
-setenv PDBZ2        $pdbbase_dir/data/structures/divided/pdb
-setenv CIFZ2        $pdbbase_dir/data/structures/divided/mmCIF
-
+setenv PDBZ2            $pdbbase_dir/data/structures/divided/pdb
+setenv CIFZ2            $pdbbase_dir/data/structures/divided/mmCIF
+setenv mysql_backup_dir $VIAVIA/mr_mysql_backup
 ################################################################################
 # More or less temp files.
 setenv dir_star         $big_dir/star
@@ -116,10 +117,16 @@ setenv dir_restraint    $big_dir/restraint
 setenv dir_restr_unzip  $big_dir/restraint/unzipped
 setenv dir_recoord_na   $big_dir/recoord_na
 
-# perhaps do the below once.
-#mkdir -p $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all $dir_nomen $dir_db $dir_restraint $dir_restr_unzip $dir_extra $list_dir
+# Do the below once when setting up. Listed in the same order as the above.
+if ( 0 ) then
+    mkdir -p  $wwPDB_dir $dir_restraint $perEntry_dir \
+    $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all \
+    $dir_nomen  $dir_restr_unzip $dir_recoord_na \
+    $dir_extra $dir_export $dir_db $list_dir 
+endif
 
 setenv dir_pdb_status   $pdbbase_dir/data/status
+setenv dir_mysql_backup $VIAVIA/mr_mysql_backup
 
 ## No changes below this line. Except special case of Wim's 'all'.
 ##############################################################################
