@@ -10,7 +10,7 @@ source $0:h/settings.csh
 set subl = (  2fce )
 #set subl = ( `cat $list_dir/setDocrFredBaddies786.csv` )
 #set subl = ( `cat /tmp/entries_all_2008-09-30_todo.csv | tail -100` )
-#set subl = (`cat entry_list_nrg_2009-03-12.txt`)
+#set subl = (`cat $list_dir/entry_list_nrg_2009-03-12.txt`)
 
 # Overwrites the below 3 settings. Checks will always be done.
 set doChecksOnly = 0
@@ -136,7 +136,7 @@ if ( $doChecks ) then
             set violations = (`grep "_Distance_constraint_stats_list.Viol_max" $dir_viol/$x/$outputDistStarFile |\
                 gawk -v c=$distanceCutOffMaxViol '{if ($2 >c) print $2}'`)
             if ( "$violations" != "" ) then
-                echo $x Distance max violation(s): $violations
+                echo '$x Distance max violation(s): $violations'
             endif
         else 
             echo "$x no distance violation report"
@@ -146,7 +146,7 @@ if ( $doChecks ) then
             set violations = (`grep "_TA_constraint_stats_list.Viol_max" $dir_viol/$x/$outputDihedStarFile |\
                 gawk -v c=$dihedralCutOffMaxViol '{if ($2 >c) print $2}'`)
             if ( "$violations" != "" ) then
-                echo $x Dihedral max violation(s): $violations
+                echo '$x Dihedral max violation(s): $violations'
             endif
         else 
 #            echo "$x no dihedral violation report"

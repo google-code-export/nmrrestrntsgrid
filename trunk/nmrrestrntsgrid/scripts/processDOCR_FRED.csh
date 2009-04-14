@@ -8,10 +8,7 @@
 #OR: set x = 1brv  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log
 
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
-
 #set subl = ( 1a4d 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
-#set subl = ( 108d 149d 170d 171d 17ra )
-
 #set subl = ( 1a4d )
 #set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
 #set subl = ( `cat  $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
@@ -814,7 +811,7 @@ foreach x ( $subl )
 #        echo -n "DEBUG: "; date
         if ( $overallStatus ) then
             echo "ERROR $x found in doExportsForGrid"
-            continue
+#            continue
         endif
     endif
 
@@ -897,7 +894,9 @@ foreach x ( $subl )
 
             if ( $d == "DOCR" ) then
                 # Get the Wattos generated XPLOR sequence files.
-                cp $dir_export/$x/$x"_DOCR_"*.py .
+                if ( -e $dir_export/$x) then
+                    cp $dir_export/$x/$x"_DOCR_"*.py .
+                endif
 
                 # only setting DOCR converted files.
 	            set dataTypeList = (  dist                           hBond                          dihed               rdc )
@@ -911,7 +910,10 @@ foreach x ( $subl )
 	                # Cyana/1brv.dihed.1.aco
 
 	#                set list = ( `find $dir_export/$x -name "$x\_$d\_$dataType*"` )
-	                set list = ( `find $dir_export/$x -name "$x\.$dataType\.*"` )
+	                set list = ()
+                    if ( -e $dir_export/$x) then
+	                   set list = ( `find $dir_export/$x -name "$x\.$dataType\.*"` )
+	                endif
 	                foreach file ( $list )
 	                    #echo "DEBUG: working on file: " $file
 
