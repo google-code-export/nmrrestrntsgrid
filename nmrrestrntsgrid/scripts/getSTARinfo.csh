@@ -2,7 +2,8 @@
 # Author: Jurgen F. Doreleijers 
 # Wed Dec 14 13:49:06 CST 2005
 #
-# TASK: Retrieves info from star files as far as they're not in db already.
+# TASK: Retrieves info from star files as far as they're not in db already. Puts info into $t"_mySqlNulls".csv files 
+#       that Excel can easily read.
 # USE:  $scripts_dir/getSTARinfo.csh
 #       AND repeat for each term to do.  
 source $0:h/settings.csh
@@ -28,7 +29,7 @@ echo "Getting info from STAR files"
 set termList            = ( _Distance_constraint_stats_list _Stereo_assign_list             _Distance_constraint_surplus    _NOE_completeness_stats     )
 set colCountList        = ( 12                              25                              17                              25                          )
 set dirSpecList         = ( $dir_viol                       $dir_assign                     $dir_surplus                    $dir_compl                  )
-set fileSpecAddList     = ( "_viol".str                     assignment.str                  surplus_summary.str             "_compl".str                )
+set fileSpecAddList     = ( "_dist_viol".str                assignment.str                  surplus_summary.str             "_compl".str                )
 set useXList            = ( 1                               0                               0                               1                           )
 
 echo "Doing termList $termList"

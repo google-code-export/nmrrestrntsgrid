@@ -17,10 +17,8 @@ CREATE table _Distance_constraint_stats_list
     Cutoff_violation_report       FLOAT,
     dummy						  VARCHAR(255)
 );
-
--- Created by: getSTARinfo.csh
 LOAD DATA LOCAL INFILE 
-	'/Volumes/BMRB\;TANG/docr/CloneWars/DOCR1000/Results/weekly20070913/_Distance_constraint_stats_list_mySqlNulls.csv'
+	'/Users/jd/NRG/Results/weekly20090312/_Distance_constraint_stats_list_mySqlNulls.csv'
 	INTO TABLE _Distance_constraint_stats_list	
 	FIELDS TERMINATED BY ',' 
 	OPTIONALLY ENCLOSED BY '\"'	
@@ -71,7 +69,7 @@ CREATE table _Distance_constraint_surplus
 	dummy2						    CHAR(1)
 	);
 LOAD DATA LOCAL INFILE 
-	'/Volumes/BMRB\;TANG/docr/CloneWars/DOCR1000/Results/weekly20070913/_Distance_constraint_surplus_mySqlNulls.csv'
+	'/Users/jd/NRG/Results/weekly20090312/_Distance_constraint_surplus_mySqlNulls.csv'
 	INTO TABLE _Distance_constraint_surplus	
 	FIELDS TERMINATED BY ',' 
 	OPTIONALLY ENCLOSED BY '\"'	
@@ -110,7 +108,7 @@ dum8          VARCHAR(255)
 );
 
 LOAD DATA LOCAL INFILE 
-	'/Volumes/BMRB\;TANG/docr/CloneWars/DOCR1000/Results/weekly20070913/_Stereo_assign_list_mySqlNulls.csv'
+	'/Users/jd/NRG/Results/weekly20090312/_Stereo_assign_list_mySqlNulls.csv'
 	INTO TABLE _Stereo_assign_list	
 	FIELDS TERMINATED BY ',' 
 	OPTIONALLY ENCLOSED BY '\"'	
@@ -168,7 +166,7 @@ CREATE table _NOE_completeness_stats
 );
 
 LOAD DATA LOCAL INFILE 
-	'/Volumes/BMRB\;TANG/docr/CloneWars/DOCR1000/Results/weekly20070913/_NOE_completeness_stats_mySqlNulls.csv'
+	'/Users/jd/NRG/Results/weekly20090312/_NOE_completeness_stats_mySqlNulls.csv'
 	INTO TABLE _NOE_completeness_stats	
 	FIELDS TERMINATED BY ',' 
 	OPTIONALLY ENCLOSED BY '\"'
@@ -181,7 +179,7 @@ LOAD DATA LOCAL INFILE
 --);
 --
 --LOAD DATA LOCAL INFILE 
---	'/Volumes/BMRB\;TANG/docr/CloneWars/DOCR1000/Results/weekly20070913/rcsb_id_with_mr.csv'
+--	'/Users/jd/NRG/Results/weekly20090312/rcsb_id_with_mr.csv'
 --	INTO TABLE rcsb_id_with_mr
 --	FIELDS TERMINATED BY ',' 
 --	OPTIONALLY ENCLOSED BY '\"'
@@ -194,7 +192,7 @@ LOAD DATA LOCAL INFILE
 --);
 --
 --LOAD DATA LOCAL INFILE 
---	'/Volumes/BMRB\;TANG/docr/CloneWars/DOCR1000/Results/weekly20070913/rcsb_pdb_id.csv'
+--	'/Users/jd/NRG/Results/weekly20090312/rcsb_pdb_id.csv'
 --	INTO TABLE rcsb_pdb_id	
 --	FIELDS TERMINATED BY ',' 
 --	OPTIONALLY ENCLOSED BY '\"'
