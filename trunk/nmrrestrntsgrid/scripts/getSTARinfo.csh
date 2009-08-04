@@ -1,11 +1,11 @@
-#!/bin/csh -f 
-# Author: Jurgen F. Doreleijers 
+#!/bin/csh -f
+# Author: Jurgen F. Doreleijers
 # Wed Dec 14 13:49:06 CST 2005
 #
-# TASK: Retrieves info from star files as far as they're not in db already. Puts info into $t"_mySqlNulls".csv files 
+# TASK: Retrieves info from star files as far as they're not in db already. Puts info into $t"_mySqlNulls".csv files
 #       that Excel can easily read.
 # USE:  $scripts_dir/getSTARinfo.csh
-#       AND repeat for each term to do.  
+#       AND repeat for each term to do.
 source $0:h/settings.csh
 
 set run_id          = weekly20090312
@@ -27,14 +27,14 @@ echo "Using entries: $#list"
 
 echo "Getting info from STAR files"
 set termList            = ( _Distance_constraint_stats_list _Stereo_assign_list             _Distance_constraint_surplus    _NOE_completeness_stats     )
-set colCountList        = ( 12                              25                              17                              25                          )
+set colCountList        = ( 10                              25                              17                              25                          )
 set dirSpecList         = ( $dir_viol                       $dir_assign                     $dir_surplus                    $dir_compl                  )
 set fileSpecAddList     = ( "_dist_viol".str                assignment.str                  surplus_summary.str             "_compl".str                )
 set useXList            = ( 1                               0                               0                               1                           )
 
 echo "Doing termList $termList"
 @ count = 0
-foreach t ( $termList ) 
+foreach t ( $termList )
 #set t = _NOE_completeness_stats
 #set count = 4
     @ count ++
@@ -43,18 +43,18 @@ foreach t ( $termList )
     set colCount = $colCountList[$count]
     \rm -rf $csvfile >& /dev/null
     foreach x ( $list )
-        
+
         set strfile =     $dirSpecList[$count]/$x/$fileSpecAddList[$count]
         if ( $useXList[$count] ) then
             set strfile = $dirSpecList[$count]/$x/$x$fileSpecAddList[$count]
         endif
-        
+
         if ( -e $strfile ) then
             egrep "^ *$t.* *" $strfile | \
                 gawk -v x=$x -v c=$colCount \
                 '{i=0;printf("\"%s\",",x);while(i<c){printf("%s,",$2);i++;getline};printf"\n"}' \
                 >> $csvfile
-        else 
+        else
             echo "WARNING: no star file: $strfile"
         endif
     end
@@ -71,13 +71,13 @@ foreach x ( $list )
     if ( $useXList[$count] ) then
         set strfile = $dirSpecList[$count]/$x/$x$fileSpecAddList[$count]
     endif
-    
+
     if ( -e $strfile ) then
         egrep "^ *$t.* *" $strfile | \
             gawk -v x=$x -v c=$colCount \
             '{i=0;printf("\"%s\",",x);while(i<c){printf("%s,",$2);i++;getline};printf"\n"}' \
             >> $csvfile
-    else 
+    else
         # echo "WARNING: no star file: $strfile"
     endif
 end

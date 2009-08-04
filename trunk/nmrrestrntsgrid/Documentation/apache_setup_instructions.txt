@@ -1,3 +1,7 @@
+THIS DOCUMENTATION IS NOW MAINTAINED IN THE CING PROJECT
+
+PLEASE DO NOT CHANGE THIS FILE
+
 * apache on mac
     There's one in eclipse but heck why not shrew up the one in mac os integrated.
     On leopard which has apache 2:

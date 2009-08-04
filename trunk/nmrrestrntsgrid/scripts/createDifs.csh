@@ -22,10 +22,10 @@ foreach x ( $subl )
    set subdirLoc = $pdbbase_dir/data/structures/divided/nmr_restraints/$ch23
    set inputFile = $subdirLoc/$x.mr.gz
    if ( ! -e $inputFile ) then
-    	echo "ERROR: no $inputFile"
+        echo "ERROR: no $inputFile"
         continue
    endif
-    gunzip -c $inputFile | diff - ../mr_anno_backup/$x.mr > $x.dif
+   gunzip -c $inputFile | diff - ../mr_anno_backup/$x.mr > $x.dif
 end
 
 echo "Done"
