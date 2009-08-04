@@ -34,6 +34,7 @@ GRANT ALL ON * TO 'wattos1'@'localhost.localdomain';
 GRANT ALL ON * TO 'wattos1'@'tang.bmrb.wisc.edu';
 GRANT ALL ON * TO 'wattos1'@'stella.cmbi.umcn.nl';
 GRANT ALL ON *.* TO 'wattos1'@'stella.cmbi.umcn.nl';
+GRANT ALL ON *.* TO 'wattos1'@'localhost';
 
 GRANT REPLICATION SLAVE ON *.* TO 'repl'@'localhost.localdomain' IDENTIFIED BY 'slavepass';
 

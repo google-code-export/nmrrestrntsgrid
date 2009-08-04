@@ -23,8 +23,8 @@ if ( $1 != "" ) then
     set subl = (  $1  )
 endif
 
-set doReadMmCif         = 1
-set doJoin              = 1
+set doReadMmCif         = 0
+set doJoin              = 0
 set doMerge             = 1 # Actually linking by FC.
 set doAssign            = 1
 set doSurplus           = 1
@@ -399,7 +399,6 @@ foreach x ( $subl )
     if ( $doAssign ) then
         echo "  assign"
         set script_file      = $wcf_dir/CheckAssignment.wcf
-        #set inputStarFile    = $dir_nomen/$x/$x"_nomen".str
         set inputStarFile    = $dir_star/$x/$x"_merge".str
         set outputStarFile   = $x"_assign".str
         set script_file_new  = $x.wcf

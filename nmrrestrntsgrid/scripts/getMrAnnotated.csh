@@ -10,7 +10,7 @@ source $0:h/settings.csh
 
 #set subl = ( 2k5b )
 #set subl = ( 1brv 2jnd 2jqs 2ofc 2pmc )
-set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
+set subl = ( 1go0 )
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then
