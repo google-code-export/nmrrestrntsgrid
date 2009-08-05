@@ -44,14 +44,14 @@ set measahost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
 
 # Host name based locals SECTION I (there is a section II below).
 if ( $measahost == "stella" ) then
-	# Note that the following statement interfers with scp when shown.
+    # Note that the following statement interfers with scp when shown.
     #echo "DEBUG in NRG settings.csh; Now on $HOST which is the development default."
 endif
 
 if ( $measahost == "tang" ) then
 #    echo "DEBUG in NRG settings.csh; Now on $HOST which will be the production setup."
     setenv UJ           /big/docr
-	setenv WS           $UJ/workspace                     # Common to all projects currently.
+    setenv WS           $UJ/workspace                     # Common to all projects currently.
 else
     setenv WS           $UJ/workspace34
 endif
@@ -85,7 +85,7 @@ if ( $measahost == "tang" ) then
 endif
 
 if ( $measahost == "nmr" ) then
-#    echo "DEBUG in NRG settings.csh; Now on $HOST which will be the Nijmegen setup."    
+#    echo "DEBUG in NRG settings.csh; Now on $HOST which will be the Nijmegen setup."
 endif
 
 ## Directory with this file
@@ -122,7 +122,7 @@ if ( 0 ) then
     mkdir -p  $wwPDB_dir $dir_restraint $perEntry_dir \
     $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all \
     $dir_nomen  $dir_restr_unzip $dir_recoord_na \
-    $dir_extra $dir_export $dir_db $list_dir 
+    $dir_extra $dir_export $dir_db $list_dir
 endif
 
 setenv dir_pdb_status   $pdbbase_dir/data/status
@@ -141,6 +141,9 @@ setenv PYTHONPATH   ${PYTHONPATH}:$R/python;
 
 # ccpn/recoord with api
 setenv PYTHONPATH   ${PYTHONPATH}:$CCPNMR_TOP_DIR/python
+
+# STAR api
+#setenv PYTHONPATH   ${PYTHONPATH}:$WS/pystarlib/src
 
 # CING
 if ( -e $C/cing.csh ) then

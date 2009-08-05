@@ -12,8 +12,9 @@ wattosAn.clay           Clay related file for modeling databases.
 Notes:
 -a- customize and run $scripts_dir/getSTARinfo.csh
         make sure it runs on all 4 tables. Ignore warnings for missing files:
-        ~10 violations
-        645 assignment and the others.
+        ~10 violations,645 assignment and the others.
+-a1- Use Wattos.Utils.getMolTypes.py (needs a star api)
+-b0- Create database for wattosAn: create database wattosAn;
 -b- customize and run importExternalTablesWattosAn.sql:
     mysql -u root wattosAn < $scripts_dir/sql/importExternalTablesWattosAn.sql
 -c- customize and run createWattosAn.sql (Yes do this -after- the previous step.)
@@ -36,11 +37,11 @@ mysql> select * from complMoltypesStats;
 +---------------------------------+------------------+-----------------+
 | type                            | avg(c.compl)     | count(m.pdb_id) |
 +---------------------------------+------------------+-----------------+
-| polymer/polypeptide(L)          | 43.1308918517887 |            2321 | 
-| polymer/polyribonucleotide      | 34.1399999011647 |             110 | 
-| polymer/polydeoxyribonucleotide | 27.1847457077544 |              59 | 
-| polymer/unknown                 | 35.2000001271566 |               3 | 
-| polymer/polypeptide(D)          | 49.9000015258789 |               1 | 
+| polymer/polypeptide(L)          | 43.1308918517887 |            2321 |
+| polymer/polyribonucleotide      | 34.1399999011647 |             110 |
+| polymer/polydeoxyribonucleotide | 27.1847457077544 |              59 |
+| polymer/unknown                 | 35.2000001271566 |               3 |
+| polymer/polypeptide(D)          | 49.9000015258789 |               1 |
 +---------------------------------+------------------+-----------------+
 
 

@@ -7,7 +7,7 @@
 
 source $0:h/settings.csh
 
-set subl = (`cat $list_dir/entry_list_nrg_2009-03-12.txt`)
+set subl = (`cat $list_dir/entry_list_nrg_2009-08-03.txt`)
 #set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
 
 # Get argument pdb code if it exists.
@@ -22,16 +22,16 @@ foreach x ( $subl )
    set subdirLoc = $pdbbase_dir/data/structures/divided/nmr_restraints/$ch23
    set inputFile = $subdirLoc/$x.mr.gz
    if ( ! -e $inputFile ) then
-    	echo "ERROR: no $inputFile"
+        echo "ERROR: no $inputFile"
         continue
    endif
    set patchFile = $UJ/wattosTestingPlatform/Wattos/mr_diff/$x.dif
    set outputFile = $mr_anno_progress_dir/$x.mr
    set tmpFile = /tmp/useDiffs_$$.tmp
-   
-   gunzip -c $inputFile > $tmpFile 
+
+   gunzip -c $inputFile > $tmpFile
    patch --quiet $tmpFile $patchFile --output=$outputFile
-   \rm -f $tmpFile 
+   \rm -f $tmpFile
 end
 
 echo "Done"

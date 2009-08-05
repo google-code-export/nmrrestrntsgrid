@@ -1,7 +1,7 @@
 -- STEP BY STEP PROCEDURE FOR SETTING UP NEW DB
 
--- login with root password
---mysql -u root -p'\!Ecj%Y&R' mysql
+-- login as root
+--mysql -u root  mysql
 -- The db isn't available anywhere but on the host itself so this posses no security problem.
 
 -- Notes:
@@ -15,9 +15,11 @@ create database wattos1;
 
 use mysql;
 
--- creating the account 
-CREATE USER 'wattos1'@'localhost'           ;
+-- creating the account
+CREATE USER 'wattos1'@'localhost';
+CREATE USER 'wattos1'@'tadpole.bmrb.wisc.edu';
 SET PASSWORD FOR 'wattos1'@'localhost'               = PASSWORD('4I4KMS');
+SET PASSWORD FOR 'wattos1'@'tadpole.bmrb.wisc.edu'               = PASSWORD('4I4KMS');
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('');
 update user set file_priv='Y' where user='wattos1';
 update user set file_priv='Y' where user='root';

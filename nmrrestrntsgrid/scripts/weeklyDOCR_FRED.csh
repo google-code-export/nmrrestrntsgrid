@@ -7,7 +7,7 @@ source $0:h/settings.csh
 
 # If no subl variable defined here, the last weekly batch will be retrieved.
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh   )
-set subl = (  2kfu )
+set subl = (  2kb3 )
 #set subl = ( `cat $list_dir/setDocrFredBaddies786.csv` )
 #set subl = ( `cat /tmp/entries_all_2008-09-30_todo.csv | tail -100` )
 #set subl = (`cat $list_dir/entry_list_nrg_2009-03-12.txt`)
