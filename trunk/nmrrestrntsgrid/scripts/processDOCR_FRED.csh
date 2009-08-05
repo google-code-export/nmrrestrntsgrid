@@ -25,12 +25,12 @@ endif
 
 set doReadMmCif         = 0
 set doJoin              = 0
-set doMerge             = 1 # Actually linking by FC.
-set doAssign            = 1
-set doSurplus           = 1
-set doViolAnal          = 1
-set doCompleteness      = 1
-set doExportsForGrid    = 1
+set doMerge             = 0 # Actually linking by FC.
+set doAssign            = 0
+set doSurplus           = 0
+set doViolAnal          = 0
+set doCompleteness      = 0
+set doExportsForGrid    = 0
 set doOrganizeForGrid   = 1
 set doDumpInGrid        = 1
 set doCleanFiles        = 0 # Keep this on for it does fill up > 100 G on > 4,000 entries
@@ -126,10 +126,10 @@ foreach x ( $subl )
         endif
         set maxModels = 999
         if ( $interactiveProcessing ) then
-        	set maxModels = 2
+            set maxModels = 2
         endif
         sed     -e 's|INPUT_MMCIF_FILE|'$inputMmCifFile'|'   $script_file  |\
-	        sed -e 's|MAX_MODELS|'$maxModels'|'                            |\
+            sed -e 's|MAX_MODELS|'$maxModels'|'                            |\
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|' > $script_file_new
 #        echo -n "DEBUG: "; date
 
@@ -224,7 +224,7 @@ foreach x ( $subl )
             continue
         endif
         if ( ! -e $fcInputDir ) then
-        	mkdir -p $fcInputDir
+            mkdir -p $fcInputDir
         endif
         set fcInputFile = $fcInputDir/joinedCoord.str
         \cp -f $dir_star/$x/$inputStarFile $fcInputFile
@@ -248,6 +248,7 @@ foreach x ( $subl )
 #        echo -n "DEBUG: "; date
         # Take a copy for ease of annotation together in this dir.
         \cp -f $fc_log_file $fc_sum_file .
+        # NB don't put "ERROR" in presetDict.py as JFD did once for entry 2jn3
         grep --quiet ERROR $log_file
         if ( ! $status ) then
             echo "ERROR $x found in merge log file; will now grep for ERROR again."
@@ -313,27 +314,27 @@ foreach x ( $subl )
             continue
         endif
         if ( 1 ) then
-	        cp $inputStarFile $outputStarFile
+            cp $inputStarFile $outputStarFile
         else
-	        # writes star file with PDB file writing; automatically.
-	        sed -e 's|OUTPUT_PDB_FILE|'$outputPDBFile'|'     $script_file |\
-	        sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       > $script_file_new
+            # writes star file with PDB file writing; automatically.
+            sed -e 's|OUTPUT_PDB_FILE|'$outputPDBFile'|'     $script_file |\
+            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       > $script_file_new
 
-	        wattos < $script_file_new >& $log_file
-	        if ( $status ) then
-	            echo "ERROR $x Wattos addMissingAtoms script: $script_file_new failed"
-	            continue
-	        endif
+            wattos < $script_file_new >& $log_file
+            if ( $status ) then
+                echo "ERROR $x Wattos addMissingAtoms script: $script_file_new failed"
+                continue
+            endif
 
-	        if ( ! -e $outputPDBFile ) then
-	            echo "ERROR $x found no PDB file $outputPDBFile"
-	            continue
-	        endif
-	        \rm $script_file_new
-	   endif
+            if ( ! -e $outputPDBFile ) then
+                echo "ERROR $x found no PDB file $outputPDBFile"
+                continue
+            endif
+            \rm $script_file_new
+       endif
        if ( ! -e $outputStarFile ) then
-		    echo "ERROR $x found no star file $outputStarFile"
-		    continue
+            echo "ERROR $x found no star file $outputStarFile"
+            continue
        endif
     endif
 
@@ -344,48 +345,48 @@ foreach x ( $subl )
         # Nevertheless make sure that the expected output from this exists
         # for further down the pipe line.
         if ( 1 ) then
-	        set script_file     = $wcf_dir/SetAtomNomenclatureToIUPAC.wcf
-	        set inputStarFile   = $dir_extra/$x/$x"_extra".str
-	        set inputPDBFile    = $dir_wi_all/$x/$x"_wi".pdb
-	        set outputStarFile  = $x"_nomen".str
-	        set script_file_new = $x.wcf
-	        set log_file        = $x.log
+            set script_file     = $wcf_dir/SetAtomNomenclatureToIUPAC.wcf
+            set inputStarFile   = $dir_extra/$x/$x"_extra".str
+            set inputPDBFile    = $dir_wi_all/$x/$x"_wi".pdb
+            set outputStarFile  = $x"_nomen".str
+            set script_file_new = $x.wcf
+            set log_file        = $x.log
 
-	        cd $dir_nomen
-	        if ( -e $x ) then
-	            \rm -rf $x
-	        endif
-	        mkdir $x
-	        cd $x
+            cd $dir_nomen
+            if ( -e $x ) then
+                \rm -rf $x
+            endif
+            mkdir $x
+            cd $x
 
-	        if ( ! -e $inputStarFile ) then
-	            echo "ERROR: $x No nomen input star file: $inputStarFile"
-	            continue
-	        endif
+            if ( ! -e $inputStarFile ) then
+                echo "ERROR: $x No nomen input star file: $inputStarFile"
+                continue
+            endif
 
-	        cp $inputStarFile $outputStarFile
+            cp $inputStarFile $outputStarFile
         else
-	        if ( ! -e $inputPDBFile ) then
-	            echo "WARNING: $x no input WI PDB file for entry: $inputPDBFile"
-	            \cp -f $inputStarFile $outputStarFile
-	        else
-	            sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'   $script_file |\
-	            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'                  |\
-	            sed -e 's|INPUT_PDB_FILE|'$inputPDBFile'|'       > $script_file_new
+            if ( ! -e $inputPDBFile ) then
+                echo "WARNING: $x no input WI PDB file for entry: $inputPDBFile"
+                \cp -f $inputStarFile $outputStarFile
+            else
+                sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'   $script_file |\
+                sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'                  |\
+                sed -e 's|INPUT_PDB_FILE|'$inputPDBFile'|'       > $script_file_new
 
-	            wattos < $script_file_new >& $log_file
-	            if ( $status ) then
-	                echo "WARNING $x Wattos rename script failed; not using rename"
-	                \cp -f $inputStarFile $outputStarFile
-	            else
-	                grep --quiet ERROR $log_file
-	                if ( ! $status ) then
-	                    echo "WARNING $x found erros in log file; not using rename"
-	                    \cp -f $inputStarFile $outputStarFile
-	                endif
-	            endif
-	            \rm $script_file_new
-	        endif
+                wattos < $script_file_new >& $log_file
+                if ( $status ) then
+                    echo "WARNING $x Wattos rename script failed; not using rename"
+                    \cp -f $inputStarFile $outputStarFile
+                else
+                    grep --quiet ERROR $log_file
+                    if ( ! $status ) then
+                        echo "WARNING $x found erros in log file; not using rename"
+                        \cp -f $inputStarFile $outputStarFile
+                    endif
+                endif
+                \rm $script_file_new
+            endif
         endif
         if ( ! -e $outputStarFile ) then
             echo "ERROR $x found no star file $outputStarFile"
@@ -435,7 +436,7 @@ foreach x ( $subl )
             grep --quiet ERROR $log_file
             if ( ! $status ) then
                 echo "ERROR $x found in assign log file; will now grep for ERROR again."
-	            grep ERROR $log_file
+                grep ERROR $log_file
                 continue
             endif
             if ( ! -e $outputStarFile ) then
@@ -517,7 +518,7 @@ foreach x ( $subl )
             grep --quiet ERROR $log_file
             if ( ! $status ) then
                 echo "ERROR $x found in surplus log file; will now grep for ERROR again."
-	            grep ERROR $log_file
+                grep ERROR $log_file
                 continue
             endif
             \rm -f $x"_tmp".str
@@ -587,12 +588,12 @@ foreach x ( $subl )
 
         grep --quiet "_Dist_constraint.Atom_ID" $inputStarFile
         if ( ! $status ) then
-        	# if the input contains distances then it's expected to see a result file.
-	        if ( ! -e $outputDistStarFile ) then
-	            echo "WARNING $x found no result file $outputDistStarFile"
-	            continue
-	        endif
-	    endif
+            # if the input contains distances then it's expected to see a result file.
+            if ( ! -e $outputDistStarFile ) then
+                echo "WARNING $x found no result file $outputDistStarFile"
+                continue
+            endif
+        endif
 
         grep --quiet "_Torsion_angle_constraint.Torsion_angle_name" $inputStarFile
         if ( ! $status ) then
@@ -641,7 +642,7 @@ foreach x ( $subl )
         # 2hgh from 60 to 13 seconds.
         set maxDistanceCompleteness = 9.0
         if ( $interactiveProcessing ) then
-        	set maxDistanceCompleteness = 4.0
+            set maxDistanceCompleteness = 4.0
         endif
         if ( $containsNonSurplusDistances ) then
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'     $script_file 				|\
@@ -659,7 +660,7 @@ foreach x ( $subl )
             grep --quiet ERROR $log_file
             if ( ! $status ) then
                 echo "ERROR $x found in compl log file; will now grep for ERROR again."
-	            grep ERROR $log_file
+                grep ERROR $log_file
                 continue
             endif
             if ( ! -e $outputStarFile ) then
@@ -678,45 +679,45 @@ foreach x ( $subl )
     if ( $doCoplanars ) then
 #        echo "  skipping coplanar"
         if ( 0 ) then
-	        set script_file      = $wcf_dir/GetCoplanarBases.wcf
-	        set inputStarFile    = $dir_surplus/$x/$x"_nonsurplus".str
-	        set script_file_new  = $x.wcf
-	        set log_file         = $x.log
+            set script_file      = $wcf_dir/GetCoplanarBases.wcf
+            set inputStarFile    = $dir_surplus/$x/$x"_nonsurplus".str
+            set script_file_new  = $x.wcf
+            set log_file         = $x.log
 
-	        cd $dir_coplanar
-	        if ( -e $x ) then
-	            \rm -rf $x
-	        endif
-	        mkdir $x
-	        cd $x
+            cd $dir_coplanar
+            if ( -e $x ) then
+                \rm -rf $x
+            endif
+            mkdir $x
+            cd $x
 
-	        if ( ! -e $inputStarFile ) then
-	            echo "ERROR: $x No FormatConverter input star file: $inputStarFile"
-	            continue
-	        endif
+            if ( ! -e $inputStarFile ) then
+                echo "ERROR: $x No FormatConverter input star file: $inputStarFile"
+                continue
+            endif
 
-	        # The flag disables any output; exit status will be zero when any match is found
-	        set containsNA = 0
-	        egrep --quiet "_Entity.Polymer_type +poly(deoxy)?ribonucleotide" $inputStarFile
-	        if ( ! $status ) then
-	            set containsNA = 1
-	        endif
-	        if ( $containsNA ) then
-	            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       $script_file \
-	                > $script_file_new
-	            wattos < $script_file_new >& $log_file
-	            if ( $status ) then
-	                echo "ERROR $x after executing Wattos script file: $script_file"
-	                continue
-	            endif
-	            grep --quiet ERROR $log_file
-	            if ( ! $status ) then
-	                echo "ERROR $x found in planar log file"
-	                continue
-	            endif
-	            \rm $script_file_new
-	        else
-	#            echo "DEBUG: ignoring coplanars analysis because no NA were found."
+            # The flag disables any output; exit status will be zero when any match is found
+            set containsNA = 0
+            egrep --quiet "_Entity.Polymer_type +poly(deoxy)?ribonucleotide" $inputStarFile
+            if ( ! $status ) then
+                set containsNA = 1
+            endif
+            if ( $containsNA ) then
+                sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       $script_file \
+                    > $script_file_new
+                wattos < $script_file_new >& $log_file
+                if ( $status ) then
+                    echo "ERROR $x after executing Wattos script file: $script_file"
+                    continue
+                endif
+                grep --quiet ERROR $log_file
+                if ( ! $status ) then
+                    echo "ERROR $x found in planar log file"
+                    continue
+                endif
+                \rm $script_file_new
+            else
+    #            echo "DEBUG: ignoring coplanars analysis because no NA were found."
             endif
         endif
     endif
@@ -739,36 +740,36 @@ foreach x ( $subl )
 
         set overallStatus = 0
         foreach fcExportFormat (  Cns Cyana )
-	        # check if loop encountered a fatal error before.
-	        if ( $overallStatus ) then
-	            #echo "DEBUG: $x found error before in doExportsForGrid"
-	            continue
-	        endif
+            # check if loop encountered a fatal error before.
+            if ( $overallStatus ) then
+                #echo "DEBUG: $x found error before in doExportsForGrid"
+                continue
+            endif
 
-	        #echo "DEBUG: exporting $fcExportFormat"
+            #echo "DEBUG: exporting $fcExportFormat"
 
             if ( ! -e $fcExportFormat ) then
-            	mkdir $fcExportFormat
+                mkdir $fcExportFormat
             endif
 
             # use absolute path for human user that sees the message.
             set fc_ScriptFile       = $R/python/recoord2/msd/"export"$fcExportFormat.py
             set fc_log_file         = $cwd/$fcExportFormat/$x"_fc_export_"$fcExportFormat.log
 
-	        python -u $fc_ScriptFile $x "$fc_entry_dir/.." $fcExportFormat >& $fc_log_file
-	        if ( $status ) then
-	            echo "ERROR $x in $fc_ScriptFile"
+            python -u $fc_ScriptFile $x "$fc_entry_dir/.." $fcExportFormat >& $fc_log_file
+            if ( $status ) then
+                echo "ERROR $x in $fc_ScriptFile"
                 set overallStatus = 1
                 continue
-	        endif
+            endif
 
-	        grep --quiet ERROR $fc_log_file
-	        if ( ! $status ) then
-	           echo "ERROR $x found in $fc_log_file log file; will now grep for ERROR again."
-	           grep ERROR $fc_log_file
-	           set overallStatus = 1
-	           continue
-	        endif
+            grep --quiet ERROR $fc_log_file
+            if ( ! $status ) then
+               echo "ERROR $x found in $fc_log_file log file; will now grep for ERROR again."
+               grep ERROR $fc_log_file
+               set overallStatus = 1
+               continue
+            endif
         end
 
 
@@ -780,17 +781,17 @@ foreach x ( $subl )
             if ( $d == "FRED" ) then
                 set inputFile   = $dir_surplus/$x/$x"_nonsurplus".str
             endif
-	        set script_file_new  = $outputFileBase.wcf
-	        set log_file         = $outputFileBase.log
+            set script_file_new  = $outputFileBase.wcf
+            set log_file         = $outputFileBase.log
             sed -e 's|OUTPUT_XPLOR_FILE_BASE|'$outputFileBase'|' $script_file |\
             sed -e 's|INPUT_STAR_FILE|'$inputFile'|'       > $script_file_new
 
-	        if ( ! -e $inputFile ) then
-	            echo "ERROR: $x No input star file: $inputFile"
-	            continue
-	        endif
+            if ( ! -e $inputFile ) then
+                echo "ERROR: $x No input star file: $inputFile"
+                continue
+            endif
 
-	        # Note that the Wattos generated restraint files are not put into NRG. The FC generated ones are used.
+            # Note that the Wattos generated restraint files are not put into NRG. The FC generated ones are used.
             wattos < $script_file_new >& $log_file
             if ( $status ) then
                 echo "ERROR $x after executing Wattos script file: $script_file see log file: $log_file"
@@ -800,7 +801,7 @@ foreach x ( $subl )
             grep --quiet ERROR $log_file
             if ( ! $status ) then
                 echo "ERROR $x found in export log file; will now grep for ERROR again."
-	            grep ERROR $log_file
+                grep ERROR $log_file
                 set overallStatus = 1
                 continue
             endif
@@ -832,7 +833,7 @@ foreach x ( $subl )
             #echo "Creating STAR file for $d"
             set dataFile      = "data_"$d"_restraints_with_modified_coordinates_PDB_code_"
             if ( $d == "wwPDB" ) then
-            	set dataFile      = "data_wwPDB_remediated_restraints_file_for_PDB_entry_"
+                set dataFile      = "data_wwPDB_remediated_restraints_file_for_PDB_entry_"
             endif
 
             set fileHeader    = $nrg_dir/data/change_comment_star_$d.txt
@@ -898,58 +899,66 @@ foreach x ( $subl )
                 endif
 
                 # only setting DOCR converted files.
-	            set dataTypeList = (  dist                           hBond                          dihed               rdc )
-	            set dataTypeList2 = ( _distance_general_distance_na_ _distance_HB_na_               _dihedral_na_na_    _dipolar_coupling_na_na_)
-	            @ dataTypeNumber = 0
-	            foreach dataType ( $dataTypeList )
-	                #echo "DEBUG: working on dataType: " $dataType
-	                @ dataTypeNumber ++
-	                # name changed from Wattos: 1a4d_DOCR_dc_001.tbl to FC:
-	                # Cns/1a4d.dist.1.tbl
-	                # Cyana/1brv.dihed.1.aco
+                set dataTypeList = (  dist                           hBond                          dihed               rdc )
+                set dataTypeList2 = ( _distance_general_distance_na_ _distance_HB_na_               _dihedral_na_na_    _dipolar_coupling_na_na_)
+                @ dataTypeNumber = 0
+                foreach dataType ( $dataTypeList )
+                    #echo "DEBUG: working on dataType: " $dataType
+                    @ dataTypeNumber ++
+                    # name changed from Wattos: 1a4d_DOCR_dc_001.tbl to FC:
+                    # Cns/1a4d.dist.1.tbl
+                    # Cyana/1brv.dihed.1.aco
 
-	#                set list = ( `find $dir_export/$x -name "$x\_$d\_$dataType*"` )
-	                set list = ()
+    #                set list = ( `find $dir_export/$x -name "$x\_$d\_$dataType*"` )
+                    set list = ()
                     if ( -e $dir_export/$x) then
-	                   set list = ( `find $dir_export/$x -name "$x\.$dataType\.*"` )
-	                endif
-	                foreach file ( $list )
-	                    #echo "DEBUG: working on file: " $file
+                       set list = ( `find $dir_export/$x -name "$x\.$dataType\.*"` )
+                    endif
+                    foreach file ( $list )
+                        #echo "DEBUG: working on file: " $file
 
-	#                   set number = ( `gawk -v f=$file:t:r 'BEGIN{f=substr(f,5);gsub(/[a-z_A-Z]/,"",f);printf("%d\n", f)}' /dev/null`)
-	                    set number = ( `gawk -v f=$file:t:r 'BEGIN{split(f,a,".");printf("%s\n", a[3])}'                    /dev/null`)
+    #                   set number = ( `gawk -v f=$file:t:r 'BEGIN{f=substr(f,5);gsub(/[a-z_A-Z]/,"",f);printf("%d\n", f)}' /dev/null`)
+                        set number = ( `gawk -v f=$file:t:r 'BEGIN{split(f,a,".");printf("%s\n", a[3])}'                    /dev/null`)
 
-	                    #echo "DEBUG: deduced number: " $number
-	                    set extension = $file:e
-	                    set fileNew = $x$dataTypeList2[$dataTypeNumber]$number.$extension
+                        #echo "DEBUG: deduced number: " $number
+                        set extension = $file:e
+                        set fileNew = $x$dataTypeList2[$dataTypeNumber]$number.$extension
                         cp $file $fileNew
                         cp $file $wwPDB_dir_entry
-	                    if ( $status ) then
-	                        echo "ERROR $x failed to copy file $file to $fileNew."
-	                        set overallStatus = 1
-	                        continue
-	                    endif
-	                end
-	            end
-                set cyanaSeqFile = $dir_export/$x/Cyana/$x.seq
+                        if ( $status ) then
+                            echo "ERROR $x failed to copy file $file to $fileNew."
+                            set overallStatus = 1
+                            continue
+                        endif
+                    end
+                end
+
+                set cyanaSeqFile = $dir_export/$x/Cyana/$x/cyana/$x.seq
                 if ( -e $cyanaSeqFile  ) then
                     set fileNew = $x"_sequence".seq
                     cp $cyanaSeqFile $fileNew
                     cp $cyanaSeqFile $wwPDB_dir_entry/$fileNew
                 endif
 
-	            ## Only create the ccpn project once.
-	            cd $ccpn_tmp_dir/data/recoord/$x
-	            #cd $dir_link/$x/ccpn
-	            # Create a tgz copy that will not be deleted whereas the ccpn dir will.
-	            tar czf $dir_link/$x/$x"_project".xml.tgz * > /dev/null
-	            if ( $status ) then
-	                echo "ERROR $x failed to tar xml files to $DBdir/$x"_project".xml.tgz"
-	                set overallStatus = 1
-	                continue
-	            endif
-	            cd $DBdir
-	            ln -s $ccpn_tmp_dir/data/recoord/$x/$x.tgz $x"_project".xml.tgz
+                set xplorCoorFile = $dir_export/$x/Cns/$x/cns/$x.pdb
+                if ( -e $xplorCoorFile  ) then
+                    set fileNew = $x"_cns".pdb
+                    cp $xplorCoorFile $fileNew
+                    cp $xplorCoorFile $wwPDB_dir_entry/$fileNew
+                endif
+
+                ## Only create the ccpn project once.
+                cd $ccpn_tmp_dir/data/recoord/$x
+                #cd $dir_link/$x/ccpn
+                # Create a tgz copy that will not be deleted whereas the ccpn dir will.
+                tar czf $dir_link/$x/$x"_project".xml.tgz * > /dev/null
+                if ( $status ) then
+                    echo "ERROR $x failed to tar xml files to $DBdir/$x"_project".xml.tgz"
+                    set overallStatus = 1
+                    continue
+                endif
+                cd $DBdir
+                ln -s $ccpn_tmp_dir/data/recoord/$x/$x.tgz $x"_project".xml.tgz
                 cp $x"_project".xml.tgz $wwPDB_dir_entry/$x"_ccpn".tgz
             endif # db is DOCR
 

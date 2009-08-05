@@ -6,8 +6,8 @@
 #
 ############################################################################
 
-# This script is being provided to PDB users as a template for using rsync 
-# to mirror the FTP archive from an anonymous rsync server. You may want 
+# This script is being provided to PDB users as a template for using rsync
+# to mirror the FTP archive from an anonymous rsync server. You may want
 # to review rsync documentation for options that better suit your needs.
 #
 # Author: Thomas Solomon
@@ -49,12 +49,12 @@ foreach x ( $subl )
         echo "Creating dir: " $subdirLoc
         mkdir -p $subdirLoc
    endif
-   
+
    $RSYNC -rlpt -z --delete --port=$PORT \
     --password-file=$PASSWORD_FILE \
     $USER_ID@$SERVER/data/structures/divided/pdb/$ch23/pdb$x.ent.gz \
     $subdirLoc/pdb$x.ent.gz \
-    |& tee $LOGFILE 
+    |& tee $LOGFILE
 end
 
 echo "Done with syncing PDB files for number of entries: $#subl"

@@ -13,9 +13,9 @@
 -- * 	- Default is Windows for that's my development machine but no garantee.
 -- * Setup commands are specific for database type: MySQL
 -- * Schema is vizualized in an MS Visio file (db_analyses.vsd)
--- * Run by command like: 
--- * mysql -u wattos1 -p4I4KMS  wattos1 < $WS/wattos/scripts/sql//db_create.sql
-	-- no output means no errors.
+-- * Run by command like:
+-- * mysql -u wattos1 -p4I4KMS  wattos1 < $WS/nmrrestrntsgrid/scripts/sql//db_create.sql
+    -- no output means no errors.
 -- Should be autocommiting by default but I saw it didn't once.
 SET AUTOCOMMIT=1;
 
@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS temp_mrfile;
 DROP TABLE IF EXISTS mrblock;
 DROP TABLE IF EXISTS mrfile;
 DROP TABLE IF EXISTS entry;
-                     
+
 -- Remove unique sequence ids
 DROP TABLE IF EXISTS entry_id;
 DROP TABLE IF EXISTS mrfile_id;
@@ -43,14 +43,14 @@ CREATE TABLE entry
     bmrb_id                        INT,
     pdb_id                         CHAR(4),
     in_recoord                     BOOLEAN DEFAULT 0,
-    in_dress                       BOOLEAN DEFAULT 0   
+    in_dress                       BOOLEAN DEFAULT 0
 ) TYPE = INNODB;
 CREATE INDEX entry_001 ON entry (bmrb_id);
 CREATE INDEX entry_002 ON entry (pdb_id);
 -- mrfile
 -- MySQL doesn't accept the SYSDATE default for date_modified so always present date on insert.
--- From MySQL manual: 
--- For storage engines other than InnoDB, MySQL Server parses the FOREIGN KEY 
+-- From MySQL manual:
+-- For storage engines other than InnoDB, MySQL Server parses the FOREIGN KEY
 -- syntax in CREATE TABLE statements, but does not use or store it.
 -- The solution is to define the innodb tables as below.
 CREATE TABLE mrfile
@@ -67,7 +67,7 @@ CREATE INDEX mrfile_001 ON mrfile (entry_id);
 CREATE INDEX mrfile_002 ON mrfile (detail);
 CREATE INDEX mrfile_003 ON mrfile (pdb_id);
 CREATE INDEX mrfile_004 ON mrfile (date_modified);
--- mrblock 
+-- mrblock
 CREATE TABLE mrblock
 (
     mrblock_id                     INT              NOT NULL PRIMARY KEY,
@@ -79,7 +79,7 @@ CREATE TABLE mrblock
     format                         VARCHAR(255)     NOT NULL,
     text_type                      VARCHAR(255)     DEFAULT 'raw' NOT NULL ,
     byte_count                     INT              ,
-    item_count                     INT              DEFAULT NULL, 
+    item_count                     INT              DEFAULT NULL,
     date_modified                  DATE             NOT NULL,
     other_prop                     VARCHAR(255)     ,
     dbfs_id                        INT              NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE mrblock
 --- When the actual textual data was included the following line was added as optimalization.
 -- default values for both initial and next storage is 5 data blocks
 -- 1 data block is in the order of 4 kb.
--- default value for percentage increase is 50 so 
+-- default value for percentage increase is 50 so
 --- STORAGE (INITIAL 256M NEXT 256M PCTINCREASE 0)
 -- default value for chunk size is 1 data block
 -- LOB (mol_image) STORE AS (CHUNK 4096)
@@ -115,7 +115,7 @@ CREATE TABLE temp_mrfile
     date_modified                   DATE            NOT NULL,
     FOREIGN KEY (entry_id)          REFERENCES entry (entry_id) ON DELETE CASCADE
 ) TYPE = INNODB;
--- mrblock 
+-- mrblock
 CREATE TABLE temp_mrblock
 (
     mrblock_id                     INT              NOT NULL PRIMARY KEY,
@@ -127,7 +127,7 @@ CREATE TABLE temp_mrblock
     format                         VARCHAR(255)     NOT NULL,
     text_type                      VARCHAR(255)     DEFAULT 'raw' NOT NULL ,
     byte_count                     INT              ,
-    item_count                     INT              DEFAULT NULL, 
+    item_count                     INT              DEFAULT NULL,
     date_modified                  DATE             NOT NULL,
     other_prop                     VARCHAR(255)     ,
     dbfs_id                        INT              NOT NULL,
