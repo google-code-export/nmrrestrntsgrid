@@ -4,15 +4,6 @@
 
 Taking diffs on the mr files annotated and originals and using that in Nijmegen to reconstruct the annotations.
 
-Entries below contain DOS eol chars instead of \n
-1new 
-2new 
-1d1d 
-1j7o 
-1j7p 
-1qrj 
-
-
 = patched versions =
  jurgen@tang.bmrb.wisc.edu:/share/wattos/mr_anno_backup/$x.mr 
 
@@ -56,3 +47,5 @@ drwxr-xr-x    10 jd  jd          340 Mar 20 13:54 ../
   * 1go0 is issue 194
   * 1m9o is fixed now because it was 1m9O (capital O)
   * 1ccf is issue 195
+
+Get them with getMrAnnotated.csh from tang.
