@@ -31,7 +31,13 @@ It takes about 2 weeks on a single processor to restore the production site comp
 
 To remove all:
 {{{
-mysql -u wattos1 -p4I4KMS  wattos1 < $WS/wattos/scripts/sql//db_create.sql
+mysql -u wattos1 -p4I4KMS  wattos1 < $WS/nmrrestrntsgrid/scripts/sql//db_create.sql
+}}}
+
+Then remove any DBFS files outside the mrannotator by hand.
+{{{
+cd /Users/jd/CloneWars/DB/mrgrid/bfiles/wattos1
+\rm -rf *
 }}}
 
 = PHASE 1 Original =
@@ -111,7 +117,7 @@ set x = 1a4d  ; $scripts_dir/processDOCR_FRED.csh $x |& tee $perEntry_dir/$x.log
 cat $dir_star/$x/$x.log
 }}}
 
-Check he NRG results: http://tang.bmrb.wisc.edu/NRG/MRGridServlet
+Check he NRG results: http://restraintsgrid.bmrb.wisc.edu/NRG/MRGridServlet
 
 Check in the usual way with the script weeklyDOCR_FRED.csh.
 
