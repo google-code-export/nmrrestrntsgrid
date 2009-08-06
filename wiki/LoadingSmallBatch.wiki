@@ -92,6 +92,10 @@ $scripts_dir/weeklyDOCR_FRED.csh
 }}}
 (same dir)
 
+Note: doGet (part of weeklyDOCR_FRED) manually if you are doing a lot of entries.
+#   if you need many (100+) do this step manually separate from this setup (getFilesFromGrid.csh)
+You can edit getFilesFromGrid.csh so that you access everything at once.
+
 First check again if you have the development settings for the nmrrestrntsgrid
 project. The scripts_dir variable now needs to point to $WS/nmrrestrntsgrid/scripts.
 WS stands for the workspace directory on /big/docr.
