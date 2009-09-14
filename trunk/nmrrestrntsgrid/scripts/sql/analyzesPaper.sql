@@ -119,3 +119,7 @@ select count(pdb_id) from DOCRFREDEntriesAll;      -- 4,411
 select count(pdb_id) from DOCRFREDEntries;         -- 3,969
 select count(pdb_id) from Set14DOCRFREDBaddies;    --   754
 select count(pdb_id) from DOCRFREDGoodies;         -- 3,208
+
+select count(pdb_id) from DOCRFREDEntriesDR;
+select count(pdb_id) from RDC_Entries;
+

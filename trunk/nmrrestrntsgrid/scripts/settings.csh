@@ -122,7 +122,8 @@ if ( 0 ) then
     mkdir -p  $wwPDB_dir $dir_restraint $perEntry_dir \
     $dir_star $dir_link $dir_compl $dir_coplanar $dir_viol $dir_surplus $dir_assign $dir_wi_all \
     $dir_nomen  $dir_restr_unzip $dir_recoord_na \
-    $dir_extra $dir_export $dir_db $list_dir
+    $dir_extra $dir_export $dir_db $list_dir \
+    $ccpn_tmp_dir/data/recoord
 endif
 
 setenv dir_pdb_status   $pdbbase_dir/data/status

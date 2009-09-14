@@ -264,7 +264,7 @@ group by b.program
 order by count(DISTINCT f.pdb_id) desc, b.program;
 
 
--- Get the 
+-- Get the
 DROP VIEW IF EXISTS stereoGroupPercentage;
 CREATE VIEW stereoGroupPercentage AS
 SELECT r.pdb_id,s.Triplet_count/r.rescount as percTriplet
@@ -292,3 +292,18 @@ SELECT m.pdb_id,sum(m.rescount) AS rescount
 FROM moltypes m
 group by m.pdb_id
 order by rescount;
+
+    program                        VARCHAR(255)     NOT NULL,
+    type                           VARCHAR(255)     NOT NULL,
+    subtype                        VARCHAR(255)     NOT NULL,
+    format                         VARCHAR(255)     NOT NULL,
+
+-- Get counts of pdb entries per program
+SELECT count(*), b.program, b.type, b.subtype, b.format
+FROM wattos1.mrblock AS b
+WHERE (
+    b.type!='dipolar coupling'
+)   AND
+b.text_type = '1-original'
+group by b.program, b.type, b.subtype, b.format
+order by count(*) desc;
