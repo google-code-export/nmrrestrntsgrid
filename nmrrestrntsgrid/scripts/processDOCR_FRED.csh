@@ -23,19 +23,19 @@ if ( $1 != "" ) then
     set subl = (  $1  )
 endif
 
-set doReadMmCif         = 0
-set doJoin              = 0
-set doMerge             = 0 # Actually linking by FC.
-set doAssign            = 0
-set doSurplus           = 0
-set doViolAnal          = 0
-set doCompleteness      = 0
-set doExportsForGrid    = 0
+set doReadMmCif         = 1
+set doJoin              = 1
+set doMerge             = 1 # Actually linking by FC.
+set doAssign            = 1
+set doSurplus           = 1
+set doViolAnal          = 1
+set doCompleteness      = 1
+set doExportsForGrid    = 1
 set doOrganizeForGrid   = 1
 set doDumpInGrid        = 1
 set doCleanFiles        = 0 # Keep this on for it does fill up > 100 G on > 4,000 entries
 
-set interactiveProcessing = 1 # Set to zero to do production run but one for a very fast run.
+set interactiveProcessing = 0 # Set to zero to do production run but one for a very fast run.
 # The largest entry 2k0e is completely reprocessed interactively in 2'30".
 
 set extraWattosOptions  =

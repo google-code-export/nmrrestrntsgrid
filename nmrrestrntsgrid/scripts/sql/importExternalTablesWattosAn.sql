@@ -18,7 +18,7 @@ CREATE table _Distance_constraint_stats_list
     dummy                         VARCHAR(255)
 );
 LOAD DATA LOCAL INFILE
-    '/big/docr/NRG/Results/weekly20090803/_Distance_constraint_stats_list_mySqlNulls.csv'
+    '/Users/jd/NRG/Results/weekly20090803/_Distance_constraint_stats_list_mySqlNulls.csv'
     INTO TABLE _Distance_constraint_stats_list
     FIELDS TERMINATED BY ','
     OPTIONALLY ENCLOSED BY '\"'
@@ -70,7 +70,7 @@ CREATE table _Distance_constraint_surplus
     );
 
 LOAD DATA LOCAL INFILE
-    '/big/docr/NRG/Results/weekly20090803/_Distance_constraint_surplus_mySqlNulls.csv'
+    '/Users/jd/NRG/Results/weekly20090803/_Distance_constraint_surplus_mySqlNulls.csv'
     INTO TABLE _Distance_constraint_surplus
     FIELDS TERMINATED BY ','
     OPTIONALLY ENCLOSED BY '\"'
@@ -110,7 +110,7 @@ dum11         VARCHAR(255)
 );
 
 LOAD DATA LOCAL INFILE
-    '/big/docr/NRG/Results/weekly20090803/_Stereo_assign_list_mySqlNulls.csv'
+    '/Users/jd/NRG/Results/weekly20090803/_Stereo_assign_list_mySqlNulls.csv'
     INTO TABLE _Stereo_assign_list
     FIELDS TERMINATED BY ','
     OPTIONALLY ENCLOSED BY '\"'
@@ -169,7 +169,7 @@ CREATE table _NOE_completeness_stats
 );
 
 LOAD DATA LOCAL INFILE
-    '/big/docr/NRG/Results/weekly20090803/_NOE_completeness_stats_mySqlNulls.csv'
+    '/Users/jd/NRG/Results/weekly20090803/_NOE_completeness_stats_mySqlNulls.csv'
     INTO TABLE _NOE_completeness_stats
     FIELDS TERMINATED BY ','
     OPTIONALLY ENCLOSED BY '\"'
@@ -182,7 +182,7 @@ LOAD DATA LOCAL INFILE
 --);
 --
 --LOAD DATA LOCAL INFILE
---  '/big/docr/NRG/Results/weekly20090803/rcsb_id_with_mr.csv'
+--  '/Users/jd/NRG/Results/weekly20090803/rcsb_id_with_mr.csv'
 --  INTO TABLE rcsb_id_with_mr
 --  FIELDS TERMINATED BY ','
 --  OPTIONALLY ENCLOSED BY '\"'
@@ -195,7 +195,7 @@ LOAD DATA LOCAL INFILE
 --);
 --
 --LOAD DATA LOCAL INFILE
---  '/big/docr/NRG/Results/weekly20090803/rcsb_pdb_id.csv'
+--  '/Users/jd/NRG/Results/weekly20090803/rcsb_pdb_id.csv'
 --  INTO TABLE rcsb_pdb_id
 --  FIELDS TERMINATED BY ','
 --  OPTIONALLY ENCLOSED BY '\"'
