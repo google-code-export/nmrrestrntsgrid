@@ -15,8 +15,8 @@ source $0:h/settings.csh
 
 set MIRRORDIR=$pdbbase_dir                         # your top level rsync directory
 
-#set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
-set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2009-08-03.txt`)
+set subl = ( 1ah1 1bde 1ckr 7hsc 1lfu 1mit 1qe7 )
+#set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2009-08-03.txt`)
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 
 # Get argument pdb code if it exists.
@@ -44,7 +44,7 @@ foreach x ( $subl )
     \rm -f $subdirLoc/$x.cif.gz
     $scripts_dir/getMmCif.csh $x
     if ( $status ) then
-        echo "ERROR: failed getPdb"
+        echo "ERROR: failed getMmCif"
         continue
     endif
 
@@ -52,14 +52,14 @@ foreach x ( $subl )
     \rm -f $subdirLoc/$x.mr.gz
     $scripts_dir/getMr.csh $x
     if ( $status ) then
-        echo "ERROR: failed getPdb"
+        echo "ERROR: failed getMr"
         continue
     endif
 
     \rm -f $mr_anno_progress_dir/$x.mr
     $scripts_dir/getMrAnnotated.csh $x
     if ( $status ) then
-        echo "ERROR: failed getPdb"
+        echo "ERROR: failed getMrAnnotated"
         continue
     endif
 end

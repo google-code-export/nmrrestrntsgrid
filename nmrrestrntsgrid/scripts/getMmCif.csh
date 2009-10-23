@@ -13,21 +13,12 @@ set RSYNC=rsync                                    # location of local rsync
 # Set to 0 for using normal archive.
 set useRemediated=1
 
-#set SERVER=rsync.rcsb.org::ftp/                                # remote server name OLD
-set SERVER=rsync.wwpdb.org::ftp/                                # remote server name
-set PORT=33444                                                  # port remote server is using
+set SERVER=rsync.wwpdb.org::ftp/
+set PORT=33444
 set USER_ID=anonymous
-set PASSWORD_FILE=$scripts_dir/passwordFileAnonymous.txt
-
-if ( $useRemediated) then
-	set SERVER=rcsb-rsync-4.rutgers.edu::ftp-v3.2/pdb/
-	set PORT=8730
-	set USER_ID=wwpdb
-    set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
-endif
+#set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
 #set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
-#set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
 
 # Get argument pdb code if it exists.
@@ -53,7 +44,7 @@ foreach x ( $subl )
     endif
 
    $RSYNC -rlpt -z --delete --port=$PORT \
-    --password-file=$PASSWORD_FILE \
+#    --password-file=$PASSWORD_FILE \
     $USER_ID@$SERVER/data/structures/divided/mmCIF/$ch23/$x.cif.gz $localFile
 end
 
