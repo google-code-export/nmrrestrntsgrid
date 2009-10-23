@@ -24,10 +24,10 @@ set MIRRORDIR=$pdbbase_dir                         # your top level rsync direct
 set LOGFILE=$MIRRORDIR/logs                        # file for storing logs
 set RSYNC=rsync                            # location of local rsync
 
-set SERVER=rcsb-rsync-4.rutgers.edu::ftp-v3.2/pdb/
-set PORT=8730
-set USER_ID=wwpdb
-set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
+set SERVER=rsync.wwpdb.org::ftp/
+set PORT=33444
+set USER_ID=anonymous
+#set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
 set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
 #set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
@@ -51,7 +51,7 @@ foreach x ( $subl )
    endif
 
    $RSYNC -rlpt -z --delete --port=$PORT \
-    --password-file=$PASSWORD_FILE \
+#    --password-file=$PASSWORD_FILE \
     $USER_ID@$SERVER/data/structures/divided/pdb/$ch23/pdb$x.ent.gz \
     $subdirLoc/pdb$x.ent.gz \
     |& tee $LOGFILE

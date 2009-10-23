@@ -21,8 +21,8 @@ echo "Doing" $#subl "pdb entries"
 foreach x ( $subl )
    echo "Doing $x"
    if ( ! -e $mr_anno_progress_dir/$x.mr ) then
-       scp jurgen@tang.bmrb.wisc.edu:/share/wattos/mr_anno_backup/$x.mr \
-       $mr_anno_progress_dir
+           scp -P 39677 jurgen@localhost-grunt:/raid/backup/mr_anno_backup/$x.mr \
+            $mr_anno_progress_dir
    endif
 end
 

@@ -7,10 +7,8 @@ source $0:h/settings.csh
 
 # If no subl variable defined here, the last weekly batch will be retrieved.
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh   )
-set subl = (  2kky 2kk1)
-#set subl = ( `cat $list_dir/setDocrFredBaddies786.csv` )
+set subl = ( 1ah1 )
 #set subl = ( `cat /tmp/entries_all_2008-09-30_todo.csv | tail -100` )
-#set subl = (`cat $list_dir/entry_list_nrg_2009-03-12.txt`)
 
 # Overwrites the below 3 settings. Checks will always be done.
 set doChecksOnly = 0
@@ -20,7 +18,7 @@ set doProcessing = 1
 set doLogShow    = 1
 set doChecks     = 1
 
-set max_cpu      = 1
+set max_cpu      = 8
 set max_entries  = 5000
 set this_prog    = $scripts_dir/weeklyDOCR_FRED.csh
 set list_file    = $list_dir/list_tmp.csv # note that this is a temporary file not the input.
