@@ -1,0 +1,18 @@
+#summary How to update the links to BMRB, RECOORD, DRESS.
+#labels Phase-Support,Featured
+
+= Introduction =
+
+Each record in NRG can be linked to the above 3 databases. The information is present in
+{{{
+http://code.google.com/p/nmrrestrntsgrid/source/browse/#svn/trunk/nmrrestrntsgrid/bmrb_pdb_match
+and should be copied to:
+http://www.bmrb.wisc.edu/servlet_data/viavia/bmrb_pdb_match/
+}}}
+
+= Updating =
+As docr@grunt update the database fields:
+{{{
+java -Xmx128m Wattos.Episode_II.MRUpdateLinksToExternalDBs $resultDir
+}}}
+with $resultDir being the directory (not url) to: servlet_data/viavia/bmrb_pdb_match/results
