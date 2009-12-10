@@ -10,9 +10,6 @@ source $0:h/settings.csh
 set MIRRORDIR=$pdbbase_dir                         # your top level rsync directory
 set RSYNC=rsync                                    # location of local rsync
 
-# Set to 0 for using normal archive.
-set useRemediated=1
-
 set SERVER=rsync.wwpdb.org::ftp/
 set PORT=33444
 set USER_ID=anonymous
@@ -27,7 +24,7 @@ if ( $1 != "" ) then
 endif
 
 
-echo "Doing" $#subl "pdb entries with useRemediated set to: $useRemediated"
+echo "Doing" $#subl "pdb entries"
 foreach x ( $subl )
    echo "Doing $x"
    set ch23 = ( `echo $x | cut -c2-3` )
