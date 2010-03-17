@@ -53,7 +53,7 @@ if ( $measahost == "tang" ) then
     setenv UJ           /big/docr
     setenv WS           $UJ/workspace                     # Common to all projects currently.
 else
-    setenv WS           $UJ/workspace34
+    setenv WS           $UJ/workspace35
 endif
 
 # Development settings; other locals need to be setenv below. Can be overiden by next section

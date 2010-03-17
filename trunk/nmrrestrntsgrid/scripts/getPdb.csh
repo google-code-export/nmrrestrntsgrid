@@ -55,6 +55,12 @@ foreach x ( $subl )
     $USER_ID@$SERVER/data/structures/divided/pdb/$ch23/pdb$x.ent.gz \
     $subdirLoc/pdb$x.ent.gz \
     |& tee $LOGFILE
+
+   if ( -e $subdirLoc/pdb$x.ent.gz ) then
+   		echo "linking to all dir"
+#   		cd $MIRRORDIR/data/structures/all/pdb
+   		ln -s ../../divided/pdb/$ch23/pdb$x.ent.gz $MIRRORDIR/data/structures/all/pdb/pdb$x.ent.gz
+   	endif
 end
 
 echo "Done with syncing PDB files for number of entries: $#subl"

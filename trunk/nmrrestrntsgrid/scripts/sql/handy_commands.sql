@@ -24,7 +24,7 @@ INTO TABLE tbl_name
 -- show optimizers results
 explain select ...
 
-alter table entry add column in_recoord BOOLEAN default 0;
+alter table entry add column res_count INTEGER default NULL;
 alter table entry add column in_dress   BOOLEAN default 0;
 alter table mrblock add column item_count INTEGER default NULL;
 

@@ -1,0 +1,10 @@
+ReadEntryMmCIF
+/Users/jd/wattosTestingPlatform/pdb/data/structures/divided/mmCIF/br/1brv.cif.gzn
+
+
+WriteEntryNMRSTAR
+1brv_from_mmcif.str
+
+Quit
+
+
