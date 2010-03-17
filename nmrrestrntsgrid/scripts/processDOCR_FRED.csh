@@ -209,7 +209,7 @@ foreach x ( $subl )
         set fc_sum_file         = $fc_entry_dir/linkNmrStarData.summary
         set inputStarFile       = $x"_join".str
         set outputStarFile      = $dir_star/$x/$x"_merge".str
-        set mergeScriptFile     = $R/python/recoord2/msd/linkNmrStarData.py
+        set mergeScriptFile     = $R/python/recoord2/pdbe/linkNmrStarData.py
         set guess_file       = guessLink.txt
 
         cd $dir_link
@@ -293,13 +293,8 @@ foreach x ( $subl )
 
 
     if ( $doAddMissingAtoms ) then
-#        echo "  skipping addMissingAtoms"
-        set script_file     = $wcf_dir/AddMissingAtoms.wcf
         set inputStarFile   = $dir_star/$x/$x"_merge".str
         set outputStarFile  = $x"_extra".str
-        set outputPDBFile   = $x"_extra".pdb
-        set script_file_new = $x.wcf
-        set log_file        = $x"_addMissingAtoms".log
 
         cd $dir_extra
         if ( -e $x ) then
@@ -313,29 +308,13 @@ foreach x ( $subl )
             echo "ERROR: perhaps a previous phase was not done yet?"
             continue
         endif
-        if ( 1 ) then
-            cp $inputStarFile $outputStarFile
-        else
-            # writes star file with PDB file writing; automatically.
-            sed -e 's|OUTPUT_PDB_FILE|'$outputPDBFile'|'     $script_file |\
-            sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       > $script_file_new
 
-            wattos < $script_file_new >& $log_file
-            if ( $status ) then
-                echo "ERROR $x Wattos addMissingAtoms script: $script_file_new failed"
-                continue
-            endif
+        cp $inputStarFile $outputStarFile
 
-            if ( ! -e $outputPDBFile ) then
-                echo "ERROR $x found no PDB file $outputPDBFile"
-                continue
-            endif
-            \rm $script_file_new
-       endif
-       if ( ! -e $outputStarFile ) then
+        if ( ! -e $outputStarFile ) then
             echo "ERROR $x found no star file $outputStarFile"
             continue
-       endif
+        endif
     endif
 
 

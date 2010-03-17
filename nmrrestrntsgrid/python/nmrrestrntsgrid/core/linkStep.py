@@ -4,7 +4,7 @@ from nmrrestrntsgrid.settings.localConstants import dir_star
 from nmrrestrntsgrid.settings.localConstants import extraFCOptions
 from nmrrestrntsgrid.util.NTutils import NTdebug
 from nmrrestrntsgrid.util.NTutils import NTerror
-from recoord2.msd.linkNmrStarData import LinkNmrStarData #@UnresolvedImport
+from recoord2.pdbe.linkNmrStarData import LinkNmrStarData #@UnresolvedImport
 import shutil
 import nmrrestrntsgrid
 import os
@@ -19,7 +19,7 @@ def linkNmrStarData2(x):
 
     inputStarFile = x + "_join.str"
 #    outputStarFile      = os.path.join(dir_star,x,x+"_merge.str")
-#    mergeScriptFile     = os.path.join(R,"python/recoord2/msd/linkNmrStarData.py")
+#    mergeScriptFile     = os.path.join(R,"python/recoord2/pdbe/linkNmrStarData.py")
     fcInputDir = os.path.join(ccpn_tmp_dir, 'data/archives/bmrb/nmrRestrGrid', x)
     inputStarFileFullPath = os.path.join(dir_star, x, inputStarFile)
 #    guess_file       = "guessLink.txt"

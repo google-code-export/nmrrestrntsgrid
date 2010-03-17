@@ -27,9 +27,7 @@ PLEASE DO NOT CHANGE THIS FILE
         Sharing
             Turn on "Web Sharing" and check server in browser.
 
-    For working together with tomcat on 8080 add to /private/etc/apache2/httpd.conf:
-        ProxyPass         /NRG http://localhost:8080/WebModule
-        ProxyPassReverse  /NRG http://localhost:8080/WebModule
+    For working together with tomcat see tomcat instructions in the same dir as this doc.
 
     
 * apache on tang (solarix): 
