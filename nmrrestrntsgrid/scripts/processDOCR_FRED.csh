@@ -732,7 +732,7 @@ foreach x ( $subl )
             endif
 
             # use absolute path for human user that sees the message.
-            set fc_ScriptFile       = $R/python/recoord2/msd/"export"$fcExportFormat.py
+            set fc_ScriptFile       = $R/python/recoord2/pdbe/"export"$fcExportFormat.py
             set fc_log_file         = $cwd/$fcExportFormat/$x"_fc_export_"$fcExportFormat.log
 
             python -u $fc_ScriptFile $x "$fc_entry_dir/.." $fcExportFormat >& $fc_log_file
