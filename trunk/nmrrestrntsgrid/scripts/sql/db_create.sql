@@ -87,11 +87,11 @@ CREATE TABLE mrblock
     md5_sum                        VARCHAR(32)      NOT NULL,
     FOREIGN KEY (mrfile_id)          REFERENCES mrfile (mrfile_id) ON DELETE CASCADE
 ) TYPE = INNODB;
---- When the actual textual data was included the following line was added as optimalization.
+-- When the actual textual data was included the following line was added as optimalization.
 -- default values for both initial and next storage is 5 data blocks
 -- 1 data block is in the order of 4 kb.
 -- default value for percentage increase is 50 so
---- STORAGE (INITIAL 256M NEXT 256M PCTINCREASE 0)
+-- STORAGE (INITIAL 256M NEXT 256M PCTINCREASE 0)
 -- default value for chunk size is 1 data block
 -- LOB (mol_image) STORE AS (CHUNK 4096)
 -- Some common queries are helped by these indexes..
@@ -101,11 +101,11 @@ CREATE INDEX mrblock_003 ON mrblock (type);
 CREATE INDEX mrblock_004 ON mrblock (subtype);
 CREATE INDEX mrblock_005 ON mrblock (format);
 CREATE INDEX mrblock_006 ON mrblock (text_type);
---CREATE INDEX mrblock_007 ON mrblock (byte_count);
---CREATE INDEX mrblock_008 ON mrblock (date_modified);
---CREATE INDEX mrblock_009 ON mrblock (dbfs_id);
---CREATE INDEX mrblock_010 ON mrblock (file_extension);
-----------------------------------------------------------------------------------------
+-- CREATE INDEX mrblock_007 ON mrblock (byte_count);
+-- CREATE INDEX mrblock_008 ON mrblock (date_modified);
+-- CREATE INDEX mrblock_009 ON mrblock (dbfs_id);
+-- CREATE INDEX mrblock_010 ON mrblock (file_extension);
+
 CREATE TABLE temp_mrfile
 (
     mrfile_id                       INT             NOT NULL PRIMARY KEY,
