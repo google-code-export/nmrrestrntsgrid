@@ -29,8 +29,8 @@ set PORT=33444
 set USER_ID=anonymous
 #set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
-set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
-#set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2008_02-14.txt`)
+#set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
+#set subl = (`cat /Users/jd/workspace35/cing/python/cing/Scripts/data/t`)
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 
 # Get argument pdb code if it exists.
@@ -48,6 +48,11 @@ foreach x ( $subl )
    if ( ! -e $subdirLoc ) then
         echo "Creating dir: " $subdirLoc
         mkdir -p $subdirLoc
+   endif
+
+	# skip entries already present
+   if ( -e $subdirLoc/pdb$x.ent.gz ) then
+		continue
    endif
 
    $RSYNC -rlpt -z --delete --port=$PORT \

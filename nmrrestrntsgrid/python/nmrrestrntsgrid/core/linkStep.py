@@ -42,7 +42,7 @@ def linkNmrStarData2(x):
     if os.path.exists(fcInputFile):
         os.unlink(fcInputFile)
 
-    os.link(inputStarFileFullPath, fcInputFile)
+    os.link(inputStarFileFullPath, fcInputFile) # TODO: check if os.link is appropriate instead of disk.copy(src, path) # us a real copy
     if not os.path.exists(fcInputFile):
         NTerror("%s failed to copy input for FC to: $fcInputDir" % x)
         return

@@ -23,7 +23,8 @@ ALSO SEE: $NRG/scripts/sql/prepare_database_mysql.sql and handy_commands.sql
 		/opt/local/bin/mysqladmin5 -u root -p shutdown
 	- connect:
 		mysql -u nrgcing1 -p4I4KMS nrgcing
-
+		mysql -h localhost -u wattos1 -p4I4KMS wattos1
+		
     set mysqldatadir = /opt/local/var/db/mysql5/
     cd $mysqldatadir
    	tail -f stella.cmbi.umcn.nl.err Stella.log

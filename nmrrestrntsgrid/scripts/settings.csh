@@ -98,6 +98,7 @@ setenv perEntry_dir     $results_dir/perEntry
 setenv dir_nrg_python   $nrg_dir/python
 setenv PDBZ2            $pdbbase_dir/data/structures/divided/pdb
 setenv CIFZ2            $pdbbase_dir/data/structures/divided/mmCIF
+setenv PDBNMR2          $pdbbase_dir/data/structures/divided/nmr_restraints
 setenv mysql_backup_dir $VIAVIA/mr_mysql_backup
 ################################################################################
 # More or less temp files.

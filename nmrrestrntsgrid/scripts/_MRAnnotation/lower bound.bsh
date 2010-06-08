@@ -1,0 +1,3 @@
+textArea.setSelectedText("##### BMRB adds: OTHER_PROP     LOWER_ONLY      = true");
+textArea.userInput('\n');
+
