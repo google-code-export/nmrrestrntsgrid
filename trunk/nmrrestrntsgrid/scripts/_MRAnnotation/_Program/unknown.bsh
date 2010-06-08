@@ -1,0 +1,3 @@
+textArea.setSelectedText("##### BMRB adds: PROGRAM        unknown");
+textArea.userInput('\n');
+

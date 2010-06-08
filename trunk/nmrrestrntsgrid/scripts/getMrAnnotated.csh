@@ -10,7 +10,7 @@ source $0:h/settings.csh
 
 #set subl = ( 2k5b )
 #set subl = ( 1brv 2jnd 2jqs 2ofc 2pmc )
-set subl = ( 1go0 1ccf 1e0n 1ftt 1pjd )
+set subl = ( 1brv )
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then
@@ -20,9 +20,14 @@ endif
 echo "Doing" $#subl "pdb entries"
 foreach x ( $subl )
    echo "Doing $x"
+   set ch23 = ( `echo $x | cut -c2-3` )
    if ( ! -e $mr_anno_progress_dir/$x.mr ) then
-           scp -P 39677 jurgen@localhost-grunt:/raid/backup/mr_anno_backup/$x.mr \
-            $mr_anno_progress_dir
+           #scp -P 39677 jurgen@localhost-grunt:/raid/backup/mr_anno_backup/$x.mr \
+           #$mr_anno_progress_dir
+			scp nmr:$mr_anno_progress_dir/$x.mr $mr_anno_progress_dir
+            if ( ! -e $mr_anno_progress_dir/$x.mr ) then
+            	echo "ERROR: failed to copy from nmr: $mr_anno_progress_dir/$x.mr"
+            endif
    endif
 end
 

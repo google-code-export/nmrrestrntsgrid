@@ -1,8 +1,8 @@
-#!/bin/csh -f 
-# Author: Jurgen F. Doreleijers 
+#!/bin/csh -f
+# Author: Jurgen F. Doreleijers
 # Wed Dec 14 13:49:06 CST 2005
 #
-# TASK: Gets the files needed for 3rd stage out of NRG. 
+# TASK: Gets the files needed for 3rd stage out of NRG.
 # USE:  $scripts_dir/getFilesFromGrid.csh 1a4d,1brv
 
 set run_id          = all
@@ -37,7 +37,10 @@ cd $dir_restraint/$run_id
 echo "-1- Getting files from NMR Restraint Grid"
 # Write all output to 1 zip file as it should be.
 \rm -f $zipFile >& /dev/null
-wget -v -o $wgetLogFile -O $zipFile $servletUrl'?'"$par1&$par2&$par3"
+set query = $servletUrl'?'"$par1&$par2&$par3"
+echo "DEBUG: Doing query: $query"
+
+wget -v -o $wgetLogFile -O $zipFile "$query"
 if ( $status ) then
     echo "ERROR: failed to wget from url: $servletUrl"
     exit 1
@@ -54,10 +57,10 @@ if ( $status ) then
 	echo "ERROR: Failed to unzip in getFilesFromGrid.csh on $cwd/$zipFile"
 	exit 1
 endif
- 
+
 echo "-3- Getting info from index file."
 gawk -F',' '{if ((NR==1)||(NF<14))next;printf "mv block_%s.str %s_rst.str\n",$2,$3}' index.csv > $scriptFile
-    
+
 chmod +x $scriptFile
 echo "-4- Renaming all files."
 $scriptFile

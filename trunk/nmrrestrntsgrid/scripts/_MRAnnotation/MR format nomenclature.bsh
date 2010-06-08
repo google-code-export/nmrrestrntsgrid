@@ -1,0 +1,9 @@
+textArea.setSelectedText("##### BMRB adds: PROGRAM        MR format");
+textArea.userInput('\n');
+textArea.setSelectedText("##### BMRB adds: TYPE           nomenclature mapping");
+textArea.userInput('\n');
+textArea.setSelectedText("##### BMRB adds: SUBTYPE        n/a");
+textArea.userInput('\n');
+textArea.setSelectedText("##### BMRB adds: FORMAT         n/a");
+textArea.userInput('\n');
+

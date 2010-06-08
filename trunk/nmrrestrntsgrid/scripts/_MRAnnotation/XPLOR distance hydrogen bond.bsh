@@ -1,0 +1,9 @@
+textArea.setSelectedText("##### BMRB adds: PROGRAM        XPLOR/CNS");
+textArea.userInput('\n');
+textArea.setSelectedText("##### BMRB adds: TYPE           distance");
+textArea.userInput('\n');
+textArea.setSelectedText("##### BMRB adds: SUBTYPE        hydrogen bond");
+textArea.userInput('\n');
+textArea.setSelectedText("##### BMRB adds: FORMAT         simple");
+textArea.userInput('\n');
+
