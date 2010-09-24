@@ -1,38 +1,42 @@
-# This NMR-STAR file contains, for PDB entry <PDBCODE HERE>:
+# This DOCR archive file contains, for PDB entry <PDBCODE HERE>:
 # 
-# - Coordinate and sequence from the PDB mmCIF file.
-# - NMR restraint from the PDB MR file.
+# - Coordinates and sequence information from the PDB mmCIF file
+# - NMR restraints from the PDB MR file
 # 
 # In this file, the coordinates and NMR restraints share the same atom names,
-# and in this way differ from the data deposited at the wwPDB. To achieve this
-# aim, the NMR restraints were parsed from their original format files, and the
-# coordinate and NMR restraints information was subsequently harmonized.
+# and in this way can differ from the data deposited at the wwPDB. To achieve
+# this aim, the NMR restraints were parsed from their original format files, and
+# the coordinates and NMR restraints information were subsequently harmonized.
 # 
 # Due to the complexity of this harmonization process, minor modifications could
-# have occurred to the coordinate and/or NMR restraints information, or data
-# could have been partially lost due to parsing or conversion errors. The PDB
-# file therefore, remains the authoritative reference for the coordinate data,
-# and the MR files remain the primary reference for the NMR restraint data.
+# have occurred to the NMR restraints information, or data could have been lost
+# because of parsing or conversion errors. The PDB file remains the
+# authoritative reference for the atomic coordinates and the originally deposited
+# restraints files remain the primary reference for these data.
 # 
-# These files are generated as part of the wwPDB at the BioMagResBank (BMRB) in
-# collaboration with the MSD group at the European Bioinformatics Institute
-# (EBI) and the CMBI/IMM group at the Radboud University of Nijmegen.
+# This file is generated at the BioMagResBank (BMRB) in collaboration with the 
+# PDBe (formerly MSD) group at the European Bioinformatics Institute (EBI) and 
+# the CMBI/IMM group at the Radboud University of Nijmegen.
 # 
 # Several software packages were used to produce this file:
 # 
-# - Wattos (Jurgen Doreleijers, formerly BMRB now at CMBI/IMM).
-# - FormatConverter (Wim Vranken, MSD).
-# - CCPN framework (http://www.ccpn.ac.uk/)
-# - NmrStarExport (Chris Penkett, MSD).
+# - Wattos (BMRB and CMBI/IMM).
+# - FormatConverter and NMRStarExport (PDBe).
+# - CCPN framework (http://www.ccpn.ac.uk/).
 # 
 # More information about this process can be found in the references below.
+# Please cite the original reference for this PDB entry.
 # 
 # JF Doreleijers, A Nederveen, W Vranken, J Lin, AM Bonvin, R Kaptein, JL
-# Markley, and EL Ulrich. BioMagResBank databases DOCR and FRED containing
-# converted and filtered sets of experimental NMR restraints and coordinates
-# from over 500 protein PDB structures. J.Biomol.NMR 32 (1):1-12, 2005.
+# Markley, and EL Ulrich (2005). BioMagResBank databases DOCR and FRED
+# containing converted and filtered sets of experimental NMR restraints and
+# coordinates from over 500 protein PDB structures. J. Biomol. NMR 32, 1-12.
 # 
-# JF Doreleijers, W Vranken, C Penkett, J Lin, CF Schulte, G Vuister, G Vriend,
-# JL Markley, EL Ulrich. BioMagResBank database `NMR Restraints Grid` with
-# curated sets of experimental NMR restraints for over 4,000 protein and nucleic
-# acid PDB entries. (in preperation)
+# WF Vranken, W Boucher, TJ Stevens, RH Fogh, A Pajon, M Llinas, EL Ulrich, JL
+# Markley, J Ionides, ED Laue (2005). The CCPN data model for NMR spectroscopy:
+# development of a software pipeline. Proteins 59, 687-696. 
+# 
+# JF Doreleijers, WF Vranken, C Schulte, J Lin, JR Wedell, CJ Penkett, GW Vuister, 
+# G Vriend, JL Markley, and EL Ulrich (2009). The NMR Restraints Grid at BMRB for 
+# 5,266 Protein and Nucleic Acid PDB Entries. J Biomol. NMR 45, 389–396.
+
