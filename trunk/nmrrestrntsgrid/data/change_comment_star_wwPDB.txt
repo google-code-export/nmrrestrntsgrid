@@ -37,8 +37,7 @@
 # Markley, J Ionides, ED Laue (2005). The CCPN data model for NMR spectroscopy:
 # development of a software pipeline. Proteins 59, 687-696. 
 # 
-# JF Doreleijers, W Vranken, C Penkett, J Lin, CF Schulte, G Vuister, G Vriend,
-# JL Markley, EL Ulrich. BioMagResBank database `NMR Restraints Grid` with
-# curated sets of experimental NMR restraints for over 4,000 protein and nucleic
-# acid PDB entries. (in preparation)
+# JF Doreleijers, WF Vranken, C Schulte, J Lin, JR Wedell, CJ Penkett, GW Vuister, 
+# G Vriend, JL Markley, and EL Ulrich (2009). The NMR Restraints Grid at BMRB for 
+# 5,266 Protein and Nucleic Acid PDB Entries. J Biomol. NMR 45, 389–396.
 
