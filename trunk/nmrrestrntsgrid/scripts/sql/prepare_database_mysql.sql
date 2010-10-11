@@ -16,9 +16,10 @@ create database wattos1;
 use mysql;
 
 -- creating the account
+use mysql;
 CREATE USER 'wattos1'@'localhost';
 CREATE USER 'wattos1'@'tadpole.bmrb.wisc.edu';
-SET PASSWORD FOR 'wattos1'@'localhost'               = PASSWORD('4I4KMS');
+SET PASSWORD FOR 'wattos1'@'localhost'                           = PASSWORD('4I4KMS');
 SET PASSWORD FOR 'wattos1'@'tadpole.bmrb.wisc.edu'               = PASSWORD('4I4KMS');
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('');
 update user set file_priv='Y' where user='wattos1';
@@ -32,7 +33,7 @@ GRANT ALL ON * TO 'root'@'localhost';
 GRANT REPLICATION SLAVE ON *.* TO 'repl'@'localhost.localdomain' IDENTIFIED BY 'slavepass';
 
 -- create the tables within
-mysql -u wattos1 -p4I4KMS  wattos1 < $WS/wattos/scripts/sql/db_create.sql
+mysql -u wattos1 -p4I4KMS  wattos1 < $WS/nmrrestrntsgrid/scripts/sql/db_create.sql
 
 -- OR load very fast! Dump from 1 database to the next.
 mysqldump --opt -u root -p'\!Ecj%Y&R' wattos1 > $SJ/filetosaveto.sql

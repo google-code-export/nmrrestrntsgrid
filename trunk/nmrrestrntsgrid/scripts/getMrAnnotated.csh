@@ -24,12 +24,12 @@ foreach x ( $subl )
    if ( ! -e $mr_anno_progress_dir/$x.mr ) then
            #scp -P 39677 jurgen@localhost-grunt:/raid/backup/mr_anno_backup/$x.mr \
            #$mr_anno_progress_dir
-			scp nmr:$mr_anno_progress_dir/$x.mr $mr_anno_progress_dir
+            scp nmr:$mr_anno_progress_dir/../mr_anno_backup/$x.mr $mr_anno_progress_dir
             if ( ! -e $mr_anno_progress_dir/$x.mr ) then
             	echo "ERROR: failed to copy from nmr: $mr_anno_progress_dir/$x.mr"
             endif
    endif
 end
 
-echo "Done with retrieving the annotated MR file from BMRB"
+echo "Done with retrieving the annotated MR file from BMRB via NMR"
 

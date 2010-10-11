@@ -307,3 +307,6 @@ WHERE (
 b.text_type = '1-original'
 group by b.program, b.type, b.subtype, b.format
 order by count(*) desc;
+
+
+select * from mrblock where program = 'Wattos' and format = 'dihedral angle';

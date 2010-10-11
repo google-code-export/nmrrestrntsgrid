@@ -16,7 +16,7 @@ set USER_ID=anonymous
 #set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
 #set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
-set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
+set subl = ( 1a4d 1a24 1afp 1ai0 1b4y 1brv 1bus 1cjg 1d3z 1hkt 1hue 1ieh 1iv6 1jwe 1kr8 2hgh 2k0e )
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then
@@ -36,8 +36,8 @@ foreach x ( $subl )
 
     set localFile = $subdirLoc/$x.cif.gz
     if ( -e $localFile ) then
-        #continue
-        rm $localFile
+        continue
+        #rm $localFile
     endif
 
    $RSYNC -rlpt -z --delete --port=$PORT \

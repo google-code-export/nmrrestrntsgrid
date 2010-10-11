@@ -5,7 +5,7 @@ interactiveSession
 false
 SetProp
 verbosity
-9
+WATTOS_VERBOSITY
 SetProp
 writeSessionOnExit
 false
