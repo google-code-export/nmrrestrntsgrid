@@ -5,7 +5,7 @@ interactiveSession
 false
 SetProp
 verbosity
-9
+WATTOS_VERBOSITY
 SetProp
 writeSessionOnExit
 false
@@ -36,26 +36,26 @@ y
 # Averaging power over models (1.0 suggested)
 # Averaging method id. Center,Sum,R6 are 0,1, and 2 respectively : (1 suggested)
 # Number of monomers but only relevant when Sum averaging is selected: (1 suggested)
-# Should intraresiduals be considered (n suggested) (y/n): 
-# Enter file name of a standard set of observable atoms (ob_standard.str suggested): 
-# Enter file name base (with path) for output of completeness check summary: 
-# Should distance constraints be written (y suggested) (y/n): 
-# Enter file name base (with path) for surplus analysis and distance constraints (if selected) to be written: 
+# Should intraresiduals be considered (n suggested) (y/n):
+# Enter file name of a standard set of observable atoms (ob_standard.str suggested):
+# Enter file name base (with path) for output of completeness check summary:
+# Should distance constraints be written (y suggested) (y/n):
+# Enter file name base (with path) for surplus analysis and distance constraints (if selected) to be written:
 # Doing CheckCompleteness with arguments: [4.0, 2.0, 6.0, 8, 2.0, 9.0, 14, 1.0, 1, 1, false, ob_standard.str, 1brv_compl.str, false, 1brv_compl]
 
 CheckCompleteness
 4.0
-2.0             
-6.0              
+2.0
+6.0
 8
 2.0
 MAX_DISTANCE_COMPLETENESS
 14
 1.0
 1
-1 
+1
 n
-ob_standard.str             
+ob_standard.str
 OUTPUT_STAR_FILE
 n
 OUTPUT_FILE_BASE

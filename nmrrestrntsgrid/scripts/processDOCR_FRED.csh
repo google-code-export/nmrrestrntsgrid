@@ -74,7 +74,8 @@ endif
 #setenv WATTOSMEM 2g failed after updating OS FS to case sensitive
 setenv WATTOSMEM 1500m
 setenv woptions  "$extraWattosOptions -Xmx$WATTOSMEM"
-alias wattos "java $woptions Wattos.CloneWars.UserInterface -at"
+set wattosVerbosity = 9
+alias wattos "java $woptions Wattos.CloneWars.UserInterface -at -verbosity $wattosVerbosity"
 alias wjava  "java $woptions"
 
 echo
@@ -130,6 +131,7 @@ foreach x ( $subl )
         endif
         sed     -e 's|INPUT_MMCIF_FILE|'$inputMmCifFile'|'   $script_file  |\
             sed -e 's|MAX_MODELS|'$maxModels'|'                            |\
+            sed -e 's|WATTOS_VERBOSITY|'$wattosVerbosity'|'                            |\
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|' > $script_file_new
 #        echo -n "DEBUG: "; date
 
@@ -351,6 +353,7 @@ foreach x ( $subl )
             else
                 sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'   $script_file |\
                 sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'                  |\
+                sed -e 's|WATTOS_VERBOSITY|'$wattosVerbosity'|'                            |\
                 sed -e 's|INPUT_PDB_FILE|'$inputPDBFile'|'       > $script_file_new
 
                 wattos < $script_file_new >& $log_file
@@ -403,6 +406,7 @@ foreach x ( $subl )
         endif
         if ( $containsLinkedDistances ) then
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'     $script_file |\
+            sed -e 's|WATTOS_VERBOSITY|'$wattosVerbosity'|'                            |\
             sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'     > $script_file_new
 
 #	        echo -n "DEBUG: "; date
@@ -484,6 +488,7 @@ foreach x ( $subl )
                 set filterTopViolationsText = ""
             endif
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'     $script_file |\
+            sed -e 's|WATTOS_VERBOSITY|'$wattosVerbosity'|'                            |\
             sed -e 's|\#FILTER_TOP_VIOLATIONS|'$filterTopViolationsText'|'   |\
             sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'     > $script_file_new
 
@@ -549,6 +554,8 @@ foreach x ( $subl )
         endif
 
         sed -e 's|OUTPUT_DIST_STAR_FILE|'$outputDistStarFile'|'     $script_file |\
+        sed -e 's|WATTOS_VERBOSITY|'$wattosVerbosity'|'                            |\
+        sed -e 's|XXXX|'$x'|'                            |\
         sed -e 's|OUTPUT_DIHED_STAR_FILE|'$outputDihedStarFile'|' |\
         sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'     > $script_file_new
 
@@ -625,6 +632,7 @@ foreach x ( $subl )
         endif
         if ( $containsNonSurplusDistances ) then
             sed -e 's|OUTPUT_STAR_FILE|'$outputStarFile'|'     $script_file 				|\
+            sed -e 's|WATTOS_VERBOSITY|'$wattosVerbosity'|'                            |\
             sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'                    				|\
             sed -e 's|MAX_DISTANCE_COMPLETENESS|'$maxDistanceCompleteness'|'             	|\
             sed -e 's|OUTPUT_FILE_BASE|'$outputBaseFile'|'     > $script_file_new
@@ -683,6 +691,7 @@ foreach x ( $subl )
             endif
             if ( $containsNA ) then
                 sed -e 's|INPUT_STAR_FILE|'$inputStarFile'|'       $script_file \
+                sed -e 's|WATTOS_VERBOSITY|'$wattosVerbosity'|'                 \
                     > $script_file_new
                 wattos < $script_file_new >& $log_file
                 if ( $status ) then
@@ -763,6 +772,7 @@ foreach x ( $subl )
             set script_file_new  = $outputFileBase.wcf
             set log_file         = $outputFileBase.log
             sed -e 's|OUTPUT_XPLOR_FILE_BASE|'$outputFileBase'|' $script_file |\
+            sed -e 's|WATTOS_VERBOSITY|'$wattosVerbosity'|'                            |\
             sed -e 's|INPUT_STAR_FILE|'$inputFile'|'       > $script_file_new
 
             if ( ! -e $inputFile ) then
