@@ -1,7 +1,7 @@
 -- STEP BY STEP PROCEDURE FOR SETTING UP NEW DB
 
 -- login with root password
---mysql -u root -p'' mysql
+--mysql -u root -p'4I4KMS' mysql
 -- The db isn't available anywhere but on the host itself so this posses no security problem.
 
 -- Notes:
@@ -13,7 +13,7 @@ create database wattos1;
 
 use mysql;
 
--- creating the account 
+-- creating the account
 CREATE USER 'wattos1'@'localhost'               ;
 CREATE USER 'wattos1'@'localhost.localdomain'   ;
 CREATE USER 'wattos1'@'tang.bmrb.wisc.edu'      ;
@@ -25,12 +25,10 @@ SET PASSWORD FOR 'wattos1'@'localhost.localdomain'   = PASSWORD('4I4KMS');
 SET PASSWORD FOR 'wattos1'@'tang.bmrb.wisc.edu'      = PASSWORD('4I4KMS');
 SET PASSWORD FOR 'wattos1'@'stella.cmbi.umcn.nl'     = PASSWORD('4I4KMS');
 
--- not sure where the next line belongs:
-use wattos1;
 update user set file_priv='Y' where user='wattos1';
 
 GRANT ALL ON * TO 'wattos1'@'localhost';
-GRANT ALL ON * TO 'wattos1'@'localhost.localdomain';             
+GRANT ALL ON * TO 'wattos1'@'localhost.localdomain';
 GRANT ALL ON * TO 'wattos1'@'tang.bmrb.wisc.edu';
 GRANT ALL ON * TO 'wattos1'@'stella.cmbi.umcn.nl';
 GRANT ALL ON *.* TO 'wattos1'@'stella.cmbi.umcn.nl';
@@ -38,10 +36,11 @@ GRANT ALL ON *.* TO 'wattos1'@'localhost';
 
 GRANT REPLICATION SLAVE ON *.* TO 'repl'@'localhost.localdomain' IDENTIFIED BY 'slavepass';
 
--- create the tables within-- type the following on the terminal--mysql -h tang.bmrb.wisc.edu -u wattos1 -p4I4KMS  wattos1 < "C:\Documents and Settings\jurgen.WHELK.000\workspace\Wattos\scripts\SQL\db_create.sql"
-mysql -h localhost          -u wattos1 -p4I4KMS  wattos1 < "C:\Documents and Settings\jurgen.WHELK.000\workspace\Wattos\scripts\SQL\db_create.sql"
-mysql -h localhost          -u wattos1 -p4I4KMS  wattos1 < $WS/wattos/scripts/sql/db_create.sql
+-- not sure where the next line belongs:
+use wattos1;
 
+-- create the tables within
+mysql -u wattos1 -p4I4KMS  wattos1 < $WS/nmrrestrntsgrid/scripts/sql//db_create.sql
 -- OR load very fast! Dump from 1 database to the next.
 mysqldump --opt -u root -p'\!Ecj%Y&R' wattos1 > $SJ/filetosaveto.sql
 -- add if speed is needed to begining of file: SET FOREIGN_KEY_CHECKS=0;

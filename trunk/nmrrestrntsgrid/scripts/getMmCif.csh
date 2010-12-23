@@ -16,8 +16,8 @@ set USER_ID=anonymous
 #set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
 #set subl = (`cat $list_dir/list_baddies_2009-01-20.csv`)
-set subl = ( 1a4d 1a24 1afp 1ai0 1b4y 1brv 1bus 1cjg 1d3z 1hkt 1hue 1ieh 1iv6 1jwe 1kr8 2hgh 2k0e )
-
+#set subl = ( 1a4d 1a24 1afp 1ai0 1b4y 1brv 1bus 1cjg 1d3z 1hkt 1hue 1ieh 1iv6 1jwe 1kr8 2hgh 2k0e )
+set subl = ( 1crq 1crr 1ezc 1ezd 1kld 1l0r 1qch 1r4e 1sah 1saj 1vve 2axx 2ezq 2ezr 2ezs )
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then
     set subl = (  `echo $1 | sed 's/,/ /g'`  )

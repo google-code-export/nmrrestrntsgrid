@@ -30,7 +30,7 @@ set USER_ID=anonymous
 #set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
 #set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
-#set subl = (`cat /Users/jd/workspace35/cing/python/cing/Scripts/data/t`)
+set subl = (`cat /Users/jd/entry_list_97.csv`)
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 
 # Get argument pdb code if it exists.
@@ -46,13 +46,13 @@ foreach x ( $subl )
    set ch23 = ( `echo $x | cut -c2-3` )
    set subdirLoc = $MIRRORDIR/data/structures/divided/pdb/$ch23
    if ( ! -e $subdirLoc ) then
-        echo "Creating dir: " $subdirLoc
+#        echo "Creating dir: " $subdirLoc
         mkdir -p $subdirLoc
    endif
 
-	# skip entries already present
-   if ( -e $subdirLoc/pdb$x.ent.gz ) then
-		continue
+    # skip entries already present
+   if ( -e $subdirLoc/pdb$x.ent.gz && -e $MIRRORDIR/data/structures/all/pdb/pdb$x.ent.gz ) then
+        continue
    endif
 
    $RSYNC -rlpt -z --delete --port=$PORT \
@@ -62,10 +62,10 @@ foreach x ( $subl )
     |& tee $LOGFILE
 
    if ( -e $subdirLoc/pdb$x.ent.gz ) then
-   		echo "linking to all dir"
+#           echo "linking to all dir"
 #   		cd $MIRRORDIR/data/structures/all/pdb
-   		ln -s ../../divided/pdb/$ch23/pdb$x.ent.gz $MIRRORDIR/data/structures/all/pdb/pdb$x.ent.gz
-   	endif
+           ln -s ../../divided/pdb/$ch23/pdb$x.ent.gz $MIRRORDIR/data/structures/all/pdb/pdb$x.ent.gz
+       endif
 end
 
 echo "Done with syncing PDB files for number of entries: $#subl"
