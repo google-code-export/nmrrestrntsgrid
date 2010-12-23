@@ -2,35 +2,42 @@ THIS DOCUMENTATION IS NOW MAINTAINED IN THE CING PROJECT
 
 PLEASE DO NOT CHANGE THIS FILE
 
+
+
+
+
+
+
+
 * apache on mac
     There's one in eclipse but heck why not shrew up the one in mac os integrated.
     On leopard which has apache 2:
         /private/etc/apache2/httpd.conf and
         /private/etc/apache2/users/jd.conf
-        
-        
+
+
     Logs:
-        tail -f /private/var/log/apache2/*_log &  
-    
+        tail -f /private/var/log/apache2/*_log &
+
     CGI stuff (not needed for nmrrestrntsgrid project):
         /Library/WebServer/CGI-Executables/
 
-	Test:
-		apachectl configtest
-	
+    Test:
+        apachectl configtest
+
     Restart:
         /usr/sbin/httpd -k restart
 
     Install /Library/WebServer/Documents/favicon.ico
-    
+
     In the System Preference of the Mac
         Sharing
             Turn on "Web Sharing" and check server in browser.
 
     For working together with tomcat see tomcat instructions in the same dir as this doc.
 
-    
-* apache on tang (solarix): 
+
+* apache on tang (solarix):
     * /etc/httpd/conf/httpd.conf                    configuration file (cc-ed to system settings)
     *   Perhaps not needed anymore but do:
         cd /var/www/html
@@ -38,15 +45,15 @@ PLEASE DO NOT CHANGE THIS FILE
     * /var/www/servlet_data                         data
         lrwxrwxrwx    1 root     root           19 Nov 22 12:01 molgrap -> /pdbmirror2/molgrap/
         lrwxrwxrwx    1 root     root           41 Nov 22 12:01 pdb -> /pdbmirror2/nozip/data/structures/all/pdb/
-        lrwxrwxrwx    1 root     root           52 Nov 22 11:54 pdbmr -> /pdbmirror2/nozip/data/structures/all/nmr_restraints/    
+        lrwxrwxrwx    1 root     root           52 Nov 22 11:54 pdbmr -> /pdbmirror2/nozip/data/structures/all/nmr_restraints/
     * /etc/init.d/httpd restart
         The startup is automated (and tested) to start under run level 3,4, and 5
         and killed on levels 0,1,2 and 6 (restart)
         through invocation in /etc/rc.d:
         Apache starts before tomcat and stops after tomcat stops although that's not essential.
     * The location and format of the access logfile (Common Logfile Format).
-		ErrorLog "| /usr/sbin/rotatelogs /var/log/httpd/error_log.%Y.%W 604800"
-    	Used to be:
+        ErrorLog "| /usr/sbin/rotatelogs /var/log/httpd/error_log.%Y.%W 604800"
+        Used to be:
         CustomLog "| /usr/sbin/rotatelogs /bmrb/admin/logs/tang/apache/access_log.%Y.%W 604800" combined
     * a notpub on port 8675 is used for temporary data exchange.
         but logs will show it.
@@ -57,7 +64,7 @@ PLEASE DO NOT CHANGE THIS FILE
         <html> <head> <meta HTTP-EQUIV="REFRESH" content="0; url=http://www.bmrb.wisc.edu/~jurgen"> </head> </html>
 
 * The webmodule URLs "www.bmrb." gets redirected to "tang.bmrb.wisc.edu"
-    This is done in the settings file for the apache webserver on manatee:    
+    This is done in the settings file for the apache webserver on manatee:
     /bmrb/etc/httpd.conf
     kill apache's first by issueing stop or restart
     but then last time I did, 1/18/05 it didn't die completely

@@ -15,7 +15,7 @@ source $0:h/settings.csh
 
 set MIRRORDIR=$pdbbase_dir                         # your top level rsync directory
 
-set subl = ( 1j6t 1jtw 1dx1 1f8h 1vrc 2con 2exg )
+set subl = ( 134d 135d 136d 177d 1crq 1crr 1ezc 1ezd 1gnc 1kld 1l0r 1lcc 1lcd 1msh 1qch 1r4e 1sah 1saj 1vve 2axx 2ezq 2ezr 2ezs 2i7z 2ku2 2neo 2ofg )
 #set subl = (`cat $list_dir/NMR_Restraints_Grid_entries_2009-08-03.txt`)
 #set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
 
