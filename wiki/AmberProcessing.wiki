@@ -9,4 +9,6 @@ Amber coordinate files are needed for the order of the atoms in there determines
 
   * Get original Amber coordinate file from author.
   * Truncate to have just one model in this file. Everything from the line MODEL 2 goes.
-  * Place this copy as $x.pdb ($x is the entry id in lower case; e.g. 1brv) in the directory the mrannotator will look for it. It's specified by the variable amber_pdb_dir and currently is: amber_pdb_dir                  : /dumpzone/pdb/external/amber_pdb 
+  * Place this copy as $x.pdb ($x is the entry id in lower case; e.g. 1brv) in the directory the mrannotator will look for it. It's specified by the variable amber_pdb_dir and currently is: amber_pdb_dir                  :  
+/dumpzone/pdb_external/amber_pdb (on tang)
+  * Perhaps remove spurious water like in 2l8m
