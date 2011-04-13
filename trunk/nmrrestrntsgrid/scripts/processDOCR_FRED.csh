@@ -35,7 +35,7 @@ set doOrganizeForGrid   = 1
 set doDumpInGrid        = 1
 set doCleanFiles        = 0 # Keep this on for it does fill up > 100 G on > 4,000 entries
 
-set interactiveProcessing = 0 # Set to zero to do production run but one for a very fast run.
+set interactiveProcessing = 0 # DEFAULT: 0 Set to zero to do production run but one for a very fast run.
 # The largest entry 2k0e is completely reprocessed interactively in 2'30".
 
 set extraWattosOptions  =
@@ -212,6 +212,7 @@ foreach x ( $subl )
         set inputStarFile       = $x"_join".str
         set outputStarFile      = $dir_star/$x/$x"_merge".str
         set mergeScriptFile     = $R/python/recoord2/pdbe/linkNmrStarData.py
+        set validityScriptFile  = $dir_nrg_python/nmrrestrntsgrid/util/checkCcpnProject.py
         set guess_file       = guessLink.txt
 
         cd $dir_link
@@ -247,7 +248,16 @@ foreach x ( $subl )
             echo "please check the log: $cwd/$log_file (it hasn't been copied to: $fc_sum_file yet because aborting entry at this point."
             continue
         endif
-#        echo -n "DEBUG: "; date
+
+        python -u $validityScriptFile $fc_entry_dir/linkNmrStarData >>&  $log_file
+        if ( $status ) then
+            echo "ERROR $x in $validityScriptFile"
+            echo "this error might mean that the produced ccpn project file is inconsistent (see issue 272)."
+            echo "please check the log: $cwd/$log_file (it hasn't been copied to: $fc_sum_file yet because aborting entry at this point."
+            continue
+        endif
+        echo "Validity OK"
+
         # Take a copy for ease of annotation together in this dir.
         \cp -f $fc_log_file $fc_sum_file .
         # NB don't put "ERROR" in presetDict.py as JFD did once for entry 2jn3

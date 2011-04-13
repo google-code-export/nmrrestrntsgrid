@@ -30,8 +30,8 @@ set USER_ID=anonymous
 #set PASSWORD_FILE=$nrg_dir/passwordFilePdb.txt
 
 #set subl = ( 1a1p 1a93 1abz 1ad7 1aft 1as5 1awy 1bde 1bfw 1bh1 )
-set subl = (`cat /Users/jd/entry_list_97.csv`)
-#set subl = ( 1a4d 1a24 1afp 1ai0 1brv 1bus 1cjg 1hue 1ieh 1iv6 1kr8 2hgh 2k0e )
+#set subl = (`cat /Users/jd/entry_list_97.csv`)
+set subl = (`cat $list_dir/bmrbPdbEntryList.csv`)
 
 # Get argument pdb code if it exists.
 if ( $1 != "" ) then
@@ -65,7 +65,7 @@ foreach x ( $subl )
 #           echo "linking to all dir"
 #   		cd $MIRRORDIR/data/structures/all/pdb
            ln -s ../../divided/pdb/$ch23/pdb$x.ent.gz $MIRRORDIR/data/structures/all/pdb/pdb$x.ent.gz
-       endif
+   endif
 end
 
 echo "Done with syncing PDB files for number of entries: $#subl"

@@ -26,7 +26,7 @@ foreach x ( $subl )
             scp -P 39676 jurgen@localhost-nmr:/Users/jd/wattosTestingPlatform/Wattos/mr_anno_backup/$x.mr $mr_anno_progress_dir
             #scp nmr:$mr_anno_progress_dir/../mr_anno_backup/$x.mr $mr_anno_progress_dir
             if ( ! -e $mr_anno_progress_dir/$x.mr ) then
-                echo "ERROR: failed to copy from nmr: $mr_anno_progress_dir/$x.mr"
+                echo "WARNING: not retrieved $mr_anno_progress_dir/$x.mr"
             endif
    endif
 end

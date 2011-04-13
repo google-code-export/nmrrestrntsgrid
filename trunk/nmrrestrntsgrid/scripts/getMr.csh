@@ -38,12 +38,10 @@ endif
 
 echo "Doing" $#subl "pdb entries"
 foreach x ( $subl )
-   echo "Doing $x"
-   set ch23 = ( `echo $x | cut -c2-3` )
-   set subdirLoc = $MIRRORDIR/data/structures/divided/nmr_restraints/$ch23
+    echo "Doing $x"
+    set ch23 = ( `echo $x | cut -c2-3` )
+    set subdirLoc = $MIRRORDIR/data/structures/divided/nmr_restraints/$ch23
 
-
-#	set subdirLoc = $MIRRORDIR/data/structures/divided
     if ( ! -e $subdirLoc ) then
         echo "Creating dir: " $subdirLoc
         mkdir -p $subdirLoc
@@ -51,13 +49,14 @@ foreach x ( $subl )
 
     set localFile = $subdirLoc/$x.mr.gz
     if ( -e $localFile ) then
-#        continue
         rm $localFile
     endif
-
-   $RSYNC -rlpt -z --delete --port=$PORT \
-#    --password-file=$PASSWORD_FILE \
-    $USER_ID@$SERVER/data/structures/divided/nmr_restraints/$ch23/$x.mr.gz \
-    $subdirLoc/$x.mr.gz
+    # Added quiet because the data doesn't exist for all entries.
+    $RSYNC -rlpt -z --delete --port=$PORT --quiet \
+        $USER_ID@$SERVER/data/structures/divided/nmr_restraints/$ch23/$x.mr.gz \
+        $subdirLoc/$x.mr.gz >& /dev/null
+    if ( ! -e $localFile ) then
+        echo "WARNING: not retrieved $localFile"
+    endif
 end
 echo "Done with syncing PDB MR files"

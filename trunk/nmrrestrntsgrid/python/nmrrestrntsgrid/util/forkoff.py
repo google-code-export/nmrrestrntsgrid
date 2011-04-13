@@ -1,5 +1,5 @@
 """
-Usefull for starting multiple independent processes given a function and list
+Useful for starting multiple independent processes given a function and list
 of arguments when the process might hang or crash and leave zombies around.
 Convenient clean up provided. See test code for examples. Only runs on systems
 supporting os.fork() call; Unix.
@@ -12,6 +12,10 @@ Verbosity of output can be set for the two classes with the following meaning
 
 Author: Jurgen F. Doreleijers, BMRB, September 2001
 """
+from nmrrestrntsgrid.util.NTutils import * #@UnusedWildImport
+from subprocess import PIPE
+from subprocess import Popen
+import time, types, signal
 
 __author__    = "$Author$"
 ___revision__ = "$Revision$"
@@ -38,9 +42,6 @@ Non-working version but good to start with
 """
 
 
-import sys
-import os
-import time, types, signal
 
 class ForkOff:
 
@@ -59,7 +60,7 @@ class ForkOff:
             ## Verbosity of output
             verbosity                   = 2
             ):
-        
+
         ## Parallel processing options:
         ## Maximum number of simultanuous subprocesses
         self.processes_max          = processes_max
@@ -107,7 +108,7 @@ class ForkOff:
     Empty lists will be returned if nothing gets done successfully
     """
     def forkoff_start( self, job_list, delay_between_submitting_jobs ):
-        
+
         ## Check job list for variable type errors
         for job in job_list:
             func = job[0]
@@ -123,14 +124,14 @@ class ForkOff:
                 print job
                 print "In stead type is : ", type(func)
                 return []
-                
+
         ## Maximum number of processes to do
         self.processes_todo = len( job_list )
         if self.processes_todo == 0:
             if self.verbosity:
                 print "WARNING: No new processes to do so none to start"
             return []
-            
+
         if self.verbosity > 1:
             print "Doing %s new processes" % self.processes_todo
 
@@ -160,7 +161,7 @@ class ForkOff:
                 print "WARNING: Again caught interrupt in parent."
                 print "WARNING: Can't finish if you don't let me."
             raise KeyboardInterrupt
-            
+
         ## Any subprocesses left
         if self.process_d:
             key_list = self.process_d.keys()
@@ -367,7 +368,7 @@ class Process:
             if self.verbosity:
                 print "WARNING: given pid is for current process, giving up"
             return 1
-        
+
         try:
             os.kill( pid, sig )
         except OSError, info:
@@ -387,7 +388,7 @@ class Process:
         if self.verbosity > 2:
             print "Process and subprocesses will be signaled by a TERM signal"
         ## On my linux box urchin:
-        ## HUP  1    TERM 15  
+        ## HUP  1    TERM 15
         ## INT  2    KILL  9
         ## Please not the minus sign in front of the pid which tells kill to
         ## kill all processes with that pid for its **group process id**
@@ -415,14 +416,14 @@ class Process:
                 print "ERROR:   Process has turned into zombie"
         if self.verbosity >= 9:
             print "Got exit_pid, exit_status:", exit_pid, exit_status
-        
+
         return exit_pid, exit_status
 
 
 ###############################################################################
 
 # Test code.
-            
+
 def my_sleep( arg ):
 
     ## Check types
@@ -436,6 +437,36 @@ def my_sleep( arg ):
     time.sleep ( arg )
     print "Going back to caller"
     return 0
+
+def do_cmd( cmd ):
+    """
+    Returns False for success.
+    """
+    NTmessage( "Doing command: %s" % cmd )
+
+    ##  Try command and check for non-zero exit status
+#    pipe = os.popen( cmd )
+    pipe = Popen(cmd, shell=True, stdout=PIPE).stdout
+    output = pipe.read()
+
+    ##  The program exit status is available by the following construct
+    ##  The status will be the exit number unless the program executed
+    ##  successfully in which case it will be None.
+    status = pipe.close()
+
+    if output:
+        NTmessage( output )
+
+    ## Success
+    if status == None:
+        return
+
+    NTerror("Failed shell command:")
+    NTerror( cmd )
+    NTerror("Output: %s" % output)
+    NTerror("Status: %s" % status)
+    return True
+# end def
 
 if __name__ == '__main__':
 
@@ -454,6 +485,6 @@ if __name__ == '__main__':
     job_2       = ( my_sleep, (1.2,) )
     job_list    = [ job_0, job_1, job_2 ]
 
-    done_list   = f.forkoff_start( job_list, 0 )    
+    done_list   = f.forkoff_start( job_list, 0 )
     print "Finished ids:", done_list
-        
+

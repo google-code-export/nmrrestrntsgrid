@@ -8,6 +8,7 @@ from nmrrestrntsgrid import verbosityOutput
 from nmrrestrntsgrid import verbosityWarning
 from nmrrestrntsgrid.util.fpconst import isNaN
 from string  import find
+from traceback import format_exc
 from xml.dom import minidom, Node
 from xml.sax import saxutils
 import array
@@ -4087,6 +4088,23 @@ def bytesToFormattedString(size):
     return result
 
 
+def getCallerName():
+    return inspect.stack()[1][3]
+# end def
+
+def NTtracebackWarning():
+    traceBackString = format_exc()
+#    print 'DEBUG: NTtracebackError: [%s]' % traceBackString
+    if traceBackString == None:
+        traceBackString = 'No traceback error string available.'
+    NTwarning(traceBackString)
+
+def NTtracebackError():
+    traceBackString = format_exc()
+#    print 'DEBUG: NTtracebackError: [%s]' % traceBackString
+    if traceBackString == None:
+        traceBackString = 'No traceback error string available.'
+    NTerror(traceBackString)
 
 if __name__ == '__main__':
     nmrrestrntsgrid.verbosity = nmrrestrntsgrid.verbosityDebug
