@@ -6,7 +6,6 @@ import os
 # Needs to map exactly to settings.csh
 
 user_dir = os.getenv('UJ')
-ccpn_tmp_dir = os.getenv('ccpn_tmp_dir')
 scripts_dir = os.getenv('scripts_dir')
 WS = os.path.join(user_dir, 'workspace34')
 R = os.path.join(WS, 'recoord')
@@ -15,6 +14,7 @@ results_dir = os.path.join(big_dir, 'Results')
 dir_link = os.path.join(big_dir, 'link')
 dir_star = os.path.join(big_dir, 'star')
 ccpn_tmp_dir = os.path.join(user_dir,'ccpn_tmp')
+nrg_tmp_dir = os.path.join(user_dir,'tmp', 'nrgTmp')
 
 urlDB2 = None
 

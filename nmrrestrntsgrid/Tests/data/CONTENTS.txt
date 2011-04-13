@@ -1,0 +1,7 @@
+Directories:
+
+ccpn                    Example data using CCPN format.
+
+Files:
+
+CONTENTS.txt                This file.
