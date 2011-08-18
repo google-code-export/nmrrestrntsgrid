@@ -39,6 +39,10 @@ unset dir_python
 unset perEntry_dir
 unset results_dir
 
+# will be overwritten by any localSettings.csh if present
+# The trailing slash matters.
+setenv PDB_RSYNC_SITE rsync.wwpdb.org::ftp/
+
 # next line requires gawk to be installed.
 set measahost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
 
@@ -55,6 +59,18 @@ if ( $measahost == "tang" ) then
 else
     setenv WS           $UJ/workspace35
 endif
+
+set localSettingsFile = $0:h/localSettings.csh
+if ( -e $localSettingsFile ) then
+#    echo "DEBUG in NRG settings.csh; Now picking up $localSettingsFile."
+    source $localSettingsFile
+else
+#    echo "DEBUG in NRG settings.csh; No file: $localSettingsFile."
+endif
+
+#if ( 1 ) then # DEFAULT: 0
+#    echo "DEBUG: WS         $WS"
+#endif
 
 # Development settings; other locals need to be setenv below. Can be overiden by next section
 setenv nrg_project        nmrrestrntsgrid
