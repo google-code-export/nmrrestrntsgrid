@@ -11,7 +11,7 @@ set wgetLogFile = "getBmrb_rsync".log
 
 echo "Syncing ALL BMRB entries"
 cd $target_dir
-rsync -az --include='bmr*/' --include='**_21.str'\
+rsync -avz --include='bmr*/' --include='**_21.str'\
     --exclude='**' --delete --max-delete=1000\
     $base_url . |& tee $wgetLogFile
 echo "Done syncing BMRB"

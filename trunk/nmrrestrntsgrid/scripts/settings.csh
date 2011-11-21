@@ -1,13 +1,8 @@
-#!/bin/csh -f
+#!/bin/tcsh
 # Author: Jurgen F. Doreleijers
 # Fri Apr  1 15:01:48 CST 2005 Initiated
 # Thu Mar 13 09:21:34 CET 2008 Modified to work under sf.net project
 
-# when testing new locations will be used 1 for true only 0 for false
-#setenv testing  1
-
-# TODO: remove these lines when debugging is done.
-# some get inhereted by the production setup that is still the default.
 unset nrg_project
 unset base_dir
 unset pdbbase_dir
@@ -39,38 +34,8 @@ unset dir_python
 unset perEntry_dir
 unset results_dir
 
-# will be overwritten by any localSettings.csh if present
-# The trailing slash matters.
-setenv PDB_RSYNC_SITE rsync.wwpdb.org::ftp/
-
 # next line requires gawk to be installed.
 set measahost = (`hostname|gawk -F'[.]' '{print tolower($1)}'`)
-
-# Host name based locals SECTION I (there is a section II below).
-if ( $measahost == "stella" ) then
-    # Note that the following statement interfers with scp when shown.
-    #echo "DEBUG in NRG settings.csh; Now on $HOST which is the development default."
-endif
-
-if ( $measahost == "tang" ) then
-#    echo "DEBUG in NRG settings.csh; Now on $HOST which will be the production setup."
-    setenv UJ           /big/docr
-    setenv WS           $UJ/workspace                     # Common to all projects currently.
-else
-    setenv WS           $UJ/workspace35
-endif
-
-set localSettingsFile = $0:h/localSettings.csh
-if ( -e $localSettingsFile ) then
-#    echo "DEBUG in NRG settings.csh; Now picking up $localSettingsFile."
-    source $localSettingsFile
-else
-#    echo "DEBUG in NRG settings.csh; No file: $localSettingsFile."
-endif
-
-#if ( 1 ) then # DEFAULT: 0
-#    echo "DEBUG: WS         $WS"
-#endif
 
 # Development settings; other locals need to be setenv below. Can be overiden by next section
 setenv nrg_project        nmrrestrntsgrid
