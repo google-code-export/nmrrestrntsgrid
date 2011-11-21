@@ -16,7 +16,6 @@ set mysql_url       = $viavia_url/mr_mysql_backup
 set bmrb_pdb_url    = $viavia_url/bmrb_pdb_match
 
 ## Dir with the coordinate files.
-set pdb_dir         = $PDB
 set pdbbase_dir     = /dumpzone/pdb/pdb
 set viavia_dir      = /var/www/servlet_data/viavia
 # Dir with data in BMRB NMR Restraints Grid
